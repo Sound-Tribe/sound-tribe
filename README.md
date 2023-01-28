@@ -1,8 +1,10 @@
-# App name
+# SoundTribe
 
 ## Description
 
-This is a project developed by XXX and YYY as the project for the second module at Ironhack. The purpose of the application is...
+This is a project developed by Marc Bertran Suárez and Gerard Solanes Hernández as the project for the second module at Ironhack. The purpose of the application is to connect music bands with new fans and adventurous listeners. 
+
+Get in the deep jungle of SoundTribe. If you are a music band, form a tribe. If you are an explorer, discover new sounds from the tribes.
 
 ---
 
@@ -34,22 +36,36 @@ npm run dev
 ## Wireframes
 Substitute this image with an image of your own app wireframes or designs
 
-![](docs/wireframes.png)
+![](docs/wireframes_v1.png)
 
 ---
 
 ## User stories (MVP)
+There are 2 types of user:
+- Tribe
+- (Fans)
+Tribe stories
+- Tribe can sign up and create and account
+- Tribe can login
+- Tribe can log out
+- Tribe can post a new album
+- Tribe can edit (title, image and description) of posted album
+- Tribe can delete album
+- Tribe can see random posts according their interests of genre in discover page
 
-What can the user do with the app?
-- User can sign up and create and account
-- User can login
-- User can log out
-- User can create ...
+Fan stories
+- Fan can sign up and create and account
+- Fan can login
+- Fan can log out
+- Fan can see random posts according their interests of genre in discover page
 
 ## User stories (Backlog)
 
-- User can upload a profile picture
-- User can ...
+- Tribe can add tracks to posted album
+- Tribe & Fan can like/dislike posts
+- Tribe & Fan can follow/unfollow other Tribes
+- Tribe can post concerts in calendar
+- Add home page with posts from other Tribes you follow
 
 ---
 
