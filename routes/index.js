@@ -26,7 +26,7 @@ router.get('/discover', async (req, res, next) => {
       next(error);
     }
   } else {
-    const { interests } = await User.findById(req.session.currentUser._id)
+    const { interests } = await User.findById(req.session.currentUser._id);
     
 
   }
