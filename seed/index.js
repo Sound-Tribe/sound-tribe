@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', true);
-const MONGO_URL = 'mongodb+srv://admin:admin@cluster0.wrqzlmy.mongodb.net/soundTribeDB';
+require('dotenv').config();
+const MONGO_URL = process.env.MONGO_URL;
 const albums = require('../data/albums');
 const Album = require('../models/Album');
 
