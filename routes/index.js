@@ -1,6 +1,16 @@
 const router = require('express').Router();
+const { toLocaleString } = require('../data/albums.js');
 const Album = require('../models/Album.js');
 const User = require('../models/User.js');
+
+// This function will be used to shuffle the results in discovery
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
 // @desc    App home page. Redirects to /discover if not logged in. Redirects to /home if logged in
 // @route   GET /
@@ -27,8 +37,18 @@ router.get('/discover', async (req, res, next) => {
     }
   } else {
     const { interests } = await User.findById(req.session.currentUser._id);
-    
-
+    let latestAlbums = [];
+    for (let interest of interests) {
+      let albums = await Album.find({
+        genres: {
+          $in: [interest]
+        }
+      }).sort({ createdAt: -1 }).limit(10);
+      albums.forEach(album => latestAlbums.push(album));
+    }
+    latestAlbums = shuffle(latestAlbums);
+    console.log(latestAlbums)
+    res.render('discover', {latestAlbums});
   }
 })
 module.exports = router;
