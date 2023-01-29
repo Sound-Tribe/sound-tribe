@@ -1,0 +1,19 @@
+<h1>Just one last step {{this.username}}</h1>
+<h4>Step 2/2</h4>
+<p>Tell us more about yourself so we can find the coolest Tribes around you</p>
+<form action="/auth/complete-profile" method="post">
+    <label for="picture">Profile Picture:</label>
+    <input type="text" name="picture" id="profile-picture" placeholder="https://duckduckgo.com/?t=...">
+    <label for="country">Country:</label>
+    <input type="text" name="country" placeholder="Spain">
+    <label for="city">City:</label>
+    <input type="text" name="city" placeholder="Barcelona">
+    <fieldset>
+        <legend>Paste the link to your Social Media profiles</legend>
+        <label for="spotify">Spotify</label>
+        <input type="text" name="spotify">
+        <label for="instagram">Instagram</label>
+        <input type="text" name="instagram">
+    </fieldset>
+    <button type="submit">Submit</button>
+</form>
