@@ -19,7 +19,19 @@ const userSchema = new Schema(
     hashedPassword: {
       type: String,
       required: [true, 'Password is required.']
-    }
+    },
+    type: {
+      type: [String],
+      required: [true, 'You must choose between Band or Fan.']
+    },
+    interests: {
+      type: [String],
+      required: [true, 'Interests are required.']
+    },
+    picture: String,
+    city: String,
+    country: String,
+    socialMedia: [String]
   },
   {
     timestamps: true
