@@ -81,7 +81,28 @@ router.get('/complete-profile', (req, res, next) => {
   res.render('profile/complete-info', user);
 });
 
-
+// @desc    After choosing interests, prompts the user to complete profile info
+// @route   /auth/complete-profile
+// @access  Private
+router.post('/complete-profile', async (req, res, next) => {
+  const { picture, country, city, socialMedia } = req.body;
+  let filledInfo = {};
+  if (picture) {
+    filledInfo.picture = picture;
+  }
+  if (country) {
+    filledInfo.country = country;
+  }
+  if (city) {
+    filledInfo.city = city;
+  }
+  if (socialMedia) {
+    filledInfo.socialMedia = socialMedia;
+  }
+  const userId = req.session.currentUser._id;
+  await User.findByIdAndUpdate(userId, filledInfo);
+  res.redirect('/profile/posts')
+})
 
 // @desc    Sends user auth data to database to authenticate user
 // @route   POST /auth/login
