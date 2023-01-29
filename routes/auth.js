@@ -22,12 +22,26 @@ router.get('/login', async (req, res, next) => {
 // @route   POST /auth/signup
 // @access  Public
 router.post('/signup', async (req, res, next) => {
-  const { email, password, username } = req.body;
+  const { email, password, username, type } = req.body;
   // ⚠️ Add validations!
+  if(!email || !password || !username || !type) {
+    res.render('auth/signup', { error: 'All fields are necessary' });
+    return;
+  }
+  const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+  if(!regex.test(password)) {
+    res.render('auth/signup', { error: 'Password needs to contain at least 6 characters, one number, one lowercase and one uppercase letter.' });
+    return;
+}
   try {
+    const userDB = await User.findOne({ username: username });
+    if(userDB) {
+      res.render('auth/signup', { error: 'Username already exists. Please try another one'});
+      return;
+    }
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const user = await User.create({ username, email, hashedPassword });
+    const user = await User.create({ username, email, hashedPassword, type });
     res.render('auth/profile', user)
   } catch (error) {
     next(error)
