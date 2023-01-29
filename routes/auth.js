@@ -60,8 +60,18 @@ router.post("/signup", async (req, res, next) => {
 // @access  Private
 router.get('/interests', isLoggedIn, (req, res, next) => {
   const user = req.session.currentUser;
-  res.render('interests', user);
+  res.render('profile-complete/interests', user);
 });
+
+// @desc    Sends the interests data to the user profile
+// @route   /auth/interests
+// @access  Private
+router.post('/interests', isLoggedIn, async (req, res, next) => {
+  const { genres } = req.body;
+  const userId = req.session.currentUser._id;
+  await User.findByIdAndUpdate(userId, { interests: genres });
+  res.redirect('/auth/complete-profile');
+})
 
 // @desc    Sends user auth data to database to authenticate user
 // @route   POST /auth/login
