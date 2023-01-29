@@ -57,14 +57,16 @@ router.post("/signup", async (req, res, next) => {
 // @route   POST /auth/login
 // @access  Public
 router.post("/login", async (req, res, next) => {
-  const { email, password } = req.body;
+  const { usernameOrEmail, password } = req.body;
+  const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(usernameOrEmail);
+  const key = isEmail ? 'email' : 'username';
   // ⚠️ Add validations!
-  if (!email || !password) {
+  if (!usernameOrEmail || !password) {
     res.render("auth/login", { error: "Introduce email and password to log in" });
     return;
   }
   try {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ [key]: usernameOrEmail });
     if (!user) {
       res.render("auth/login", { error: "User not found" });
       return;
