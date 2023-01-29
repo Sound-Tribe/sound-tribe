@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const isLoggedIn = require('../middlewares/index');
 
 // @desc    Displays form view to sign up
 // @route   GET /auth/signup
@@ -57,8 +58,9 @@ router.post("/signup", async (req, res, next) => {
 // @desc    After signup, prompts the user to select musical preferences
 // @route   /auth/interests
 // @access  Private
-router.get('/interests', (req, res, next) => {
-
+router.get('/interests', isLoggedIn, (req, res, next) => {
+  const user = req.session.currentUser;
+  res.render('interests', user);
 });
 
 // @desc    Sends user auth data to database to authenticate user
