@@ -1,1 +1,14 @@
 <h1>Discover Page</h1>
+{{#each latestAlbums}}
+    <div class="post-card">
+        <h3>{{this.title}}</h3>
+        <img src="{{this.image}}" alt="{{this.title}} cover image">
+        {{#if this.description}}
+            <p>{{this.description}}</p>
+        {{/if}}
+        <p>Genres:</p>
+        {{#each this.genre}}
+            <li>{{this}}</li>
+        {{/each}}
+    </div>
+{{/each}}
