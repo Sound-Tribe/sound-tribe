@@ -13,7 +13,7 @@ const albumSchema = new Schema ({
     description: {
         type: String
     },
-    genre: {
+    genres: {
         type: [String],
         required: [true, 'An album needs to have one genre at least']
     }
