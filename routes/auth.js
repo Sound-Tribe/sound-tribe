@@ -48,10 +48,17 @@ router.post("/signup", async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     const user = await User.create({ username, email, hashedPassword, type });
     req.session.currentUser = user;
-    res.render("auth/profile", user);
+    res.redirect("auth/interests", user);
   } catch (error) {
     next(error);
   }
+});
+
+// @desc    After signup, prompts the user to select musical preferences
+// @route   /auth/interests
+// @access  Private
+router.get('/interests', (req, res, next) => {
+
 });
 
 // @desc    Sends user auth data to database to authenticate user
