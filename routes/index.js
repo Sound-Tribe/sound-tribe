@@ -1,10 +1,14 @@
 const router = require('express').Router();
 
-// @desc    App home page
+// @desc    App home page. Redirects to /discover if not logged in. Redirects to /home if logged in
 // @route   GET /
 // @access  Public
 router.get('/', (req, res, next) => {
-  res.render('index');
+  if (req.session.currentUser) {
+    res.redirect('/home');
+  } else {
+    res.redirect('/discover');
+  }
 });
 
 module.exports = router;
