@@ -11,9 +11,9 @@ router.get('/', (req, res, next) => {
   }
 });
 
-// @desc Discover page. Random content if not logged in. Addapted to interests if logged in
-// @route GET /discover
-// @access Public & Private
+// @desc    Discover page. Random content if not logged in. Addapted to interests if logged in
+// @route   GET /discover
+// @access  Public & Private
 router.get('/discover', (req, res, next) => {
   res.render('discover')
 })
