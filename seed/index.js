@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', true);
-const MONGO_URL = process.env.MONGO_URL;
+const MONGO_URL = 'mongodb+srv://admin:admin@cluster0.wrqzlmy.mongodb.net/soundTribeDB';
 const albums = require('../data/albums');
 const Album = require('../models/Album');
 
@@ -11,5 +11,5 @@ mongoose.connect(MONGO_URL)
         return Album.create(albums);
     })
     .then(createdAlbums => console.log(`Inserted ${createdAlbums.length} in the DB`))
-    .then(() => mangoose.connection.close())
+    .then(() => mongoose.connection.close())
     .catch(err => console.error(err));
