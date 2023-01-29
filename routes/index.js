@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Album = require('../models/Album.js');
+const User = require('../models/User.js');
 
 // @desc    App home page. Redirects to /discover if not logged in. Redirects to /home if logged in
 // @route   GET /
@@ -24,6 +25,10 @@ router.get('/discover', async (req, res, next) => {
     } catch (error) {
       next(error);
     }
+  } else {
+    const { interests } = await User.findById(req.session.currentUser._id);
+    
+
   }
 })
 module.exports = router;
