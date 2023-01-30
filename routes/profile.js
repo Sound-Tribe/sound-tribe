@@ -11,6 +11,7 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
     const userId = req.session.currentUser._id;
     try {
         const user = await User.findById(userId);
+        // Should retreive all posts from user
         // For testing purposes
         const content =[{
             title: 'album1',
@@ -19,10 +20,32 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
             title: 'album2',
             description: 'somethingasdf'
         }];
-        res.render('profile/profile', {user, content: content});
+        res.render('profile/profile', {user, posts: content});
     } catch (error) {
         next(error);
     }
-})
+});
+
+// @desc    Profile Page. Content = Liked
+// @route   GET /profile/liked
+// @access  Private
+router.get('/liked', isLoggedIn, async (req, res, next) => {
+    const userId = req.session.currentUser._id;
+    try {
+        const user = await User.findById(userId);
+        // Should retreive all liked posts from user
+        // For testing purposes
+        const content =[{
+            title: 'album1Liked',
+            description: 'something'
+        },{
+            title: 'album2Liked',
+            description: 'somethingasdf'
+        }];
+        res.render('profile/profile', {user, liked: content});
+    } catch (error) {
+        next(error);
+    }
+});
 
 module.exports = router;

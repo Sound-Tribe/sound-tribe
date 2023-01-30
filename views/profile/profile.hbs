@@ -9,4 +9,9 @@
         <a href="/profile/calendar">Calendar</a>
     </nav>
 </div>
-{{>postsPage content}}
+{{#if posts}}
+    {{>postsPage posts}}
+{{/if}}
+{{#if liked}}
+    {{>postsPage liked}}
+{{/if}}
