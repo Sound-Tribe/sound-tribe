@@ -47,7 +47,11 @@ router.get('/discover', async (req, res, next) => {
       albums.forEach(album => latestAlbums.push(album));
     }
     latestAlbums = shuffle(latestAlbums);
-    res.render('discover', {latestAlbums});
+    if (latestAlbums.length === 0) {
+      res.render('discover', { error: 'No albums to show'});
+    } else {
+      res.render('discover', {latestAlbums});
+    }
   }
 })
 module.exports = router;
