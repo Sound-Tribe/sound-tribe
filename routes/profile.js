@@ -55,7 +55,7 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
     const userId = req.session.currentUser._id;
     try {
         const user = await User.findById(userId);
-        // Should retreive all liked posts from user
+        // Should retreive all calendar events from user
         // For testing purposes
         const content =[{
             date: 'Wednesday 1st',
