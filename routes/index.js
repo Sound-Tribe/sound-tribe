@@ -19,7 +19,7 @@ router.get('/', (req, res, next) => {
   if (req.session.currentUser) {
     res.redirect('/home');
   } else {
-    res.redirect('/discover');
+    res.render('landing');
   }
 });
 
@@ -47,7 +47,6 @@ router.get('/discover', async (req, res, next) => {
       albums.forEach(album => latestAlbums.push(album));
     }
     latestAlbums = shuffle(latestAlbums);
-    console.log(latestAlbums)
     res.render('discover', {latestAlbums});
   }
 })
