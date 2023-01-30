@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const hbs = require('hbs');
 
 // Routers require
 const indexRouter = require('./routes/index');
@@ -45,6 +46,7 @@ app.use(
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname + '/views/partials');
 
 // routes intro
 app.use('/', indexRouter);
