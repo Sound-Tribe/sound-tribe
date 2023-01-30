@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { toLocaleString } = require('../data/albums.js');
 const Album = require('../models/Album.js');
 const User = require('../models/User.js');
 

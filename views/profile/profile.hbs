@@ -1,1 +1,14 @@
-<h1>Welcome {{ username }}</h1>
+<div class="profile-info">
+    <img src="{{user.picture}}" alt="{{user.username}} profile picture">
+    <a href="#">Edit Profile</a>
+    <a href="#">Followers</a>
+    <a href="#">Following</a>
+    <nav>
+        <a href="/profile/posts">Posts</a>
+        <a href="/profile/liked">Liked</a>
+        <a href="/profile/calendar">Calendar</a>
+    </nav>
+</div>
+{{#block "content"}}
+        <p>Nothing to show yet</p>
+{{/block}}
