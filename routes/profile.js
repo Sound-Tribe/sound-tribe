@@ -61,6 +61,9 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
     }
 })
 
+// @desc    Profile Edit Page.
+// @route   GET /profile/edit
+// @access  Private
 router.get('/edit', isLoggedIn, async (req, res, next) => {
     const userId = req.session.currentUser._id;
     try {
@@ -71,6 +74,9 @@ router.get('/edit', isLoggedIn, async (req, res, next) => {
     }
 })
 
+// @desc    Profile Edit Page
+// @route   POST /profile/edit
+// @access  Private
 router.post('/edit', isLoggedIn, async (req, res, next) => {
     const { username, picture, country, city, socialMedia } = req.body;
     let updatedInfo = {};
