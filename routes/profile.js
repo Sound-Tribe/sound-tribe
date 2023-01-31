@@ -8,19 +8,10 @@ const isLoggedIn = require('../middlewares/index');
 // @route   GET /profile/posts
 // @access  Private
 router.get('/posts', isLoggedIn, async (req, res, next) => {
-    const userId = req.session.currentUser._id;
+    const user = req.session.currentUser;
     try {
-        const user = await User.findById(userId);
-        // Should retreive all posts from user
-        // For testing purposes
-        const content =[{
-            title: 'album1',
-            description: 'something'
-        },{
-            title: 'album2',
-            description: 'somethingasdf'
-        }];
-        res.render('profile/profile', {user, posts: content});
+        const posts = await Album.find({ tribe: user._id});
+        res.render('profile/profile', {user, posts});
     } catch (error) {
         next(error);
     }
