@@ -32,15 +32,22 @@ router.get('/discover', async (req, res, next) => {
     // Logged in gets latest content from interests genres shuffled
     const user = req.session.currentUser;
     const { interests } = await User.findById(req.session.currentUser._id);
-    let latestAlbums = [];
+    let latestAlbumsAll = [];
     for (let interest of interests) {
       let albums = await Album.find({
         genres: {
           $in: [interest]
         }
       }).sort({ createdAt: -1 }).limit(10);
-      albums.forEach(album => latestAlbums.push(album));
+      albums.forEach(album => latestAlbumsAll.push(album));
     }
+    const ids = [];
+    let latestAlbums = latestAlbumsAll.filter(album => {
+      if (!ids.includes(album._id.toString())) {
+        ids.push(album._id.toString());
+        return true;
+      }
+    });
     latestAlbums = shuffle(latestAlbums);
     if (latestAlbums.length === 0) {
       res.render('discover', {user, error: 'No albums to show'});
