@@ -9,7 +9,7 @@ const isLoggedIn = require('../middlewares/index');
 // @access  Private
 router.get('/new', isLoggedIn, (req, res ,next) => {
     const user = req.session.currentUser;
-    res.render('posts/newAlbum', user);
+    res.render('posts/newAlbum', {user});
 });
 
 // @desc    Gets info of new post (album) 
