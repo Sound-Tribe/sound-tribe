@@ -16,6 +16,10 @@ const albumSchema = new Schema ({
     genres: {
         type: [String],
         required: [true, 'An album needs to have one genre at least']
+    },
+    tribe: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 }, {
     timestamps: true
