@@ -84,7 +84,7 @@ router.post("/signup", async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     const user = await User.create({ username, email, hashedPassword, type });
     req.session.currentUser = user;
-    res.redirect("auth/interests", user);
+    res.redirect("/auth/interests", user);
   } catch (error) {
     next(error);
   }
