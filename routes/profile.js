@@ -97,16 +97,43 @@ router.post('/edit', isLoggedIn, async (req, res, next) => {
     updatedInfo.socialMedia = socialMedia;
   }
   const userId = req.session.currentUser._id;
-  const newUser = await User.findByIdAndUpdate(userId, updatedInfo, { new: true });
-  req.session.currentUser = newUser;
-  res.redirect('/profile/edit/interests');
+  try {
+    const newUser = await User.findByIdAndUpdate(userId, updatedInfo, { new: true });
+    req.session.currentUser = newUser;
+    res.redirect('/profile/edit/interests');
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.get('/edit/interests', async (req, res, next) => {
+// @desc    Profile Edit Interests
+// @route   GET /profile/edit/interests
+// @access  Private
+router.get('/edit/interests', isLoggedIn, async (req, res, next) => {
     const user = req.session.currentUser;
-    const { interests } = await User.findById(user._id);
-    const notCheckedInterests = interestsDB.filter((item) => !interests.includes(item));
-    res.render('profile/edit-interests', {user, interests, notCheckedInterests});
+    try {
+        const { interests } = await User.findById(user._id);
+        const notCheckedInterests = interestsDB.filter((item) => !interests.includes(item));
+        res.render('profile/edit-interests', {user, interests, notCheckedInterests});
+    } catch (error) {
+        next(error);
+    }
+    
+});
+
+// @desc    Profile Edit Interests
+// @route   POST /profile/edit/interests
+// @access  Private
+router.post('/edit/interests', isLoggedIn, async (req, res, next) => {
+    const user = req.session.currentUser;
+    const { genres } = req.body;
+    try {
+        const updatedUser = await User.findByIdAndUpdate(user._id, {interests: genres}, { new: true });
+        req.session.currentUser = updatedUser;
+        res.redirect('/profile/posts');
+    } catch (error) {
+        next(error);
+    }
 })
 
 module.exports = router;

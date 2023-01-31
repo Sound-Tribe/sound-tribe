@@ -105,8 +105,12 @@ router.get('/interests', isLoggedIn, (req, res, next) => {
 router.post('/interests', isLoggedIn, async (req, res, next) => {
   const { genres } = req.body;
   const userId = req.session.currentUser._id;
-  await User.findByIdAndUpdate(userId, { interests: genres });
-  res.redirect('/auth/complete-profile');
+  try {
+    await User.findByIdAndUpdate(userId, { interests: genres });
+    res.redirect('/auth/complete-profile');
+  } catch (error) {
+    next(error);
+  }
 });
 
 // @desc    After choosing interests, prompts the user to complete profile info
@@ -136,8 +140,12 @@ router.post('/complete-profile', async (req, res, next) => {
     filledInfo.socialMedia = socialMedia;
   }
   const userId = req.session.currentUser._id;
-  await User.findByIdAndUpdate(userId, filledInfo);
-  res.redirect('/profile/posts');
+  try {
+    await User.findByIdAndUpdate(userId, filledInfo);
+    res.redirect('/profile/posts');
+  } catch (error) {
+    next(error);
+  }
 });
 
 // @desc    Destroy user session and log out
