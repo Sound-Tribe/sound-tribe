@@ -61,4 +61,37 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
     }
 })
 
+router.get('/edit', isLoggedIn, async (req, res, next) => {
+    const userId = req.session.currentUser._id;
+    try {
+        const user = await User.findById(userId);
+        res.render('profile/edit-profile', { user })
+    } catch (error) {
+        next (error);
+    }
+})
+
+router.post('/edit', isLoggedIn, async (req, res, next) => {
+    const { username, picture, country, city, socialMedia } = req.body;
+    let updatedInfo = {};
+  if(username) {
+    updatedInfo.username = username;
+  }  
+  if (picture) {
+    updatedInfo.picture = picture;
+  }
+  if (country) {
+    updatedInfo.country = country;
+  }
+  if (city) {
+    updatedInfo.city = city;
+  }
+  if (socialMedia) {
+    updatedInfo.socialMedia = socialMedia;
+  }
+  const userId = req.session.currentUser._id;
+  await User.findByIdAndUpdate(userId, updatedInfo, { new: true });
+  res.redirect('/profile/posts')
+});
+
 module.exports = router;

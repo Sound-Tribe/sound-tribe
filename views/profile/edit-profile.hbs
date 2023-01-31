@@ -1,0 +1,14 @@
+<h2>Edit profile {{user.username}}</h2>
+
+<form action="/profile/edit" method="POST">
+    <input type="text" name="username" value="{{user.username}}"/>
+    <input type="text" name="picture" value="{{user.picture}}">
+    <input type="text" name="country" value="{{user.country}}">
+    <input type="text" name="city" value="{{user.city}}">
+    <fieldset>
+        <input type="text" name="socialMedia" id="spotify" value="{{user.socialMedia.[0]}}">
+        <input type="text" name="socialMedia" id="instagram" value="{{user.socialMedia.[1]}}">
+    </fieldset>
+    <button type="submit">Submit</button>
+
+    </form>
