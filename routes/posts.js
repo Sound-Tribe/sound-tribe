@@ -29,4 +29,17 @@ router.post('/new', isLoggedIn, async (req, res, next) => {
     }
 })
 
+// @desc    Delete album
+// @route   GET /posts/delete/:albumId
+// @access  Private
+router.get('/delete/:albumId', isLoggedIn, async (req, res, next) => {
+    const { albumId } = req.params;
+    try {
+       await Album.deleteOne({ _id: albumId });
+       res.redirect('/profile/posts'); 
+    } catch (error) {
+        next(error);
+    }
+})
+
 module.exports = router;
