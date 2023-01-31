@@ -2,7 +2,7 @@ const router = require('express').Router();
 const Album = require('../models/Album.js');
 const User = require('../models/User.js');
 const isLoggedIn = require('../middlewares/index');
-const interestsDB = require('../data/interests');
+const interestsDB = require('../utils/interests');
 
 
 // @desc    Profile Page. Content = Posts

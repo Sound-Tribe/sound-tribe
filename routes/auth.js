@@ -4,7 +4,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const isLoggedIn = require('../middlewares/index');
-const interestsDB = require('../data/interests');
+const interestsDB = require('../utils/interests');
 
 // @desc    Displays form view to sign up
 // @route   GET /auth/signup

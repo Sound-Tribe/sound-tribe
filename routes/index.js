@@ -1,15 +1,9 @@
 const router = require('express').Router();
 const Album = require('../models/Album.js');
 const User = require('../models/User.js');
+const shuffle = require('../utils/shuffle');
 
-// This function will be used to shuffle the results in discovery
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
+
 
 // @desc    App home page. Redirects to /discover if not logged in. Redirects to /home if logged in
 // @route   GET /
