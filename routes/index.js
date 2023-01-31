@@ -26,8 +26,8 @@ router.get('/', (req, res, next) => {
 // @route   GET /discover
 // @access  Public & Private
 router.get('/discover', async (req, res, next) => {
-  // Not logged in gets latest content from all genres
   if (!req.session.currentUser) {
+    // Not logged in gets latest content from all genres
     try {
       const latestAlbums = await Album.find().sort({"_id": -1}).limit(10);
       res.render('discover', {latestAlbums});
@@ -35,6 +35,8 @@ router.get('/discover', async (req, res, next) => {
       next(error);
     }
   } else {
+    // Logged in gets latest content from interests genres shuffled
+    const user = req.session.currentUser;
     const { interests } = await User.findById(req.session.currentUser._id);
     let latestAlbums = [];
     for (let interest of interests) {
@@ -47,9 +49,9 @@ router.get('/discover', async (req, res, next) => {
     }
     latestAlbums = shuffle(latestAlbums);
     if (latestAlbums.length === 0) {
-      res.render('discover', { error: 'No albums to show'});
+      res.render('discover', {user, error: 'No albums to show'});
     } else {
-      res.render('discover', {latestAlbums});
+      res.render('discover', {user, latestAlbums});
     }
   }
 })
