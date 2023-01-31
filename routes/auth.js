@@ -4,7 +4,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const isLoggedIn = require('../middlewares/index');
-const interests = require('../data/interests');
+const interestsDB = require('../data/interests');
 
 // @desc    Displays form view to sign up
 // @route   GET /auth/signup
@@ -96,7 +96,7 @@ router.post("/signup", async (req, res, next) => {
 // @access  Private
 router.get('/interests', isLoggedIn, (req, res, next) => {
   const user = req.session.currentUser;
-  res.render('profile/interests', { user, interests });
+  res.render('profile/interests', { user, interestsDB });
 });
 
 // @desc    Sends the interests data to the user profile
