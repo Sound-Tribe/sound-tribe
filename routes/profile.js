@@ -3,6 +3,7 @@ const app = require('../app.js');
 const Album = require('../models/Album.js');
 const User = require('../models/User.js');
 const isLoggedIn = require('../middlewares/index');
+const { route } = require('./auth.js');
 
 // @desc    Profile Page. Content = Posts
 // @route   GET /profile/posts
@@ -98,7 +99,13 @@ router.post('/edit', isLoggedIn, async (req, res, next) => {
   const userId = req.session.currentUser._id;
   const newUser = await User.findByIdAndUpdate(userId, updatedInfo, { new: true });
   req.session.currentUser = newUser;
-  res.redirect('/profile/posts');
+  res.redirect('/profile/edit/interests');
 });
+
+router.get('/edit/interests', async (req, res, next) => {
+    const userId = req.session.currentUser._id
+    const { interests } = await User.findById(userId);
+    console.log(interests);
+})
 
 module.exports = router;
