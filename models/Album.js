@@ -11,7 +11,8 @@ const albumSchema = new Schema ({
         required: [true, 'An album needs to have the url for an image']
     },
     description: {
-        type: String
+        type: String,
+        default: 'No description provided'
     },
     genres: {
         type: [String],

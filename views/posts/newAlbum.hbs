@@ -1,5 +1,8 @@
 <h1>{{username}} has a new release</h1>
 <h4>Step 1/2</h4>
+{{#if error}}
+    <p>{{error}}</p>
+{{/if}}
 <form action="/posts/new" method="post">
     <label for="image">Album's image URL:</label>
     <input type="text" name="image" placeholder="https://google.com/..." required="true">
@@ -19,7 +22,6 @@
         <label for="jazz">Jazz</label><br>
         <input type="checkbox" id="classical" name="genres" value="Classical">
         <label for="classical">Classical</label><br>
-        <input type="submit" value="Submit">
   </fieldset>
   <button type="submit">Add tracks</button>
 </form>
