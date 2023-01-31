@@ -136,7 +136,7 @@ router.post('/complete-profile', async (req, res, next) => {
   }
   const userId = req.session.currentUser._id;
   await User.findByIdAndUpdate(userId, filledInfo);
-  res.redirect('/profile/posts')
+  res.redirect('/profile/posts');
 });
 
 // @desc    Destroy user session and log out

@@ -1,11 +1,16 @@
 <h2>Edit profile {{user.username}}</h2>
 
 <form action="/profile/edit" method="POST">
+    <label for="username">New username</label>
     <input type="text" name="username" value="{{user.username}}"/>
+    <label for="picture">New Profile Picture:</label>
     <input type="text" name="picture" value="{{user.picture}}">
+    <label for="country">New Country:</label>
     <input type="text" name="country" value="{{user.country}}">
+    <label for="city">New City:</label>
     <input type="text" name="city" value="{{user.city}}">
     <fieldset>
+        <legend>Paste the link to your Social Media profiles</legend>
         <input type="text" name="socialMedia" id="spotify" value="{{user.socialMedia.[0]}}">
         <input type="text" name="socialMedia" id="instagram" value="{{user.socialMedia.[1]}}">
     </fieldset>

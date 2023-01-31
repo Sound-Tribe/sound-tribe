@@ -72,7 +72,7 @@ router.get('/edit', isLoggedIn, async (req, res, next) => {
     } catch (error) {
         next (error);
     }
-})
+});
 
 // @desc    Profile Edit Page
 // @route   POST /profile/edit
@@ -96,8 +96,9 @@ router.post('/edit', isLoggedIn, async (req, res, next) => {
     updatedInfo.socialMedia = socialMedia;
   }
   const userId = req.session.currentUser._id;
-  await User.findByIdAndUpdate(userId, updatedInfo, { new: true });
-  res.redirect('/profile/posts')
+  const newUser = await User.findByIdAndUpdate(userId, updatedInfo, { new: true });
+  req.session.currentUser = newUser;
+  res.redirect('/profile/posts');
 });
 
 module.exports = router;
