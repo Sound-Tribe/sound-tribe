@@ -19,6 +19,41 @@ router.get("/login", async (req, res, next) => {
   res.render("auth/login");
 });
 
+// @desc    Sends user auth data to database to authenticate user
+// @route   POST /auth/login
+// @access  Public
+router.post("/login", async (req, res, next) => {
+  const { usernameOrEmail, password } = req.body;
+  const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(usernameOrEmail);
+  const key = isEmail ? 'email' : 'username';
+  // ⚠️ Add validations!
+  if (!usernameOrEmail || !password) {
+    res.render("auth/login", { error: "Introduce email and password to log in" });
+    return;
+  }
+  try {
+    const user = await User.findOne({ [key]: usernameOrEmail });
+    if (!user) {
+      res.render("auth/login", { error: "User not found" });
+      return;
+    } else {
+      const match = await bcrypt.compare(
+        password,
+        user.hashedPassword
+      );
+      if (match) {
+        // Remember to assign user to session cookie:
+        req.session.currentUser = user;
+        res.redirect("/");
+      } else {
+        res.render("auth/login", { error: "Unable to authenticate user" });
+      }
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 // @desc    Sends user auth data to database to create a new user
 // @route   POST /auth/signup
 // @access  Public
@@ -102,41 +137,6 @@ router.post('/complete-profile', async (req, res, next) => {
   const userId = req.session.currentUser._id;
   await User.findByIdAndUpdate(userId, filledInfo);
   res.redirect('/profile/posts')
-})
-
-// @desc    Sends user auth data to database to authenticate user
-// @route   POST /auth/login
-// @access  Public
-router.post("/login", async (req, res, next) => {
-  const { usernameOrEmail, password } = req.body;
-  const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(usernameOrEmail);
-  const key = isEmail ? 'email' : 'username';
-  // ⚠️ Add validations!
-  if (!usernameOrEmail || !password) {
-    res.render("auth/login", { error: "Introduce email and password to log in" });
-    return;
-  }
-  try {
-    const user = await User.findOne({ [key]: usernameOrEmail });
-    if (!user) {
-      res.render("auth/login", { error: "User not found" });
-      return;
-    } else {
-      const match = await bcrypt.compare(
-        password,
-        user.hashedPassword
-      );
-      if (match) {
-        // Remember to assign user to session cookie:
-        req.session.currentUser = user;
-        res.redirect("/");
-      } else {
-        res.render("auth/login", { error: "Unable to authenticate user" });
-      }
-    }
-  } catch (error) {
-    next(error);
-  }
 });
 
 // @desc    Destroy user session and log out
