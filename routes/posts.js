@@ -7,8 +7,9 @@ const isLoggedIn = require('../middlewares/index');
 // @desc    Get view for new post (album) page
 // @route   GET /posts/new
 // @access  Private
-router.get('new', (req, res ,next) => {
-    
-})
+router.get('/new', isLoggedIn, (req, res ,next) => {
+    const user = req.session.currentUser;
+    res.render('posts/newAlbum', user);
+});
 
 module.exports = router;
