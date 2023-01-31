@@ -1,0 +1,23 @@
+{{#if error}}
+    <p>{{error}}</p>
+{{/if}}
+<form action="/posts/edit/{{album._id}}" method="post">
+    <label for="image">Album's image URL:</label>
+    <input type="text" name="image" value="{{album.image}}" required="true">
+    <label for="title">Title of the album</label>
+    <input type="text" name="title" value="{{album.title}}" required="true">
+    <label for="description">Description of the album:</label>
+    <input {{#if album.description}} value ="{{album.description}}"{{/if}} type="text" name="description" placeholder="Created during the pandemic, this is our manifest as a tribe...">
+    <fieldset required="true">
+        <legend>Choose the genres that represent this album:</legend>
+         {{#each checkedGenres}}
+            <input type="checkbox" id="{{this}}" name="genres" value="{{this}}" checked>
+            <label for="{{this}}">{{this}}</label><br>
+        {{/each}}
+        {{#each notCheckedGenres}}
+            <input type="checkbox" id="{{this}}" name="genres" value="{{this}}">
+            <label for="{{this}}">{{this}}</label><br>
+        {{/each}}
+  </fieldset>
+  <button type="submit">Edit Album</button>
+</form>

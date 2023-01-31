@@ -12,16 +12,10 @@
     <input type="text" name="description" placeholder="Created during the pandemic, this is our manifest as a tribe...">
     <fieldset required="true">
         <legend>Choose the genres that represent this album:</legend>
-        <input type="checkbox" id="rock" name="genres" value="Rock">
-        <label for="rock">Rock</label><br>
-        <input type="checkbox" id="pop" name="genres" value="Pop">
-        <label for="pop">Pop</label><br>
-        <input type="checkbox" id="hiphop" name="genres" value="Hip Hop">
-        <label for="hiphop">Hip Hop</label><br>
-        <input type="checkbox" id="jazz" name="genres" value="Jazz">
-        <label for="jazz">Jazz</label><br>
-        <input type="checkbox" id="classical" name="genres" value="Classical">
-        <label for="classical">Classical</label><br>
+         {{#each interests}}
+             <input type="checkbox" id="{{this}}" name="genres" value="{{this}}">
+             <label for="{{this}}">{{this}}</label><br>
+         {{/each}}
   </fieldset>
   <button type="submit">Add tracks</button>
 </form>
