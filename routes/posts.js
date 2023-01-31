@@ -22,7 +22,10 @@ router.post('/new', isLoggedIn, async (req, res, next) => {
         res.render(res.render('posts/newAlbum', {user, error: 'Please, fill all the required fields'}))
     } else {
         const createdAlbum = await Album.create({ image, title, description, genres, tribe: user._id });
-        res.redirect(`/posts/new/add-tracks/${createdAlbum._id}`);
+        // This is the correcy redirect
+        // res.redirect(`/posts/new/add-tracks/${createdAlbum._id}`);
+        // But for testing purposes:
+        res.redirect('/profile/posts');
     }
 })
 
