@@ -48,8 +48,6 @@ app.use(
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
-addOwner = require('./utils/helpers/addOwner');
-hbs.registerHelper('addOwner', addOwner);
 
 // routes intro
 app.use('/', indexRouter);

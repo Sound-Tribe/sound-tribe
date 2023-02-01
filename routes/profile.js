@@ -11,7 +11,9 @@ const interestsDB = require('../utils/interests');
 router.get('/posts', isLoggedIn, async (req, res, next) => {
     const user = req.session.currentUser;
     try {
-        const posts = await Album.find({ tribe: user._id});
+        const postsDB = await Album.find({ tribe: user._id});
+        const posts = JSON.parse(JSON.stringify(postsDB));
+        posts.forEach(post => post['owner'] = true);
         res.render('profile/profile', {user, owner: true, posts});
     } catch (error) {
         next(error);
