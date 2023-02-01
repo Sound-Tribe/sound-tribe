@@ -36,6 +36,7 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
             title: 'album2Liked',
             description: 'somethingasdf'
         }];
+        // Remember to add owner property like in /profile/posts
         res.render('profile/profile', {user, owner: true, liked: content});
     } catch (error) {
         next(error);

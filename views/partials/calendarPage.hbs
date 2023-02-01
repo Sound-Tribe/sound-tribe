@@ -1,3 +1,6 @@
 {{#each this}}
-    {{>calendar this}}
+    <div class="event">
+        <h5>{{this.date}}</h5>
+        <p>{{this.location}}</p>
+    </div>
 {{/each}}
