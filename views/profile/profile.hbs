@@ -17,7 +17,7 @@
     </nav>
 </div>
 {{#if posts}}
-    {{>postsPage (addOwner this.user this.posts this.owner) }}
+    {{>postsPage posts }}
 {{/if}}
 {{#if liked}}
     {{>postsPage liked}}
