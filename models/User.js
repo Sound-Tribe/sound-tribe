@@ -22,7 +22,7 @@ const userSchema = new Schema(
     },
     type: {
       type: String,
-      enum: ['Tribe', 'Fan'],
+      enum: ['tribe', 'tan'],
       required: [true, 'You must choose between Band or Fan.']
     },
     interests: {

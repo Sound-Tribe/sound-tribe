@@ -1,16 +1,23 @@
 <div class="profile-info">
-    <img src="{{user.picture}}" alt="{{user.username}} profile picture">
-    <a href="/profile/edit">Edit Profile</a>
+    <img style="width: 100px;" src="{{user.picture}}" alt="{{user.username}} profile picture">
+    <p>{{user.username}}</p>
+    {{#if owner}}<a href="/profile/edit">Edit Profile</a>{{/if}}
     <a href="#">Followers</a>
     <a href="#">Following</a>
     <nav>
-        <a href="/profile/posts">Posts</a>
-        <a href="/profile/liked">Liked</a>
-        <a href="/profile/calendar">Calendar</a>
+        {{#if owner}}
+            <a href="/profile/posts">Posts</a>
+            <a href="/profile/liked">Liked</a>
+            <a href="/profile/calendar">Calendar</a>
+        {{else}}
+            <a href="/profile/view/{{user._id}}/posts">Posts</a>
+            <a href="/profile/view/{{user._id}}/liked">Liked</a>
+            <a href="/profile/view/{{user._id}}/calendar">Calendar</a>
+        {{/if}}
     </nav>
 </div>
 {{#if posts}}
-    {{>postsPage posts}}
+    {{>postsPage (addOwner this.user this.posts this.owner) }}
 {{/if}}
 {{#if liked}}
     {{>postsPage liked}}

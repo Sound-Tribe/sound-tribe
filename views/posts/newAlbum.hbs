@@ -12,7 +12,7 @@
     <input type="text" name="description" placeholder="Created during the pandemic, this is our manifest as a tribe...">
     <fieldset required="true">
         <legend>Choose the genres that represent this album:</legend>
-         {{#each interests}}
+         {{#each interestsDB}}
              <input type="checkbox" id="{{this}}" name="genres" value="{{this}}">
              <label for="{{this}}">{{this}}</label><br>
          {{/each}}

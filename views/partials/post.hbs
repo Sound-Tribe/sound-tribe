@@ -2,6 +2,8 @@
     <img style="width: 150px;" src="{{this.image}}" alt="{{this.title}} cover image">
     <h5>{{this.title}}</h5>
     <p>{{this.description}}</p>
-    <a href="/posts/edit/{{this._id}}">Edit Album</a>
-    <a href="/posts/delete/{{this._id}}">Delete Album</a>
+    {{#if owner}}
+        <a href="/posts/edit/{{this._id}}">Edit Album</a>
+        <a href="/posts/delete/{{this._id}}">Delete Album</a>
+    {{/if}}
 </div>

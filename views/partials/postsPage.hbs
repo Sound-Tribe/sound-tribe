@@ -1,3 +1,13 @@
-{{#each this}}
-    {{>post this}}
+<p>content: {{this.content}}</p>
+{{#each content}}
+    <div class="post">
+        <img style="width: 150px;" src="{{this.image}}" alt="{{this.title}} cover image">
+        <h5>{{this.title}}</h5>
+        <p>{{this.description}}</p>
+        {{#if owner}}
+            <a href="/posts/edit/{{this._id}}">Edit Album</a>
+            <a href="/posts/delete/{{this._id}}">Delete Album</a>
+        {{/if}}
+    </div>
+    {{!-- {{>post (addOwner this owner) }} --}}
 {{/each}}
