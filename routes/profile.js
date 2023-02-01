@@ -167,9 +167,9 @@ router.post('/like/:albumId', isLoggedIn, async (req, res, next) => {
     const { albumId } = req.params;
     const userId = req.session.currentUser._id;
     try {
-        const like = await Like.findById(albumId);
+        const like = await Like.findOne({ albumId });
         if(!like) {
-            const newLike = await Like.create({albumId: albumId, likeUserId: [userId], isLiked: 1})
+            const newLike = new Like({ albumId, likeUserId: [userId], isLiked: 1 })
             await newLike.save();
         } else {
             const userLikedIndex = like.likeUserId.indexOf(userId)
@@ -179,8 +179,12 @@ router.post('/like/:albumId', isLoggedIn, async (req, res, next) => {
             } else {
                 like.likeUserId.splice(userLikedIndex, 1);
                 like.isLiked--
+                //if(like.likeUserId.length === 0) {
+                //    await Like.findOneAndDelete({albumId})
+                //}
+                // When used, removes the Like object but some error appears.
             }
-          await like.save();  
+            await like.save();  
           //Add query selector for button once is clicked.
         }
     } catch (error) {
