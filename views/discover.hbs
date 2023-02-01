@@ -1,4 +1,8 @@
 <h1>Discover Page</h1>
+<form action="/discover/search" method="post">
+    <input type="text" name="userQuery" placeholder="Search for a tribe">
+    <button type="submit">Search</button>
+</form>
 {{#if error}}
     <p>{{error}}</p>
 {{/if}}

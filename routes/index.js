@@ -16,7 +16,8 @@ router.get('/', (req, res, next) => {
   }
 });
 
-// @desc    Discover page. Latest content if not logged in. Addapted to interests if logged in
+// @desc    Discover page. Latest content if not logged in. Addapted to interests if logged in. 
+//          Contains search user form
 // @route   GET /discover
 // @access  Public & Private
 router.get('/discover', async (req, res, next) => {
@@ -41,6 +42,7 @@ router.get('/discover', async (req, res, next) => {
       }).sort({ createdAt: -1 }).limit(10);
       albums.forEach(album => latestAlbumsAll.push(album));
     }
+    // Removes duplicates
     const ids = [];
     let latestAlbums = latestAlbumsAll.filter(album => {
       if (!ids.includes(album._id.toString())) {
@@ -55,5 +57,7 @@ router.get('/discover', async (req, res, next) => {
       res.render('discover', {user, latestAlbums});
     }
   }
-})
+});
+
+
 module.exports = router;
