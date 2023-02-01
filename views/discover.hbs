@@ -21,3 +21,11 @@
         </div>
     {{/each}}
 {{/if}}
+{{#if searchResults}}
+    {{#each searchResults}}
+        <div class="search-result-profile">
+            <img style="width: 50px;" src="{{this.picture}}" alt="Profile picture for {{this.username}}">
+            <p class="search-result-username">{{this.username}}</p>
+        </div>
+    {{/each}}
+{{/if}}

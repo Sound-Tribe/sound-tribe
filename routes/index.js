@@ -62,7 +62,19 @@ router.get('/discover', async (req, res, next) => {
 // @desc    Searches for a user in the DB 
 // @route   POST /discover
 // @access  Private
-router.get('/discover/search', isLoggedIn, (req, res, next) => {
-  
+router.post('/discover/search', isLoggedIn, async (req, res, next) => {
+  const user = req.session.currentUser;
+  const { userQuery } = req.body;
+  try {
+    // Filters out your username
+    const searchResults = (await User.find({ username: userQuery.toLowerCase() })).filter(userDB => userDB._id.toString() != user._id.toString());
+    if (searchResults.length === 0) {
+      res.render('discover', {user, error: `No username by ${userQuery.toLowerCase()}`})
+    } else {
+      res.render('discover', {user, searchResults});
+    }
+  } catch (error) {
+    next(error);
+  }
 })
 module.exports = router;
