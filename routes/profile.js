@@ -28,6 +28,7 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
     const userId = req.session.currentUser._id;
     try {
         const user = await User.findById(userId);
+        const liked = await Like.find({ likeUserId: userId })
         // Should retreive all liked posts from user
         // For testing purposes
         const content =[{
@@ -37,8 +38,9 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
             title: 'album2Liked',
             description: 'somethingasdf'
         }];
+        console.log(liked)
         // Remember to add owner property like in /profile/posts
-        res.render('profile/profile', {user, owner: true, liked: content});
+        res.render('profile/profile', {user, owner: true, liked: liked});
     } catch (error) {
         next(error);
     }
