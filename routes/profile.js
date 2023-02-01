@@ -3,6 +3,7 @@ const Album = require('../models/Album.js');
 const User = require('../models/User.js');
 const isLoggedIn = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
+const Like = require('../models/Like');
 
 
 // @desc    Profile Page. Content = Posts
@@ -136,4 +137,31 @@ router.post('/edit/interests', isLoggedIn, async (req, res, next) => {
     }
 })
 
+// @desc    Like posts
+// @route   POST /profile/like/:albumId
+// @access  Private
+router.post('/like/:albumId', isLoggedIn, async (req, res, next) => {
+    const { albumId } = req.params;
+    const userId = req.session.currentUser._id;
+    try {
+        const like = await Like.findById(albumId);
+        if(!like) {
+            const newLike = await Like.create({albumId: albumId, likeUserId: [userId], isLiked: 1})
+            await newLike.save();
+        } else {
+            const userLikedIndex = like.likeUserId.indexOf(userId)
+            if(userLikedIndex === -1) {
+                like.likeUserId.push(userId);
+                like.isLiked++;
+            } else {
+                like.likeUserId.splice(userLikedIndex, 1);
+                like.isLiked--
+            }
+          await like.save();  
+          //Add query selector for button once is clicked.
+        }
+    } catch (error) {
+        next(error);
+    }
+})
 module.exports = router;
