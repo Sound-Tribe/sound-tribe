@@ -13,7 +13,7 @@
     <fieldset required="true">
         <legend>Choose the genres that represent this album:</legend>
          {{#each interestsDB}}
-             <input type="checkbox" id="{{this}}" name="genres">
+             <input type="checkbox" id="{{this}}" name="genres" value="{{this}}">
              <label for="{{this}}">{{this}}</label><br>
          {{/each}}
   </fieldset>

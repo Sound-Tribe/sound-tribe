@@ -11,8 +11,10 @@ const interestsDB = require('../utils/interests');
 router.get('/posts', isLoggedIn, async (req, res, next) => {
     const user = req.session.currentUser;
     try {
-        const posts = await Album.find({ tribe: user._id});
-        res.render('profile/profile', {user, posts});
+        const postsDB = await Album.find({ tribe: user._id});
+        const posts = JSON.parse(JSON.stringify(postsDB));
+        posts.forEach(post => post['owner'] = true);
+        res.render('profile/profile', {user, owner: true, posts});
     } catch (error) {
         next(error);
     }
@@ -34,7 +36,7 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
             title: 'album2Liked',
             description: 'somethingasdf'
         }];
-        res.render('profile/profile', {user, liked: content});
+        res.render('profile/profile', {user, owner: true, liked: content});
     } catch (error) {
         next(error);
     }
@@ -56,7 +58,7 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
             date: 'Thursday 2nd',
             location: 'Valencia'
         }];
-        res.render('profile/profile', {user, calendar: content});
+        res.render('profile/profile', {user, owner:true, calendar: content});
     } catch (error) {
         next(error);
     }
@@ -69,7 +71,7 @@ router.get('/edit', isLoggedIn, async (req, res, next) => {
     const userId = req.session.currentUser._id;
     try {
         const user = await User.findById(userId);
-        res.render('profile/edit-profile', { user })
+        res.render('profile/edit-profile', { user, owner: true })
     } catch (error) {
         next (error);
     }
@@ -118,7 +120,6 @@ router.get('/edit/interests', isLoggedIn, async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-    
 });
 
 // @desc    Profile Edit Interests
@@ -134,6 +135,27 @@ router.post('/edit/interests', isLoggedIn, async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+});
+
+// @desc    View other's profile. content = posts
+// @route   GET /profile/view/:userId/posts
+// @access  Private
+router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
+    const { userId } = req.params;
+    try {
+        const user = await User.findById(userId);
+        const posts = await Album.find({ tribe: userId });
+        res.render('profile/profile', {user, posts});
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @desc    View other's profile. content = liked
+// @route   GET /profile/view/:userId/liked
+// @access  Private
+router.get('view/:userId/liked', isLoggedIn, (req, res, next) => {
+    const { userId } = req.params;
 })
 
 module.exports = router;
