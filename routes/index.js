@@ -2,7 +2,7 @@ const router = require('express').Router();
 const Album = require('../models/Album.js');
 const User = require('../models/User.js');
 const shuffle = require('../utils/shuffle');
-
+const isLoggedIn = require('../middlewares/index');
 
 
 // @desc    App home page. Redirects to /discover if not logged in. Redirects to /home if logged in
@@ -59,5 +59,10 @@ router.get('/discover', async (req, res, next) => {
   }
 });
 
-
+// @desc    Searches for a user in the DB 
+// @route   POST /discover
+// @access  Private
+router.get('/discover/search', isLoggedIn, (req, res, next) => {
+  
+})
 module.exports = router;
