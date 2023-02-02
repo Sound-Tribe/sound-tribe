@@ -4,7 +4,7 @@
     {{#if owner}}
         <a href="/profile/edit">Edit Profile</a>
     {{else}}
-        <form action="/follow/:followeeId" method="post">
+        <form action="/follow/new/{{user._id}}" method="post">
             <button type="submit" class="follow-btn">Follow</button>
         </form>
     {{/if}}
