@@ -8,8 +8,9 @@
             <button type="submit" class="follow-btn">Follow</button>
         </form>
     {{/if}}
-    <a href="#">Followers</a>
-    <a href="#">Following</a>
+    <p>{{user.following}}</p>
+    <a href="#">Followers: {{user.followers}}</a>
+    <a href="#">Following: {{user.following}}</a>
     <nav>
         {{#if owner}}
             <a href="/profile/posts">Posts</a>
