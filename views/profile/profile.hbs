@@ -1,7 +1,13 @@
 <div class="profile-info">
     <img style="width: 100px;" src="{{user.picture}}" alt="{{user.username}} profile picture">
     <p>{{user.username}}</p>
-    {{#if owner}}<a href="/profile/edit">Edit Profile</a>{{/if}}
+    {{#if owner}}
+        <a href="/profile/edit">Edit Profile</a>
+    {{else}}
+        <form action="/follow/:followeeId" method="post">
+            <button type="submit" class="follow-btn">Follow</button>
+        </form>
+    {{/if}}
     <a href="#">Followers</a>
     <a href="#">Following</a>
     <nav>
