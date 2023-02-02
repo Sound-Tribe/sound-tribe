@@ -16,7 +16,9 @@ router.post('/new/:followeeId', isLoggedIn, async (req, res, next) => {
             //redirect to unfollow
         } else {
             await Follow.create({ followeeId: followeeId, followerId: followerId });
-            res.redirect(`/profile/view/${followeeId}/posts`);
+            await User.findOneAndUpdate({_id :followeeId}, {$inc : {'followers' : 1}});
+            await User.findOneAndUpdate({_id :followerId}, {$inc : {'following' : 1}});
+            res.redirect(req.originalUrl);
         }
     } catch (error) {
         next(error);

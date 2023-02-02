@@ -22,7 +22,7 @@ const userSchema = new Schema(
     },
     type: {
       type: String,
-      enum: ['tribe', 'tan'],
+      enum: ['tribe', 'fan'],
       required: [true, 'You must choose between Band or Fan.']
     },
     interests: {
@@ -35,7 +35,17 @@ const userSchema = new Schema(
     },
     city: String,
     country: String,
-    socialMedia: [String]
+    socialMedia: [String],
+    following: {
+      type: Number,
+      default: 0,
+      min: 0
+    },
+    followers: {
+      type: Number,
+      default: 0,
+      min: 0
+    }
   },
   {
     timestamps: true
