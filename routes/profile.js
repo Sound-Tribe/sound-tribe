@@ -12,11 +12,12 @@ const Like = require('../models/Like');
 // @route   GET /profile/posts
 // @access  Private
 router.get('/posts', isLoggedIn, async (req, res, next) => {
-    const user = req.session.currentUser;
+    const userCookie = req.session.currentUser;
     try {
-        const postsDB = await Album.find({ tribe: user._id});
+        const postsDB = await Album.find({ tribe: userCookie._id});
         const posts = JSON.parse(JSON.stringify(postsDB));
         posts.forEach(post => post['owner'] = true);
+        const user = await computeFollows(userCookie);
         res.render('profile/profile', {user, owner: true, posts});
     } catch (error) {
         next(error);
@@ -41,6 +42,7 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
         }];
         console.log(liked)
         // Remember to add owner property like in /profile/posts
+        // Remeber to computeFollows
         res.render('profile/profile', {user, owner: true, liked: liked});
     } catch (error) {
         next(error);
@@ -64,6 +66,7 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
             location: 'Valencia'
         }];
         // Remember to add owner property like in /profile/posts
+        // Remeber to computeFollows
         res.render('profile/profile', {user, owner:true, calendar: content});
     } catch (error) {
         next(error);
@@ -183,6 +186,7 @@ router.get('view/:userId/liked', isLoggedIn, async (req, res, next) => {
             title: 'album2Liked',
             description: 'somethingasdf'
         }];
+        // Remeber to computeFollows
         res.render('profile/profile', {user, liked: content});
     } catch (error) {
         next(error);
