@@ -18,7 +18,7 @@
             {{#each this.genres}}
                 <li>{{this}}</li>
             {{/each}}
-            <form action="/profile/like/{{this._id}}" method="post">
+            <form action="/like/edit/{{this._id}}" method="post">
             <button type="submit">Like</button>
             </form>
         </div>

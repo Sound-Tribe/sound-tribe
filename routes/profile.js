@@ -6,6 +6,7 @@ const isLoggedIn = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
 const computeFollows = require('../utils/computeFollows');
 const Like = require('../models/Like');
+const computeLikes = require('../utils/computeLikes');
 
 
 // @desc    Profile Page. Content = Posts
@@ -15,10 +16,22 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
     const userCookie = req.session.currentUser;
     try {
         const postsDB = await Album.find({ tribe: userCookie._id});
-        const posts = JSON.parse(JSON.stringify(postsDB));
-        posts.forEach(post => post['owner'] = true);
+        const postsPrePromise = JSON.parse(JSON.stringify(postsDB));
         const user = await computeFollows(userCookie);
-        res.render('profile/profile', {user, owner: true, posts});
+        const postPromises = [];
+        postsPrePromise.forEach(post => {
+            post.owner = true;
+            postPromises.push(new Promise((resolve, rej) => {
+                resolve(computeLikes(post, userCookie));
+            }))
+        });
+        // const posts = await Promise.all(postPromises);
+        Promise.all(postPromises).then((postsResolvedPromises) => {
+            const posts = postsResolvedPromises;
+            console.log(posts);
+            res.render('profile/profile', {user, owner: true, posts});
+
+        });
     } catch (error) {
         next(error);
     }
@@ -193,35 +206,5 @@ router.get('view/:userId/liked', isLoggedIn, async (req, res, next) => {
     }
 })
 
-// @desc    Like posts
-// @route   POST /profile/like/:albumId
-// @access  Private
-router.post('/like/:albumId', isLoggedIn, async (req, res, next) => {
-    const { albumId } = req.params;
-    const userId = req.session.currentUser._id;
-    try {
-        const like = await Like.findOne({ albumId });
-        if(!like) {
-            const newLike = new Like({ albumId, likeUserId: [userId], isLiked: 1 })
-            await newLike.save();
-        } else {
-            const userLikedIndex = like.likeUserId.indexOf(userId)
-            if(userLikedIndex === -1) {
-                like.likeUserId.push(userId);
-                like.isLiked++;
-            } else {
-                like.likeUserId.splice(userLikedIndex, 1);
-                like.isLiked--
-                //if(like.likeUserId.length === 0) {
-                //    await Like.findOneAndDelete({albumId})
-                //}
-                // When used, removes the Like object but some error appears.
-            }
-            await like.save();  
-          //Add query selector for button once is clicked.
-        }
-    } catch (error) {
-        next(error);
-    }
-})
+
 module.exports = router;

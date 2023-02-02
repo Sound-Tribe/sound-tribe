@@ -6,12 +6,8 @@ const likeSchema = new Schema({
         ref: 'Album'
     },
     likeUserId: {
-        type: [Schema.Types.ObjectId],
+        type: Schema.Types.ObjectId,
         ref: 'User'
-    },
-    isLiked: {
-        type: Number,
-        default: 0,
     }
 }, {
     timestamps: true

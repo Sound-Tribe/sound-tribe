@@ -3,8 +3,15 @@
         <img style="width: 150px;" src="{{this.image}}" alt="{{this.title}} cover image">
         <h5>{{this.title}}</h5>
         <p>{{this.description}}</p>
-        <form action="/profile/like/{{this._id}}" method="post">
-        <button type="submit">Like</button>
+        <p>{{this.numOfLikes}}</p>
+        <form action="/like/edit/{{this._id}}" method="post">
+        <button type="submit">
+            {{#if this.isLiked}}
+                Liked
+            {{else}}
+                Like
+            {{/if}}
+        </button>
         </form>
         {{#if this.owner}}
             <a href="/posts/edit/{{this._id}}">Edit Album</a>
