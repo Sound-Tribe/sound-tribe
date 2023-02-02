@@ -15,9 +15,6 @@ router.post('/new/:followeeId', isLoggedIn, async (req, res, next) => {
             res.redirect(`/follow/delete/${followeeId}`);
         } else {
             await Follow.create({ followeeId: followeeId, followerId: followerId });
-            await User.findOneAndUpdate({_id :followeeId}, {$inc : {'followers' : 1}});
-            const updatedUser = await User.findOneAndUpdate({_id :followerId}, {$inc : {'following' : 1}}, { new: true });
-            req.session.currentUser = updatedUser;
             res.redirect(`/profile/view/${followeeId}/posts`);
         }
     } catch (error) {

@@ -35,17 +35,7 @@ const userSchema = new Schema(
     },
     city: String,
     country: String,
-    socialMedia: [String],
-    following: {
-      type: Number,
-      default: 0,
-      min: 0
-    },
-    followers: {
-      type: Number,
-      default: 0,
-      min: 0
-    }
+    socialMedia: [String]
   },
   {
     timestamps: true

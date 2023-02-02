@@ -4,6 +4,7 @@ const User = require('../models/User.js');
 const Follow = require('../models/Follow');
 const isLoggedIn = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
+const computeFollows = require('../utils/computeFollows');
 const Like = require('../models/Like');
 
 
@@ -149,7 +150,10 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
     const { userId } = req.params;
     const viewerId = req.session.currentUser._id;
     try {
-        const user = await User.findById(userId);
+        const userDB = await User.findById(userId);
+        const userPreFollowCompute = JSON.parse(JSON.stringify(userDB));
+        const user = await computeFollows(userPreFollowCompute);
+        console.log(user);
         const posts = await Album.find({ tribe: userId });
         const isFollowing = await Follow.findOne({ followerId: viewerId, followeeId: userId });
         // isFollowing = null if not following
