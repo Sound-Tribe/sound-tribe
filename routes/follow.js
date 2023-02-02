@@ -30,9 +30,6 @@ router.get('/delete/:followeeId', isLoggedIn, async (req, res, next) => {
     const followerId = req.session.currentUser._id;
     try {
         await Follow.findOneAndDelete({ followeeId: followeeId, followerId: followerId });
-        await User.findOneAndUpdate({_id :followeeId}, {$inc : {'followers' : -1}});
-        const updatedUser = await User.findOneAndUpdate({_id :followerId}, {$inc : {'following' : -1}}, {new: true});
-        req.session.currentUser = updatedUser;
         res.redirect(`/profile/view/${followeeId}/posts`);
     } catch (error) {
         next(error);
