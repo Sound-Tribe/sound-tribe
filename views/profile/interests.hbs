@@ -4,7 +4,7 @@
 <form action="/auth/interests" method="post">
   <fieldset>
     <legend>Please choose at least 3 and up to 5 musical genres that you like:</legend>
-    {{#each interests}}
+    {{#each interestsDB}}
       <input type="checkbox" id="{{this}}" name="genres" value="{{this}}">
       <label for="{{this}}">{{this}}</label><br>
     {{/each}}
