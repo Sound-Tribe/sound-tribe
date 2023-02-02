@@ -25,10 +25,9 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
 // @route   GET /profile/liked
 // @access  Private
 router.get('/liked', isLoggedIn, async (req, res, next) => {
-    const userId = req.session.currentUser._id;
+    const user = req.session.currentUser;
     try {
-        const user = await User.findById(userId);
-        const liked = await Like.find({ likeUserId: userId })
+        const liked = await Like.find({ likeUserId: user._id })
         // Should retreive all liked posts from user
         // For testing purposes
         const content =[{
@@ -62,6 +61,7 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
             date: 'Thursday 2nd',
             location: 'Valencia'
         }];
+        // Remember to add owner property like in /profile/posts
         res.render('profile/profile', {user, owner:true, calendar: content});
     } catch (error) {
         next(error);
@@ -158,8 +158,23 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
 // @desc    View other's profile. content = liked
 // @route   GET /profile/view/:userId/liked
 // @access  Private
-router.get('view/:userId/liked', isLoggedIn, (req, res, next) => {
+router.get('view/:userId/liked', isLoggedIn, async (req, res, next) => {
     const { userId } = req.params;
+    try {
+        const user = await User.findById(userId);
+        // Should retreive all liked posts from user
+        // For testing purposes
+        const content =[{
+            title: 'album1Liked',
+            description: 'something'
+        },{
+            title: 'album2Liked',
+            description: 'somethingasdf'
+        }];
+        res.render('profile/profile', {user, liked: content});
+    } catch (error) {
+        next(error);
+    }
 })
 
 // @desc    Like posts
