@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Album = require('../models/Album.js');
 const User = require('../models/User.js');
+const Follow = require('../models/Follow');
 const isLoggedIn = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
 const Like = require('../models/Like');
@@ -146,10 +147,17 @@ router.post('/edit/interests', isLoggedIn, async (req, res, next) => {
 // @access  Private
 router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
     const { userId } = req.params;
+    const viewerId = req.session.currentUser._id;
     try {
         const user = await User.findById(userId);
         const posts = await Album.find({ tribe: userId });
-        res.render('profile/profile', {user, posts});
+        const isFollowing = await Follow.findOne({ followerId: viewerId, followeeId: userId });
+        // isFollowing = null if not following
+        if (isFollowing) {
+            res.render('profile/profile', {user, isFollowing, posts});
+        } else {
+            res.render('profile/profile', {user, posts});
+        }
     } catch (error) {
         next(error);
     }
