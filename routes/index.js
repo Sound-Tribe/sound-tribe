@@ -45,7 +45,6 @@ router.get('/home', isLoggedIn, async (req, res, next) => {
         }));
       });
       Promise.all(albumLikesPromises).then(albums => {
-        console.log(albums);
         res.render('home', {user, albums});
       })
     })
