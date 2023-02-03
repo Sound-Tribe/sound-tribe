@@ -24,17 +24,14 @@ router.get('/', (req, res, next) => {
 router.get('/home', isLoggedIn, async (req, res, next) => {
   const user = req.session.currentUser;
   try {
-    const followees = await Follow.find({ followerId: user._id });
-    // console.log('followees', followees);
+    const follows = await Follow.find({ followerId: user._id })
     const albumPromises = [];
-    followees.forEach(followee => {
+    follows.forEach(follow => {
       albumPromises.push(new Promise((resolve, reject) => {
-        resolve(Album.find({ tribe: followee._id }).sort({"_id": -1}).limit(10));
+        resolve(Album.find({ tribe: follow.followeeId }).sort({"_id": -1}).limit(10));
       }));
     });
-    // console.log('albumPromises', albumPromises);
     Promise.all(albumPromises).then(albumsResolvedPromises => {
-      // console.log('albumsResolvedPromises', albumsResolvedPromises);
       const albumsPreLikes = [];
       albumsResolvedPromises.forEach(followee => {
         followee.forEach(album => {
