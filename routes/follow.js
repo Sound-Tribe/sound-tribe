@@ -34,6 +34,11 @@ router.get('/delete/:followeeId', isLoggedIn, async (req, res, next) => {
     const { followeeId } = req.params;
     const followerId = req.session.currentUser._id;
     try {
+        const followee = await User.findById(followeeId);
+        if (followee.type != 'tribe') {
+            // Adds extra validation, for only tribes can be followed
+            res.redirect('back');
+        }
         await Follow.findOneAndDelete({ followeeId: followeeId, followerId: followerId });
         res.redirect(`/profile/view/${followeeId}/posts`);
     } catch (error) {
