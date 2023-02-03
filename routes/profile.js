@@ -191,28 +191,4 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
     }
 });
 
-// @desc    View other's profile. content = liked
-// @route   GET /profile/view/:userId/liked
-// @access  Private
-router.get('view/:userId/liked', isLoggedIn, async (req, res, next) => {
-    const { userId } = req.params;
-    try {
-        const user = await User.findById(userId);
-        // Should retreive all liked posts from user
-        // For testing purposes
-        const content =[{
-            title: 'album1Liked',
-            description: 'something'
-        },{
-            title: 'album2Liked',
-            description: 'somethingasdf'
-        }];
-        // Remeber to computeFollows
-        res.render('profile/profile', {user, liked: content});
-    } catch (error) {
-        next(error);
-    }
-})
-
-
 module.exports = router;
