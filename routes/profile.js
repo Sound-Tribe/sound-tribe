@@ -7,6 +7,7 @@ const interestsDB = require('../utils/interests');
 const computeFollows = require('../utils/computeFollows');
 const Like = require('../models/Like');
 const computeLikes = require('../utils/computeLikes');
+const { json } = require('express');
 
 
 // @desc    Profile Page. Content = Posts
@@ -15,9 +16,10 @@ const computeLikes = require('../utils/computeLikes');
 router.get('/posts', isLoggedIn, async (req, res, next) => {
     const userCookie = req.session.currentUser;
     try {
+        const user = await computeFollows(userCookie);
+        // Retreives all posts from DB
         const postsDB = await Album.find({ tribe: userCookie._id});
         const postsPrePromise = JSON.parse(JSON.stringify(postsDB));
-        const user = await computeFollows(userCookie);
         const postPromises = [];
         postsPrePromise.forEach(post => {
             post.owner = true;
@@ -38,22 +40,22 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
 // @route   GET /profile/liked
 // @access  Private
 router.get('/liked', isLoggedIn, async (req, res, next) => {
-    const user = req.session.currentUser;
+    const userCookie = req.session.currentUser;
     try {
-        const liked = await Like.find({ likeUserId: user._id })
-        // Should retreive all liked posts from user
-        // For testing purposes
-        const content =[{
-            title: 'album1Liked',
-            description: 'something'
-        },{
-            title: 'album2Liked',
-            description: 'somethingasdf'
-        }];
-        console.log(liked)
-        // Remember to add owner property like in /profile/posts
-        // Remeber to computeFollows
-        res.render('profile/profile', {user, owner: true, liked: liked});
+        const user = await computeFollows(userCookie);
+        // Retreives all liked posts from user & populates the album 
+        const likedDB = await Like.find({ likeUserId: user._id }).populate('albumId');
+        const likedPrePromise = JSON.parse(JSON.stringify(likedDB));
+        const likedPromises = [];
+        likedPrePromise.forEach(like => {
+            likedPromises.push(new Promise((resolve, reject) => {
+                resolve(computeLikes(like.albumId, user));
+            }))
+        });
+        Promise.all(likedPromises).then((likedResolvedPromises) => {
+            const liked = likedResolvedPromises;
+            res.render('profile/profile', {user, owner: true, liked: liked});
+        });
     } catch (error) {
         next(error);
     }
