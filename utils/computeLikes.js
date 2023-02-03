@@ -6,6 +6,5 @@ module.exports = async (album, user) => {
         album.isLiked = true;
     }
     album.numOfLikes = (await Like.find({albumId: album._id})).length;
-    console.log("this is the utils fx", album.numOfLikes)
     return album;
 }

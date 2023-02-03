@@ -25,10 +25,8 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
                 resolve(computeLikes(post, userCookie));
             }))
         });
-        // const posts = await Promise.all(postPromises);
         Promise.all(postPromises).then((postsResolvedPromises) => {
             const posts = postsResolvedPromises;
-            console.log(posts);
             res.render('profile/profile', {user, owner: true, posts});
 
         });

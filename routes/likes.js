@@ -16,7 +16,7 @@ router.post('/edit/:albumId', isLoggedIn, async (req, res, next) => {
     const { albumId } = req.params;
     const userId = req.session.currentUser._id;
     try {
-        const like = await Like.findOne({ albumId: albumId });
+        const like = await Like.findOne({ albumId: albumId, likeUserId: userId });
         if(!like) {
             try {
                 const newLike = await Like.create({albumId: albumId, likeUserId: userId})
