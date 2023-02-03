@@ -4,15 +4,17 @@
     {{#if owner}}
         <a href="/profile/edit">Edit Profile</a>
     {{else}}
-        <form action="/follow/new/{{user._id}}" method="post">
-            <button type="submit" class="follow-btn">
-                {{#if isFollowing}}
-                    Unfollow
-                {{else}}
-                    Follow
-                {{/if}}
-            </button>
-        </form>
+        {{#if user.tribe}}
+            <form action="/follow/new/{{user._id}}" method="post">
+                <button type="submit" class="follow-btn">
+                    {{#if isFollowing}}
+                        Unfollow
+                    {{else}}
+                        Follow
+                    {{/if}}
+                </button>
+            </form>
+        {{/if}}
     {{/if}}
     <a href="#">Followers: {{user.followers}}</a>
     <a href="#">Following: {{user.following}}</a>

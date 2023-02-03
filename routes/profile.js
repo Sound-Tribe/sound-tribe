@@ -180,6 +180,7 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
         });
         Promise.all(postPromises).then(postsResolvedPromises => {
             const posts = postsResolvedPromises;
+            console.log(user.type)
             if (isFollowing) {
                 res.render('profile/profile', {user, isFollowing, posts});
             } else {
