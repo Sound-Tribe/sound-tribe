@@ -25,7 +25,7 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
             post.owner = true;
             postPromises.push(new Promise((resolve, rej) => {
                 resolve(computeLikes(post, userCookie));
-            }))
+            }));
         });
         Promise.all(postPromises).then((postsResolvedPromises) => {
             const posts = postsResolvedPromises;
@@ -163,20 +163,29 @@ router.post('/edit/interests', isLoggedIn, async (req, res, next) => {
 // @access  Private
 router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
     const { userId } = req.params;
-    const viewerId = req.session.currentUser._id;
+    const viewerCookie = req.session.currentUser;
     try {
         const userDB = await User.findById(userId);
         const userPreFollowCompute = JSON.parse(JSON.stringify(userDB));
         const user = await computeFollows(userPreFollowCompute);
-        console.log(user);
-        const posts = await Album.find({ tribe: userId });
-        const isFollowing = await Follow.findOne({ followerId: viewerId, followeeId: userId });
         // isFollowing = null if not following
-        if (isFollowing) {
-            res.render('profile/profile', {user, isFollowing, posts});
-        } else {
-            res.render('profile/profile', {user, posts});
-        }
+        const isFollowing = await Follow.findOne({ followerId: viewerCookie._id, followeeId: userId });
+        const postsDB = await Album.find({ tribe: userId });
+        const postsPrePromise = JSON.parse(JSON.stringify(postsDB));
+        const postPromises = [];
+        postsPrePromise.forEach(post => {
+            postPromises.push(new Promise((resolve, rej) => {
+                resolve(computeLikes(post, viewerCookie));
+            }));
+        });
+        Promise.all(postPromises).then(postsResolvedPromises => {
+            const posts = postsResolvedPromises;
+            if (isFollowing) {
+                res.render('profile/profile', {user, isFollowing, posts});
+            } else {
+                res.render('profile/profile', {user, posts});
+            }
+        })
     } catch (error) {
         next(error);
     }
