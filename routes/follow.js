@@ -15,7 +15,7 @@ router.post('/new/:followeeId', isLoggedIn, async (req, res, next) => {
             res.redirect(`/follow/delete/${followeeId}`);
         } else {
             await Follow.create({ followeeId: followeeId, followerId: followerId });
-            res.redirect(`/profile/view/${followeeId}/posts`);
+            res.redirect('back');
         }
     } catch (error) {
         next(error);
