@@ -1,0 +1,22 @@
+<h1>Home</h1>
+{{#each albums}}
+    <div class="post">
+        <img style="width: 150px;" src="{{this.image}}" alt="{{this.title}} cover image">
+        <h5>{{this.title}}</h5>
+        <p>{{this.description}}</p>
+        <p>{{this.numOfLikes}}</p>
+        <form action="/like/edit/{{this._id}}" method="post">
+        <button type="submit">
+            {{#if this.isLiked}}
+                Liked
+            {{else}}
+                Like
+            {{/if}}
+        </button>
+        </form>
+        {{#if this.owner}}
+            <a href="/posts/edit/{{this._id}}">Edit Album</a>
+            <a href="/posts/delete/{{this._id}}">Delete Album</a>
+        {{/if}}
+    </div>
+{{/each}}
