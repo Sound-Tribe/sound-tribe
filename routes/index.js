@@ -1,11 +1,13 @@
 const router = require('express').Router();
 const Album = require('../models/Album.js');
 const User = require('../models/User.js');
+const Follow = require('../models/Follow');
 const shuffle = require('../utils/shuffle');
 const isLoggedIn = require('../middlewares/index');
+const computeLikes = require('../utils/computeLikes.js');
 
 
-// @desc    App home page. Redirects to /discover if not logged in. Redirects to /home if logged in
+// @desc    Redirects to /discover if not logged in. Redirects to /home if logged in
 // @route   GET /
 // @access  Public
 router.get('/', (req, res, next) => {
@@ -14,6 +16,45 @@ router.get('/', (req, res, next) => {
   } else {
     res.render('landing');
   }
+});
+
+// @desc    Displays most recent posts by your followees.
+// @route   GET /home
+// @access  Private
+router.get('/home', isLoggedIn, async (req, res, next) => {
+  const user = req.session.currentUser;
+  try {
+    const followees = await Follow.find({ followerId: user._id });
+    // console.log('followees', followees);
+    const albumPromises = [];
+    followees.forEach(followee => {
+      albumPromises.push(new Promise((resolve, reject) => {
+        resolve(Album.find({ tribe: followee._id }).sort({"_id": -1}).limit(10));
+      }));
+    });
+    // console.log('albumPromises', albumPromises);
+    Promise.all(albumPromises).then(albumsResolvedPromises => {
+      // console.log('albumsResolvedPromises', albumsResolvedPromises);
+      const albumsPreLikes = [];
+      albumsResolvedPromises.forEach(followee => {
+        followee.forEach(album => {
+          albumsPreLikes.push(JSON.parse(JSON.stringify(album)));
+        });
+      });
+      const albumLikesPromises = [];
+      albumsPreLikes.forEach(album => {
+        albumLikesPromises.push(new Promise((resolve, reject) => {
+          resolve(computeLikes(album, user));
+        }));
+      });
+      Promise.all(albumLikesPromises).then(albums => {
+        console.log(albums);
+        res.render('home', {user, albums});
+      })
+    })
+  } catch (error) {
+    next(error);
+  } 
 });
 
 // @desc    Discover page. Latest content if not logged in. Addapted to interests if logged in. 
