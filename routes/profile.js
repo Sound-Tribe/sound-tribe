@@ -28,7 +28,6 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
         Promise.all(postPromises).then((postsResolvedPromises) => {
             const posts = postsResolvedPromises;
             res.render('profile/profile', {user, owner: true, posts});
-
         });
     } catch (error) {
         next(error);
