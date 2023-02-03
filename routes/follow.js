@@ -10,6 +10,11 @@ router.post('/new/:followeeId', isLoggedIn, async (req, res, next) => {
     const { followeeId } = req.params;
     const followerId = req.session.currentUser._id;
     try {
+        const followee = await User.findById(followeeId);
+        if (followee.type != 'tribe') {
+            // Adds extra validation, for only tribes can be followed
+            res.redirect('back');
+        }
         const existentFollow = await Follow.find({ followeeId: followeeId, followerId: followerId });
         if (existentFollow.length != 0) {
             res.redirect(`/follow/delete/${followeeId}`);
