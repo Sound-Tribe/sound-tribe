@@ -79,10 +79,10 @@ router.get('/discover', async (req, res, next) => {
       }).sort({ createdAt: -1 }).limit(10);
       albums.forEach(album => latestAlbumsAll.push(album));
     }
-    // Removes duplicates
+    // Removes duplicates & Own Albums
     const ids = [];
     let latestAlbums = latestAlbumsAll.filter(album => {
-      if (!ids.includes(album._id.toString())) {
+      if (!ids.includes(album._id.toString()) && album.tribe.toString() != user._id.toString()) {
         ids.push(album._id.toString());
         return true;
       }
