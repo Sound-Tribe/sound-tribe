@@ -1,8 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;500;900&display=swap');
 body {
   padding: 0;
   margin: 0;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
 }
+
+:root {
+  --main-red: #AF3800;
+  --main-white: #FBFCFF;
+  --main-black: #1b2d2a;
+  --main-dark-green: #1B2D2A;
+  --main-mid-green: #3A4F41;
+  --main-light-green: #7FB685;
+}
+/* Layout */
+
 
 img {
   width: 100px;
