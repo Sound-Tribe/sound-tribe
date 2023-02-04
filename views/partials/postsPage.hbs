@@ -1,18 +1,17 @@
 {{#each this}}
     <div class="post">
-        <img style="width: 150px;" src="{{this.image}}" alt="{{this.title}} cover image">
-        <h5>{{this.title}}</h5>
-        <p>{{this.description}}</p>
-        <p>{{this.numOfLikes}}</p>
+        <h5 class="post-album-title">{{this.title}}</h5>
+        <img class="post-album-img" style="width: 150px;" src="{{this.image}}" alt="{{this.title}} cover image">
         <form action="/like/edit/{{this._id}}" method="post">
-        <button type="submit">
-            {{#if this.isLiked}}
-                Liked
-            {{else}}
-                Like
-            {{/if}}
-        </button>
+            <button type="submit">
+                {{#if this.isLiked}}
+                    <img class="post-like-icon" src="/images/liked.png" alt="liked post icon">
+                {{else}}
+                    <img class="post-like-icon" src="/images/like.png" alt="unliked post icon">
+                {{/if}}
+            </button>
         </form>
+        <p class="post-num-likes">{{this.numOfLikes}}</p>
         {{#if this.owner}}
             <a href="/posts/edit/{{this._id}}">Edit Album</a>
             <a href="/posts/delete/{{this._id}}">Delete Album</a>

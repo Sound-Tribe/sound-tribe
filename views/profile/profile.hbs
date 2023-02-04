@@ -1,9 +1,15 @@
+<div class="page-heading">
+    <h1 class="app-name">SounTribe</h1>
+    <div class="page-heading-name">
+        <img class="page-icon" src="/images/profile.png" alt="Profile icon">
+        <h2 class="page-name">{{user.username}}</h2>
+    </div>
+    {{!-- Missing log out and edit profile links in burger menu --}}
+</div>
+
 <div class="profile-info">
-    <img style="width: 100px;" src="{{user.picture}}" alt="{{user.username}} profile picture">
-    <p>{{user.username}}</p>
-    {{#if owner}}
-        <a href="/profile/edit">Edit Profile</a>
-    {{else}}
+    <img class="profile-picture" src="{{user.picture}}" alt="{{user.username}} profile picture">
+    {{#unless owner}}
         {{#if user.isTribe}}
             <form action="/follow/new/{{user._id}}" method="post">
                 <button type="submit" class="follow-btn">
@@ -15,12 +21,12 @@
                 </button>
             </form>
         {{/if}}
-    {{/if}}
-    <a href="#">Followers: {{user.followers}}</a>
-    <a href="#">Following: {{user.following}}</a>
-    <nav>
+    {{/unless}}
+    {{#if user.isTribe}}<a class="follows" href="#">Followers: {{user.followers}}</a>{{/if}}
+    <a class="follows" href="#">Following: {{user.following}}</a>
+    <nav class="profile-pages-nav">
         {{#if owner}}
-            <a href="/profile/posts">Posts</a>
+            {{#if user.isTribe}}<a href="/profile/posts">Posts</a>{{/if}}
             <a href="/profile/liked">Liked</a>
             <a href="/profile/calendar">Calendar</a>
         {{else}}

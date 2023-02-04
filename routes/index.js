@@ -28,7 +28,7 @@ router.get('/home', isLoggedIn, async (req, res, next) => {
     const albumPromises = [];
     follows.forEach(follow => {
       albumPromises.push(new Promise((resolve, reject) => {
-        resolve(Album.find({ tribe: follow.followeeId }).sort({"_id": -1}).limit(10));
+        resolve(Album.find({ tribe: follow.followeeId }).sort({"_id": -1}).limit(10).populate('tribe'));
       }));
     });
     Promise.all(albumPromises).then(albumsResolvedPromises => {
@@ -81,13 +81,13 @@ router.get('/discover', async (req, res, next) => {
         genres: {
           $in: [interest]
         }
-      }).sort({ createdAt: -1 }).limit(10);
+      }).sort({ createdAt: -1 }).limit(10).populate('tribe');
       albums.forEach(album => latestAlbumsAll.push(album));
     }
     // Removes duplicates & Own Albums
     const ids = [];
     let latestAlbums = latestAlbumsAll.filter(album => {
-      if (!ids.includes(album._id.toString()) && album.tribe.toString() != user._id.toString()) {
+      if (!ids.includes(album._id.toString()) && album.tribe._id.toString() != user._id.toString()) {
         ids.push(album._id.toString());
         return true;
       }

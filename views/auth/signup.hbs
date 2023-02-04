@@ -1,28 +1,33 @@
-<h1>¡Create a new account!</h1>
-
-<div id="form">
-  <form action="/auth/signup" method="POST">
-
-    <label>Username</label>
-    <input type="text" name="username" placeholder="JohnDoe88" required="true"/>
-
-    <label>Email</label>
-    <input type="email" name="email" placeholder="john@doe.com" required="true"/>
-
-    <label>Password</label>
-    <input type="password" name="password" placeholder="********" required="true"/>
-
-    <label>Type</label>
-    <select name="type" required="true">
-      <option value="tribe">Tribe</option>
-      <option value="fan">Fan</option>
-    </select>
-
-    {{#if error}}
-      <p style="color: red;">{{error}}</p>
-    {{/if}}
-
-    <button type="submit">Create account</button>
-    <a href="/auth/login">Already have an account?</a>
-  </form>
+<div class="page-heading">
+    <h1 class="page-name">Sign Up</h1>
+    <div class="page-heading-name">
+        <img class="page-icon" src="/images/totem.png" alt="Sign up icon">
+    </div>
 </div>
+
+<form action="/auth/signup" method="POST">
+
+  <label>Username</label>
+  <input type="text" name="username" placeholder="JohnDoe88" required="true"/>
+
+  <label>Email</label>
+  <input type="email" name="email" placeholder="john@doe.com" required="true"/>
+
+  <label>Password</label>
+  <input type="password" name="password" placeholder="********" required="true"/>
+
+  <fieldset>
+    <legend>What are you?</legend>
+    <input type="radio" name="type" value="tribe">
+    <label for="tribe"><img src="/images/drum.png" alt="tribe drum icon"></label>
+    <input type="radio" name="type" value="fan">
+    <label for="fan"><img src="/images/fan.png" alt="fan mask icon"></label>
+  </fieldset>
+
+  {{#if error}}
+    <p style="color: red;">{{error}}</p>
+  {{/if}}
+
+  <button type="submit">Create account</button>
+  <a href="/auth/login">Already have an account?</a>
+</form>

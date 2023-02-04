@@ -124,6 +124,11 @@ router.post('/interests', isLoggedIn, async (req, res, next) => {
 // @access  Private
 router.get('/complete-profile', (req, res, next) => {
   const user = req.session.currentUser;
+  console.log(user);
+  if (user.type === 'tribe') {
+    user.isTribe = true;
+  }
+  console.log(user);
   res.render('profile/complete-info', user);
 });
 
