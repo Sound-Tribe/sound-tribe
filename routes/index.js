@@ -46,8 +46,13 @@ router.get('/home', isLoggedIn, async (req, res, next) => {
       });
       Promise.all(albumLikesPromises).then(albums => {
         res.render('home', {user, albums});
-      })
+      }).catch(error => {
+        next(error);
+      });
     })
+    .catch(error => {
+      next(error);
+    });
   } catch (error) {
     next(error);
   } 
