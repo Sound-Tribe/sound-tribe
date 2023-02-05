@@ -42,6 +42,9 @@ nav.main-nav img {
 }
 
 .page-heading {
+  position: sticky;
+  top: 0;
+  background-color: var(--main-white);
   width: calc(100vw - var(--page-heading-padding)*2);
   height: 8vh;
   display: flex;
@@ -49,7 +52,7 @@ nav.main-nav img {
   justify-content: space-between;
   padding: 0 var(--page-heading-padding);
   border-bottom: 2px solid var(--main-dark-green);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .page-heading .app-name {
   font-size: 1.5rem;
@@ -76,6 +79,7 @@ nav.main-nav img {
   width: calc(100vw - var(--page-heading-padding)*2);
   height: auto;
   padding: 0 var(--page-heading-padding);
+  margin-bottom: 10px;
 }
 
 .profile-info {
@@ -98,13 +102,37 @@ nav.main-nav img {
   margin: 5px;
   font-size: 1.2em;
 }
-.post .post-album-img {
+.post-album-img {
   align-self: center;
   width: 100%;
   height: auto;
   border-radius: 5px;
 }
-
+.post-likes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 3vh;
+  margin-top: 5px;
+}
+.post-likes form {
+  height: 100%;
+}
+.post-likes form button {
+  border: none;
+  display: flex;
+  align-items: center;
+  background: none;
+  height: 100%;
+}
+.post-likes form button img {
+  height: 100%;
+  width: auto;
+}
+.post-likes p {
+  text-align: center;
+  margin: 0;
+}
 /* Signup */
 .signup-form {
   display: flex;
