@@ -224,3 +224,58 @@ img {
   border: none;
 }
 
+/* log in */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 190px;
+}
+
+.login-form label {
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--main-black);
+  width: 55vw;
+}
+
+.login-form input {
+  padding: 10px;
+  width: 50vw;
+  margin-bottom: 20px;
+}
+
+.login-form button {
+  background-color: var(--main-dark-green);
+  color: var(--main-white);
+  padding: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  border: none;
+  margin-top: 10px;
+}
+
+.login-form a {
+  text-decoration: none;
+  font-size: 10px;
+  color: var(--main-black);
+  opacity: 0.5;
+  margin-top: 10px;
+}
+
+/* page heading */
+.page-heading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  border-bottom: 1px solid var(--main-black);
+}
+
+.page-name {
+  font-size: 20px;
+}
+
+.page-icon {
+  width: 10vw;
+}
