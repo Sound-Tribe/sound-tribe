@@ -2,6 +2,7 @@
 * {
   margin: 0;
   box-sizing: border-box;
+  /* font-family: 'Noto Sans JP', sans-serif; */
 }
 
 body {
@@ -141,6 +142,41 @@ nav.main-nav img {
   text-align: center;
   margin: 0;
 }
+
+/* Discover */
+/* Post styles defined in home page */
+.search-form {
+  width: 100%;
+  height: 5vh;
+  padding: 0 var(--page-heading-padding);
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.search-form input {
+  flex-grow: 2;
+  border: none;
+  background-color: rgba(127, 182, 133, 0.5);
+  padding-left: 5px;
+}
+::placeholder { 
+  color: var(--main-black);
+  opacity: 1; /* Firefox */
+}
+.search-form button {
+  width: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--main-light-green);
+  border: none;
+  border-radius: 0;
+}
+.search-form button img {
+  width: auto;
+  height: 90%;
+}
+
 /* Signup */
 .signup-form {
   display: flex;
@@ -373,23 +409,6 @@ nav.main-nav img {
   color: var(--main-black);
   opacity: 0.5;
   margin-top: 10px;
-}
-
-/* page heading */
-.page-heading {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  border-bottom: 1px solid var(--main-black);
-}
-
-.page-name {
-  font-size: 20px;
-}
-
-.page-icon {
-  width: 10vw;
 }
 
 .edit-profile-1 {

@@ -1,5 +1,5 @@
 <div class="page-heading">
-    <h1 class="app-name">SounTribe</h1>
+    <h1 class="app-name">SoundTribe</h1>
     <div class="page-heading-name">
         <img class="page-icon" src="/images/discover.png" alt="Discover icon link">
         <h2 class="page-name">Discover</h2>
@@ -7,7 +7,7 @@
 </div>
 <form class="search-form" action="/discover/search" method="post">
     <input type="text" name="userQuery" placeholder="Search for a tribe">
-    <button type="submit">Search</button>
+    <button type="submit"><img src="/images/compass.png" alt="Compass icon"></button>
 </form>
 {{#if error}}
     <p>{{error}}</p>
@@ -19,18 +19,20 @@
                 <img class="post-profile-picture" src="{{this.tribe.picture}}" alt="Profile picture">
                 <p class="post-tribe-name">{{this.tribe.username}}</p>
             </a>
-            <img class="post-album-img" style="width: 150px;" src="{{this.image}}" alt="{{this.title}} cover image">
             <h5 class="post-album-title">{{this.title}}</h5>
-            <form action="/like/edit/{{this._id}}" method="post">
-                <button type="submit">
-                    {{#if this.isLiked}}
-                        <img class="post-like-icon" src="/images/liked.png" alt="liked post icon">
-                    {{else}}
-                        <img class="post-like-icon" src="/images/like.png" alt="unliked post icon">
-                    {{/if}}
-                </button>
-            </form>
-            <p class="post-num-likes">{{this.numOfLikes}}</p>
+            <img class="post-album-img" src="{{this.image}}" alt="{{this.title}} cover image">
+            <div class="post-likes">
+                <form action="/like/edit/{{this._id}}" method="post">
+                    <button type="submit">
+                        {{#if this.isLiked}}
+                            <img class="post-like-icon" src="/images/liked.png" alt="liked post icon">
+                        {{else}}
+                            <img class="post-like-icon" src="/images/like.png" alt="unliked post icon">
+                        {{/if}}
+                    </button>
+                </form>
+                <p class="post-num-likes">{{this.numOfLikes}}</p>
+            </div>  
         </div>
     {{/each}}
 {{/if}}
