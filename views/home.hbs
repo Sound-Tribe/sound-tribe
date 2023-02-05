@@ -12,7 +12,7 @@
             <p class="post-tribe-name">{{this.tribe.username}}</p>
         </a>
         <h5 class="post-album-title">{{this.title}}</h5>
-        <img class="post-album-img" style="width: 150px;" src="{{this.image}}" alt="{{this.title}} cover image">
+        <img class="post-album-img" src="{{this.image}}" alt="{{this.title}} cover image">
         <form action="/like/edit/{{this._id}}" method="post">
             <button type="submit">
                 {{#if this.isLiked}}

@@ -41,7 +41,6 @@ nav.main-nav img {
   width: auto;
 }
 
-/* Home Page */
 .page-heading {
   width: calc(100vw - var(--page-heading-padding)*2);
   height: 8vh;
@@ -68,6 +67,42 @@ nav.main-nav img {
 .page-heading .page-name {
   font-size: 1.5rem;
   text-align: center;
+}
+
+/* Home Page */
+.post {
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - var(--page-heading-padding)*2);
+  height: auto;
+  padding: 0 var(--page-heading-padding);
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(58, 79, 65, 0.5);
+}
+.profile-info .post-profile-picture {
+  height: 3em;
+  width: auto;
+  border-radius: 50%;
+}
+.profile-info .post-tribe-name {
+  font-size: 1.2em;
+  color: var(--main-black);
+}
+.post-album-title {
+  margin: 5px;
+  font-size: 1.2em;
+}
+.post .post-album-img {
+  align-self: center;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
 }
 
 /* Signup */
