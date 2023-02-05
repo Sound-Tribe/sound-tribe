@@ -42,12 +42,12 @@
 
 <nav class="profile-pages-nav">
     {{#if owner}}
-        {{#if user.isTribe}}<a href="/profile/posts">Posts</a>{{/if}}
-        <a href="/profile/liked">Liked</a>
-        <a href="/profile/calendar">Calendar</a>
+        {{#if user.isTribe}}<a class="nav-border-right" href="/profile/posts">Posts</a>{{/if}}
+        <a class="{{#if user.isTribe}}nav-border-left{{/if}} nav-border-right" href="/profile/liked">Liked</a>
+        <a class="nav-border-left" href="/profile/calendar">Calendar</a>
     {{else}}
-        <a href="/profile/view/{{user._id}}/posts">Posts</a>
-        <a href="/profile/view/{{user._id}}/calendar">Calendar</a>
+        <a class="nav-border-right" href="/profile/view/{{user._id}}/posts">Posts</a>
+        <a class="nav-border-left" href="/profile/view/{{user._id}}/calendar">Calendar</a>
     {{/if}}
 </nav>
 
