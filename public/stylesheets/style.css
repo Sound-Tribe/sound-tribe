@@ -134,11 +134,11 @@ nav.main-nav img {
   background: none;
   height: 100%;
 }
-.post-likes form button img {
+.post-likes .post-like-icon{
   height: 100%;
   width: auto;
 }
-.post-likes p {
+.post-likes .post-num-likes {
   text-align: center;
   margin: 0;
 }
@@ -272,6 +272,26 @@ nav.main-nav img {
 }
 .nav-border-left {
   border-left: 1px solid var(--main-black);
+}
+.bottom-album {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--main-dark-green);
+}
+.edit-container {
+  width: 90%;
+  display: flex;
+  justify-content: right;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+.edit-container img {
+  height: 3vh;
+  width: auto;
 }
 /* Signup */
 .signup-form {
