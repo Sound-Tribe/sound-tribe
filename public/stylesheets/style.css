@@ -19,3 +19,68 @@ body {
 img {
   width: 100px;
 }
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.username {
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--main-black);
+  width: 55vw;
+}
+
+.email {
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--main-black);
+  width: 55vw;
+}
+
+.password {
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--main-black);
+  width: 55vw;
+}
+
+.input-signup {
+  padding: 10px;
+  width: 50vw;
+  margin-bottom: 10px;
+}
+
+.signup-form fieldset {
+  border: 0px;
+}
+
+.signup-form fieldset legend {
+  border-bottom: 1px solid var(--main-black);
+  width: 55vw;
+}
+
+.signup-form fieldset input {
+  display: none;
+}
+
+
+.signup-form fieldset label img {
+  width: 15vw;
+  margin-left: 35px;
+}
+
+.signup-form button {
+  background-color: var(--main-dark-green);
+  color: var(--main-white);
+  padding: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  border: none;
+}
+
+.signup-form a {
+  text-decoration: none;
+  font-size: 10px;
+  color: var(--main-black);
+  opacity: 0.5;
+}
