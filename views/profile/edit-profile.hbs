@@ -1,18 +1,38 @@
-<h2>Edit profile {{user.username}}</h2>
-
+<div class="page-heading">
+  <h1 class="app-name">SoundTribe</h1>
+    <div class="page-heading-name">
+        <img class="page-icon" src="/images/profile.png" alt="Profile icon">
+        <h2 class="page-name-1">Edit profile</h2>
+    </div>
+    {{!-- Missing log out and edit profile links in burger menu --}}
+</div>
+<h3 class="steps">Step 1/2</h3>
 <form class="edit-profile-1" action="/profile/edit" method="POST">
-    <label for="username">New username</label>
-    <input type="text" name="username" value="{{user.username}}"/>
-    <label for="picture">New Profile Picture:</label>
-    <input type="text" name="picture" value="{{user.picture}}">
-    <label for="country">New Country:</label>
-    <input type="text" name="country" value="{{user.country}}">
-    <label for="city">New City:</label>
-    <input type="text" name="city" value="{{user.city}}">
-    <fieldset>
-        <legend>Paste the link to your Social Media profiles</legend>
-        <input type="text" name="socialMedia" id="spotify" value="{{user.socialMedia.[0]}}">
-        <input type="text" name="socialMedia" id="instagram" value="{{user.socialMedia.[1]}}">
-    </fieldset>
-    <button type="submit">Submit</button>
-    </form>
+  <label class="label-edit-profile" for="username">New username</label>
+  <input class="input-edit-profile"type="text" name="username" value="{{user.username}}" />
+  <label class="label-edit-profile" for="picture">New Profile Picture:</label>
+  <input class="input-edit-profile" type="text" name="picture" value="{{user.picture}}" />
+  <div class="country-city">
+    <div class="country">
+      <label for="country">New Country</label>
+      <input type="text" name="country" value="{{user.country}}" />
+    </div>
+    <div class="city">
+      <label for="city">New City</label>
+      <input type="text" name="city" value="{{user.city}}" />
+    </div>
+    </div>
+  
+  <fieldset class="edit-fieldset">
+    <legend>SocialMedia</legend>
+    <div class="edit-fieldset-1">
+      <img src="/images/spotify-logo.png" alt="spotify logo">
+    <input type="text" name="socialMedia" id="spotify" value="{{user.socialMedia}}"/>
+    </div>
+    <div class="edit-fieldset-1">
+      <img src="/images/insta-logo.png" alt="instagram logo">
+    <input type="text" name="socialMedia" id="instagram" value="{{user.socialMedia}}"/>
+    </div>
+  </fieldset>
+  <button type="submit">Submit</button>
+</form>
