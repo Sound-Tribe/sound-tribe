@@ -4,6 +4,9 @@ body {
   margin: 0;
   font-family: 'Noto Sans JP', sans-serif;
 }
+img {
+  width: 100px;
+}
 
 :root {
   --main-red: #AF3800;
@@ -12,11 +15,12 @@ body {
   --main-dark-green: #1B2D2A;
   --main-mid-green: #3A4F41;
   --main-light-green: #7FB685;
+  --page-heading-padding: 20px;
 }
 /* Layout */
 nav.main-nav {
   width: 100%;
-  height: 10%;
+  height: 10vh;
   background-color: var(--main-light-green);
   position: fixed;
   bottom: 0;
@@ -36,8 +40,34 @@ nav.main-nav img {
   height: 60%;
   width: auto;
 }
-img {
-  width: 100px;
+
+/* Home Page */
+.page-heading {
+  width: calc(100vw - var(--page-heading-padding)*2);
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--page-heading-padding);
+  border-bottom: 2px solid var(--main-dark-green);
+  margin-bottom: 20px;
+}
+.page-heading .app-name {
+  font-size: 1.5rem;
+  text-align: center;
+}
+.page-heading-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.page-heading .page-icon {
+  height: 1.5rem;
+  width: auto;
+}
+.page-heading .page-name {
+  font-size: 1.5rem;
+  text-align: center;
 }
 
 /* Signup */
