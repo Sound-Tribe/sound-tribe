@@ -234,8 +234,8 @@ nav.main-nav img {
   padding: 0 10px;
 }
 .profile-info .content-container .social-media-container {
-  /* align-self: flex-start; */
-  /* padding: 0 10px; */
+  align-self: flex-start;
+  padding: 0 10px;
   display: flex;
   gap: 25px;
 }
