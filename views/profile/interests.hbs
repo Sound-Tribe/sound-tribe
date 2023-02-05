@@ -1,13 +1,18 @@
-<h1>What are your musical interests {{user.username}}</h1>
+<div class="page-heading">
+    <h1 class="page-name">Sign Up</h1>
+    <div class="page-heading-name">
+        <img class="page-icon" src="/images/totem.png" alt="Sign up icon">
+    </div>
+</div>
 <h4>Step 1/2</h4>
-<p>Tell us what kind of Tribes do you like</p>
-<form action="/auth/interests" method="post">
-  <fieldset>
-    <legend>Please choose at least 3 and up to 5 musical genres that you like:</legend>
+<form class="signup-interests" action="/auth/interests" method="post">
+  <div class="legend">What are you into?</div>
+  <div class="interest-group">
     {{#each interestsDB}}
-      <input type="checkbox" id="{{this}}" name="genres" value="{{this}}">
-      <label for="{{this}}">{{this}}</label><br>
+      <input type="checkbox" id="{{this}}" name="genres" value="{{this}}" />
+      <label for="{{this}}">{{this}}</label><br />
     {{/each}}
-    <input type="submit" value="Submit">
-  </fieldset>
+  </div>
+  <input class="interests-input" type="submit" value="Submit" />
+  <a href="/auth/complete-profile">>>Skip</a>
 </form>

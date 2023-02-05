@@ -84,3 +84,51 @@ img {
   color: var(--main-black);
   opacity: 0.5;
 }
+
+.legend {
+  border-bottom: 1px solid var(--main-black);
+  width: 60vw;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.signup-interests {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.interest-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.interest-group input {
+  display: none;
+}
+
+.interests-input {
+  background-color: var(--main-dark-green);
+  color: var(--main-white);
+  padding: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  border: none;
+  width: 20vw;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.signup-interests a {
+  text-decoration: none;
+  font-size: 15px;
+  color: var(--main-black);
+  opacity: 0.5;
+}
+
+
+
