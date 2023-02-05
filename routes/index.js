@@ -86,18 +86,27 @@ router.get('/discover', async (req, res, next) => {
     }
     // Removes duplicates & Own Albums
     const ids = [];
-    let latestAlbums = latestAlbumsAll.filter(album => {
+    let latestAlbumsPreLikes = latestAlbumsAll.filter(album => {
       if (!ids.includes(album._id.toString()) && album.tribe._id.toString() != user._id.toString()) {
         ids.push(album._id.toString());
         return true;
       }
     });
-    latestAlbums = shuffle(latestAlbums);
-    if (latestAlbums.length === 0) {
-      res.render('discover', {user, error: 'No albums to show'});
-    } else {
-      res.render('discover', {user, latestAlbums});
-    }
+    latestAlbumsPreLikes = shuffle(latestAlbumsPreLikes);
+    likePromises = [];
+    latestAlbumsPreLikes.forEach(album => {
+      likePromises.push(new Promise((resolve, reject) => {
+        resolve(computeLikes(album, user));
+      }));
+    });
+    Promise.all(likePromises).then((latestAlbums) => {
+      if (latestAlbums.length === 0) {
+        res.render('discover', {user, error: 'No albums to show'});
+        return;
+      } else {
+        res.render('discover', {user, latestAlbums});
+      }
+    })
   }
 });
 
