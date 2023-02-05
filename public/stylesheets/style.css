@@ -89,7 +89,7 @@ nav.main-nav img {
   margin-bottom: 10px;
 }
 
-.profile-info {
+.post-profile-info {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -98,12 +98,12 @@ nav.main-nav img {
   border-bottom: 1px solid rgba(58, 79, 65, 0.5);
   border-top: 1px solid rgba(58, 79, 65, 0.5);
 }
-.profile-info .post-profile-picture {
+.post-profile-info .post-profile-picture {
   height: 3em;
   width: auto;
   border-radius: 50%;
 }
-.profile-info .post-tribe-name {
+.post-profile-info .post-tribe-name {
   font-size: 1.2em;
   color: var(--main-black);
 }
@@ -177,6 +177,75 @@ nav.main-nav img {
   height: 90%;
 }
 
+/* Profile Page */
+.profile-info {
+  width: 100%;
+  height: 20vh;
+  padding: 0 var(--page-heading-padding);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.profile-info .picture-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+.profile-info .profile-picture {
+  height: 120px;
+  width: auto;
+  border-radius: 50%;
+}
+.profile-info .follow-btn {
+  font-family: 'Noto Sans JP', sans-serif;
+  background-color: var(--main-mid-green);
+  border: none;
+  border-radius: 5px;
+  color: var(--main-white);
+  padding: 5px 10px;
+}
+.profile-info .content-container {
+  height: 100%;
+  padding: 10px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 2;
+}
+.profile-info .content-container .follows-container {
+  width: 100%;
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.profile-info .content-container .follows-container a {
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--main-black);
+}
+.profile-info .content-container .location-container {
+  align-self: flex-start;
+  font-size: 0.8rem;
+  padding: 0 10px;
+}
+.profile-info .content-container .social-media-container {
+  align-self: flex-start;
+  padding: 0 10px;
+  display: flex;
+  gap: 15px;
+}
+.profile-info .content-container .social-media-container a {
+  display: flex;
+  align-items: center;
+}
+.profile-info .content-container .social-media-container img {
+  width: 30px;
+  height: auto;
+}
 /* Signup */
 .signup-form {
   display: flex;
