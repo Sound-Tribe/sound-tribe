@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;500;900&display=swap');
 * {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
 body {
   padding: 0;
-  margin-bottom: 10vh;
+  margin-bottom: 12vh;
+  margin-top: 10vh;
   font-family: 'Noto Sans JP', sans-serif;
 }
 img {
@@ -51,7 +51,7 @@ nav.main-nav img {
   position: fixed;
   top: 0;
   background-color: var(--main-white);
-  width: calc(100vw - var(--page-heading-padding)*2);
+  width: 100%;
   height: 8vh;
   display: flex;
   align-items: center;
@@ -82,7 +82,7 @@ nav.main-nav img {
 .post {
   display: flex;
   flex-direction: column;
-  width: calc(100vw - var(--page-heading-padding)*2);
+  width: 100%;
   height: auto;
   padding: 0 var(--page-heading-padding);
   margin-bottom: 10px;
@@ -93,6 +93,7 @@ nav.main-nav img {
   align-items: center;
   gap: 10px;
   text-decoration: none;
+  padding: 5px 0;
   border-bottom: 1px solid rgba(58, 79, 65, 0.5);
   border-top: 1px solid rgba(58, 79, 65, 0.5);
 }
