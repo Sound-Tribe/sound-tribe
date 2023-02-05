@@ -1,14 +1,16 @@
 <div class="page-heading">
-    <h1 class="page-name">Sign Up</h1>
+  <h1 class="app-name">SoundTribe</h1>
     <div class="page-heading-name">
-        <img class="page-icon" src="/images/totem.png" alt="Sign up icon">
+        <img class="page-icon" src="/images/profile.png" alt="Profile icon">
+        <h2 class="page-name-1">Edit profile</h2>
     </div>
+    {{!-- Missing log out and edit profile links in burger menu --}}
 </div>
-<h3 class="steps">Step 1/2</h3>
-<a href="/auth/complete-profile" class="skip">>> Skip</a>
-<form action="/profile/edit/interests" method="post">
-  <fieldset>
-    <legend>What are you into?</legend>
+<h3 class="steps">Step 2/2</h3>
+<div>
+<form class="form-edit-interests"action="/profile/edit/interests" method="post">
+    <div class="legend">What are you into?</div>
+    <div class="interest-group">
     {{#each interests}}
         <input type="checkbox" id="{{this}}" name="genres" value="{{this}}" checked>
         <label for="{{this}}">{{this}}</label><br>
@@ -17,6 +19,7 @@
         <input type="checkbox" id="{{this}}" name="genres" value="{{this}}">
         <label for="{{this}}">{{this}}</label><br>
     {{/each}}
-    <button type="submit">Submit</button>
-  </fieldset>
+  </div>
+  <button class="interests-input" type="submit">Submit</button>
 </form>
+</div>

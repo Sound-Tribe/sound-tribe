@@ -267,11 +267,11 @@ nav.main-nav img {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 5px;
 }
 
 .interest-group input {
-  display: none;
+  /* display: none; */
 }
 
 .interests-input {
@@ -296,6 +296,7 @@ nav.main-nav img {
 .steps {
   margin-left: 10px;
   margin-top: 30px;
+  margin-bottom: 40px;
 }
 
 .p-signup2 {
@@ -411,9 +412,115 @@ nav.main-nav img {
   margin-top: 10px;
 }
 
+/* page heading */
+.page-heading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  border-bottom: 1px solid var(--main-black);
+}
+
+.page-name {
+  font-size: 20px;
+}
+
+.page-name-1 {
+  font-size: 15px;
+}
+
+.page-icon {
+  width: 10vw;
+}
+
+.app-name {
+  font-size: 20px;
+}
+
+.page-heading-name {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.page-heading-name img {
+  width: 7vw;
+  height: auto;
+  object-fit: contain;
+}
+
 .edit-profile-1 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 35px;
 }
 
+.label-edit-profile {
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--main-black);
+  width: 55vw;
+}
+
+.input-edit-profile {
+  padding: 10px;
+  width: 50vw;
+  margin-bottom: 15px;
+}
+
+.edit-fieldset {
+  border: 0px;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+}
+
+.edit-fieldset legend {
+  border-bottom: 1px solid var(--main-black);
+  width: 68vw;
+  margin-bottom: 5px;
+}
+.edit-fieldset input {
+  padding: 10px;
+  width: 50vw;
+}
+
+.edit-fieldset img {
+  width: 10vw;
+}
+
+.edit-fieldset-1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.edit-profile-1 button {
+  background-color: var(--main-dark-green);
+  color: var(--main-white);
+  padding: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  border: none;
+  margin-top: 10px;
+}
+
+.form-edit-interests {
+  display: grid;
+  place-items: center;
+}
+
+.edit-fieldset-interests {
+  border: 0px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.edit-fieldset-interests legend {
+  border-bottom: 1px solid var(--main-black);
+  width: 68vw;
+  margin-bottom: 5px;
+}
