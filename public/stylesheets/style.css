@@ -1,8 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;500;900&display=swap');
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body {
   padding: 0;
-  margin: 0;
+  margin-bottom: 12vh;
+  margin-top: 10vh;
   font-family: 'Noto Sans JP', sans-serif;
+}
+img {
+  width: 100px;
 }
 
 :root {
@@ -12,11 +21,12 @@ body {
   --main-dark-green: #1B2D2A;
   --main-mid-green: #3A4F41;
   --main-light-green: #7FB685;
+  --page-heading-padding: 20px;
 }
 /* Layout */
 nav.main-nav {
   width: 100%;
-  height: 10%;
+  height: 10vh;
   background-color: var(--main-light-green);
   position: fixed;
   bottom: 0;
@@ -36,10 +46,101 @@ nav.main-nav img {
   height: 60%;
   width: auto;
 }
-img {
-  width: 100px;
+
+.page-heading {
+  position: fixed;
+  top: 0;
+  background-color: var(--main-white);
+  width: 100%;
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--page-heading-padding);
+  border-bottom: 2px solid var(--main-dark-green);
+  margin-bottom: 10px;
+}
+.page-heading .app-name {
+  font-size: 1.5rem;
+  text-align: center;
+}
+.page-heading-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.page-heading .page-icon {
+  height: 1.5rem;
+  width: auto;
+}
+.page-heading .page-name {
+  font-size: 1.5rem;
+  text-align: center;
 }
 
+/* Home Page */
+.post {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  padding: 0 var(--page-heading-padding);
+  margin-bottom: 10px;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(58, 79, 65, 0.5);
+  border-top: 1px solid rgba(58, 79, 65, 0.5);
+}
+.profile-info .post-profile-picture {
+  height: 3em;
+  width: auto;
+  border-radius: 50%;
+}
+.profile-info .post-tribe-name {
+  font-size: 1.2em;
+  color: var(--main-black);
+}
+.post-album-title {
+  margin: 5px;
+  font-size: 1.2em;
+}
+.post-album-img {
+  align-self: center;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+.post-likes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 3vh;
+  margin-top: 5px;
+}
+.post-likes form {
+  height: 100%;
+}
+.post-likes form button {
+  border: none;
+  display: flex;
+  align-items: center;
+  background: none;
+  height: 100%;
+}
+.post-likes form button img {
+  height: 100%;
+  width: auto;
+}
+.post-likes p {
+  text-align: center;
+  margin: 0;
+}
 /* Signup */
 .signup-form {
   display: flex;

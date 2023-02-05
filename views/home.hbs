@@ -1,5 +1,5 @@
 <div class="page-heading">
-    <h1 class="app-name">SounTribe</h1>
+    <h1 class="app-name">SoundTribe</h1>
     <div class="page-heading-name">
         <img class="page-icon" src="/images/home.png" alt="Home icon">
         <h2 class="page-name">Home</h2>
@@ -12,16 +12,18 @@
             <p class="post-tribe-name">{{this.tribe.username}}</p>
         </a>
         <h5 class="post-album-title">{{this.title}}</h5>
-        <img class="post-album-img" style="width: 150px;" src="{{this.image}}" alt="{{this.title}} cover image">
-        <form action="/like/edit/{{this._id}}" method="post">
-            <button type="submit">
-                {{#if this.isLiked}}
-                    <img class="post-like-icon" src="/images/liked.png" alt="liked post icon">
-                {{else}}
-                    <img class="post-like-icon" src="/images/like.png" alt="unliked post icon">
-                {{/if}}
-            </button>
-        </form>
-        <p class="post-num-likes">{{this.numOfLikes}}</p>
+        <img class="post-album-img" src="{{this.image}}" alt="{{this.title}} cover image">
+        <div class="post-likes">
+            <form action="/like/edit/{{this._id}}" method="post">
+                <button type="submit">
+                    {{#if this.isLiked}}
+                        <img class="post-like-icon" src="/images/liked.png" alt="liked post icon">
+                    {{else}}
+                        <img class="post-like-icon" src="/images/like.png" alt="unliked post icon">
+                    {{/if}}
+                </button>
+            </form>
+            <p class="post-num-likes">{{this.numOfLikes}}</p>
+        </div>
     </div>
 {{/each}}
