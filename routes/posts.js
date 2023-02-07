@@ -39,9 +39,15 @@ router.post('/new', isLoggedIn, async (req, res, next) => {
 // @access  Private
 router.get('/delete/:albumId', isLoggedIn, async (req, res, next) => {
     const { albumId } = req.params;
+    const user = req.session.currentUser;
     try {
-       await Album.deleteOne(albumId);
-       res.redirect('/profile/posts'); 
+        const album = await Album.findById(albumId);
+        if (user._id != album.tribe) {
+            res.redirect('back');
+        } else {
+            await Album.findByIdAndDelete(albumId);
+            res.redirect('/profile/posts');
+        }
     } catch (error) {
         next(error);
     }
