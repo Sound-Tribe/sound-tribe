@@ -2,13 +2,13 @@ const router = require('express').Router();
 const app = require('../app.js');
 const Album = require('../models/Album.js');
 const User = require('../models/User.js');
-const isLoggedIn = require('../middlewares/index');
+const {isLoggedIn, isTribe} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
 
 // @desc    Get view for new post (album) page
 // @route   GET /posts/new
 // @access  Private
-router.get('/new', isLoggedIn, (req, res ,next) => {
+router.get('/new', isLoggedIn, isTribe, (req, res ,next) => {
     const user = req.session.currentUser;
     res.render('posts/newAlbum', { user, interestsDB });
 });
@@ -16,7 +16,7 @@ router.get('/new', isLoggedIn, (req, res ,next) => {
 // @desc    Gets info of new post (album) 
 // @route   POST /posts/new
 // @access  Private
-router.post('/new', isLoggedIn, async (req, res, next) => {
+router.post('/new', isLoggedIn, isTribe, async (req, res, next) => {
     const user = req.session.currentUser;
     const { image, title, description, genres } = req.body;
     if (!image || !title || !genres ) {
@@ -24,7 +24,7 @@ router.post('/new', isLoggedIn, async (req, res, next) => {
     } else {
         try {
             const createdAlbum = await Album.create({ image, title, description, genres, tribe: user._id });
-            // This is the correcy redirect
+            // This is the correct redirect
             // res.redirect(`/posts/new/add-tracks/${createdAlbum._id}`);
             // But for testing purposes:
             res.redirect('/profile/posts');
@@ -37,7 +37,7 @@ router.post('/new', isLoggedIn, async (req, res, next) => {
 // @desc    Delete album
 // @route   GET /posts/delete/:albumId
 // @access  Private
-router.get('/delete/:albumId', isLoggedIn, async (req, res, next) => {
+router.get('/delete/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
     const { albumId } = req.params;
     const user = req.session.currentUser;
     try {
@@ -56,7 +56,7 @@ router.get('/delete/:albumId', isLoggedIn, async (req, res, next) => {
 // @desc    Edit album
 // @route   GET /posts/edit/:albumId
 // @access  Private
-router.get('/edit/:albumId', isLoggedIn, async (req, res, next) => {
+router.get('/edit/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
     const { albumId } = req.params;
     const user = req.session.currentUser;
     try {
@@ -76,7 +76,7 @@ router.get('/edit/:albumId', isLoggedIn, async (req, res, next) => {
 // @desc    Edit album
 // @route   POST /posts/edit/:albumId
 // @access  Private
-router.post('/edit/:albumId', isLoggedIn, async (req, res, next) => {
+router.post('/edit/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
     const user = req.session.currentUser;
     const { albumId } = req.params;
     const { image, title, description, genres } = req.body;

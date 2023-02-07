@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Follow = require('../models/Follow.js');
 const User = require('../models/User.js');
-const isLoggedIn = require('../middlewares/index');
+const {isLoggedIn} = require('../middlewares/index');
 
 // @desc    Creates a new follow relation
 // @route   POST /follow/new/:followeeId

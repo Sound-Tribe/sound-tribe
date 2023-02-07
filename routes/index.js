@@ -3,7 +3,7 @@ const Album = require('../models/Album.js');
 const User = require('../models/User.js');
 const Follow = require('../models/Follow');
 const shuffle = require('../utils/shuffle');
-const isLoggedIn = require('../middlewares/index');
+const {isLoggedIn} = require('../middlewares/index');
 const computeLikes = require('../utils/computeLikes.js');
 
 

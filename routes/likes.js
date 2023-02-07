@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const isLoggedIn = require('../middlewares/index');
+const {isLoggedIn} = require('../middlewares/index');
 const Like = require('../models/Like');
 
 // @desc    Like & dislike posts
