@@ -45,7 +45,12 @@ router.get('/home', isLoggedIn, async (req, res, next) => {
         }));
       });
       Promise.all(albumLikesPromises).then(albums => {
-        res.render('home', {user, albums});
+        if (albums.length === 0) {
+          res.render('home', {user, empty: 'No follows'});
+          return;
+        } else {
+          res.render('home', {user, albums});
+        }
       }).catch(error => {
         next(error);
       });

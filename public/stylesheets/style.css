@@ -194,6 +194,10 @@ nav.main-nav img {
 .empty-page p {
   text-align: center;
 }
+.empty-page .text-icon {
+  height: 2rem;
+  width: auto;
+}
 
 /* Profile Page */
 .profile-info {
