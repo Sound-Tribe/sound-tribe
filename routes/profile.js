@@ -29,7 +29,12 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
         });
         Promise.all(postPromises).then((postsResolvedPromises) => {
             const posts = postsResolvedPromises;
-            res.render('profile/profile', {user, owner: true, posts});
+            if (posts.length === 0) {
+                res.render('profile/profile', {user, owner: true, emptyPosts: 'No posts yet'});
+                return;
+            } else {
+                res.render('profile/profile', {user, owner: true, posts});
+            }
         });
     } catch (error) {
         next(error);

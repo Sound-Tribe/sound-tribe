@@ -64,13 +64,22 @@
     {{/if}}
 </nav>
 
+{{#if emptyPosts}}
+    <div class="profile-empty-page">
+        <img src="/images/profile.png" alt="App Icon">
+        <h2>Looks like you haven't posted any albums yet</h2>
+        <p>Go ahead and share your pasion!</p>
+        <img class="text-icon" src="/images/new-post.png" alt="Discover Icon">
+        <p>Here you'll be able to manage your posts.</p>
+    </div>
+{{/if}}
 {{#if posts}}
     {{>postsPage posts}}
 {{/if}}
 {{#if emptyLiked}}
     <div class="profile-empty-page">
         <img src="/images/profile.png" alt="App Icon">
-        <h2>Looks like you haven't found interesting labums yet</h2>
+        <h2>Looks like you haven't found interesting albums yet</h2>
         <p>Head to your discover page</p>
         <img class="text-icon" src="/images/discover.png" alt="Discover Icon">
         <p>and show some love for the Tribes.</p>
