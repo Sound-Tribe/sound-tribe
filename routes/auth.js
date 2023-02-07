@@ -66,7 +66,7 @@ router.post("/signup", async (req, res, next) => {
   }
   const types = ['tribe', 'fan'];
   if (!types.includes(type)) {
-    res.render("auth/signup", { error: 'Something went wrong. Try again.'});
+    res.render("auth/signup", { error: 'Something went wrong with the type of account you are creating. Try again.'});
     return;
   }
   const regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
@@ -120,13 +120,22 @@ router.get('/interests', isLoggedIn, (req, res, next) => {
 // @access  Private
 router.post('/interests', isLoggedIn, async (req, res, next) => {
   const { genres } = req.body;
-  const userId = req.session.currentUser._id;
-  try {
-    await User.findByIdAndUpdate(userId, { interests: genres });
-    res.redirect('/auth/complete-profile');
-  } catch (error) {
-    next(error);
+  // WIP here
+  console.log(genres)
+  const user = req.session.currentUser
+  const userId = user._id;
+  const wrongGenres = genres.filter(genre => !interestsDB.includes(genre));
+  if (wrongGenres.length === 0) {
+    try {
+      await User.findByIdAndUpdate(userId, { interests: genres });
+      res.redirect('/auth/complete-profile');
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    res.render('profile/interests', { user, interestsDB, error: 'Something went wrong. Try again' });
   }
+  
 });
 
 // @desc    After choosing interests, prompts the user to complete profile info
