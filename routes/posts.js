@@ -61,9 +61,13 @@ router.get('/edit/:albumId', isLoggedIn, async (req, res, next) => {
     const user = req.session.currentUser;
     try {
         const album = await Album.findById(albumId);
-        const checkedGenres = album.genres
-        const notCheckedGenres = interestsDB.filter((item) => !checkedGenres.includes(item));
-        res.render('posts/edit-album', { user, album, checkedGenres, notCheckedGenres });
+        if (user._id != album.tribe) {
+            res.redirect('back');
+        } else {
+            const checkedGenres = album.genres
+            const notCheckedGenres = interestsDB.filter((item) => !checkedGenres.includes(item));
+            res.render('posts/edit-album', { user, album, checkedGenres, notCheckedGenres });
+        }
     } catch (error) {
         next(error);
     }
