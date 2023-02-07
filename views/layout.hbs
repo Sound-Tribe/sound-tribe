@@ -12,7 +12,9 @@
    <nav class="main-nav">
       <a href="/home"><img class="nav-icon" src="/images/home.png" alt="Home icon link"></a>
       <a href="/discover"><img class="nav-icon" src="/images/discover.png" alt="Discover icon link"></a>
-      <a href="/posts/new"><img class="nav-icon" src="/images/new-post.png" alt="New post icon link"></a>
+      {{#evaluateType this.user.type 'tribe'}}
+      {{!-- Handlebars helper returns the anchor with the new post icon --}}
+      {{/evaluateType}}
       <a href="/profile/posts"><img class="nav-icon" src="/images/profile.png" alt="Profile icon link"></a>
     </nav>
     {{{ body }}}

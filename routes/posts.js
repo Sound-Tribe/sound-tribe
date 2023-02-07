@@ -1,7 +1,5 @@
 const router = require('express').Router();
-const app = require('../app.js');
 const Album = require('../models/Album.js');
-const User = require('../models/User.js');
 const {isLoggedIn, isTribe} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
 
