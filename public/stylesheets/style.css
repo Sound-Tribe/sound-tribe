@@ -23,6 +23,7 @@ img {
   --main-mid-green: #3A4F41;
   --main-light-green: #7FB685;
   --page-heading-padding: 20px;
+  --profile-picture-height: 14vh;
 }
 /* Layout */
 nav.main-nav {
@@ -180,37 +181,30 @@ nav.main-nav img {
 /* Profile Page */
 .profile-info {
   width: 100%;
-  height: 20vh;
+  height: var(--profile-picture-height);
   padding: 0 var(--page-heading-padding);
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
 }
-.profile-info .picture-container {
+/* .profile-info .picture-container {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   gap: 5px;
-}
+} */
 .profile-info .profile-picture {
-  height: 120px;
+  height: 100%;
   width: auto;
   border-radius: 50%;
 }
-.profile-info .follow-btn {
-  font-family: 'Noto Sans JP', sans-serif;
-  background-color: var(--main-mid-green);
-  border: none;
-  border-radius: 5px;
-  color: var(--main-white);
-  padding: 5px 10px;
-}
 .profile-info .content-container {
   height: 100%;
-  padding: 10px 0 0 0;
+  padding: 1% 0;
+  align-self: flex-start;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -247,6 +241,49 @@ nav.main-nav img {
   width: 30px;
   height: auto;
 }
+.buttons-container {
+  display: flex;
+  /* justify-content: space-evenly; */
+  margin: 20px 0 10px 0;
+  padding-left: var(--page-heading-padding);
+  gap: 20px;
+}
+.profile-btn {
+  height: 35px;
+  width: var(--profile-picture-height);
+  text-decoration: none;
+  font-family: 'Noto Sans JP', sans-serif;
+  border: none;
+  border-radius: 5px;
+  color: var(--main-white);
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 10px;
+}
+.profile-btn img {
+  height: 90%;
+  width: auto;
+}
+.profile-btn p {
+  font-size: 0.8rem;
+  vertical-align: middle;
+}
+.edit-profile-btn {
+  background-color: var(--main-mid-green);
+}
+.logout-btn {
+  background-color: var(--main-red);
+}
+.following {
+  background-color: var(--main-mid-green);
+}
+.not-following {
+  background-color: var(--main-light-green);
+}
+
+
 .profile-pages-nav {
   width: 100%;
   height: 5vh;

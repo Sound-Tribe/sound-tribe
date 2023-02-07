@@ -8,22 +8,7 @@
 </div>
 
 <div class="profile-info">
-    <div class="picture-container">
-        <img class="profile-picture" src="{{user.picture}}" alt="{{user.username}} profile picture">
-        {{#unless owner}}
-            {{#if user.isTribe}}
-                <form action="/follow/new/{{user._id}}" method="post">
-                    <button type="submit" class="follow-btn">
-                        {{#if isFollowing}}
-                            Unfollow
-                        {{else}}
-                            Follow
-                        {{/if}}
-                    </button>
-                </form>
-            {{/if}}
-        {{/unless}}
-    </div>
+    <img class="profile-picture" src="{{user.picture}}" alt="{{user.username}} profile picture">
     <div class="content-container">
         <div class="follows-container">
             {{#if user.isTribe}}<a class="follows" href="#">Followers: {{user.followers}}</a>{{/if}}
@@ -38,6 +23,34 @@
             <a href="#"><img src="/images/insta-logo.png" alt="Instagram logo link"></a>
         </div>
     </div>
+</div>
+<div class="buttons-container">
+    {{#if owner}}
+        <a class="profile-btn edit-profile-btn" href="/auth/interests">
+            <img src="/images/feather.png" alt="Feather icon">
+            <p>Edit Profile</p> 
+        </a>
+        <a class="profile-btn logout-btn" href="/auth/logout">
+            <img src="/images/logout.png" alt="logout icon">
+            <p>Log Out</p>
+        </a>
+    {{else}}
+        {{#if user.isTribe}}
+            <form action="/follow/new/{{user._id}}" method="post">
+                {{#if isFollowing}}
+                    <button type="submit" class="profile-btn follow-btn following">
+                        <img src="/images/following.png" alt="following icon">
+                        <p>Unfollow</p>
+                    </button>
+                {{else}}
+                    <button type="submit" class="profile-btn follow-btn not-following">
+                        <img src="/images/follow.png" alt="follow icon">
+                        <p>Follow</p>
+                    </button>
+                {{/if}}
+            </form>
+        {{/if}}
+    {{/if}}
 </div>
 
 <nav class="profile-pages-nav">
