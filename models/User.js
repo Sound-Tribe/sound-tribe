@@ -31,7 +31,7 @@ const userSchema = new Schema(
     },
     picture: {
       type: String,
-      default: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fa.1stdibscdn.com%2Fvintage-tikar-tribal-mask-cameroon-african-tropical-hardwood-circa-1970-for-sale-picture-2%2Ff_26453%2F1592499575827%2F18_6567_2_master.jpg%3Fwidth%3D768&f=1&nofb=1&ipt=406dbf22f93a3a86f5751e0771a357f58c4ecf7d63e39043810d0109b3a4211a&ipo=images'
+      default: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fdiscoverafricanart.com%2Fwp-content%2Fuploads%2F2017%2F07%2FDAA-Houzz-profile.jpg&f=1&nofb=1&ipt=219a451070beec9677f6682221d5f467ed36dd8c119b74e1a27cd945347e6999&ipo=images'
     },
     city: String,
     country: String,
