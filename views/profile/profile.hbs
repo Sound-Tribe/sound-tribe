@@ -1,5 +1,5 @@
 <div class="page-heading">
-    <h1 class="app-name">SounTribe</h1>
+    <h1 class="app-name">SoundTribe</h1>
     <div class="page-heading-name">
         <img class="page-icon" src="/images/profile.png" alt="Profile icon">
         <h2 class="page-name">{{user.username}}</h2>
@@ -9,32 +9,61 @@
 
 <div class="profile-info">
     <img class="profile-picture" src="{{user.picture}}" alt="{{user.username}} profile picture">
-    {{#unless owner}}
+    <div class="content-container">
+        <div class="follows-container">
+            {{#if user.isTribe}}<a class="follows" href="#">Followers: {{user.followers}}</a>{{/if}}
+            <a class="follows" href="#">Following: {{user.following}}</a>
+        </div>
+        <div class="location-container">
+            <p>Country:{{user.country}}</p>
+            <p>City:{{user.city}}</p>
+        </div>
+        <div class="social-media-container">
+            <a href="#"><img src="/images/spotify-logo.png" alt="Spotify logo link"></a>
+            <a href="#"><img src="/images/insta-logo.png" alt="Instagram logo link"></a>
+        </div>
+    </div>
+</div>
+<div class="buttons-container">
+    {{#if owner}}
+        <a class="profile-btn edit-profile-btn" href="/auth/interests">
+            <img src="/images/feather.png" alt="Feather icon">
+            <p>Edit Profile</p> 
+        </a>
+        <a class="profile-btn logout-btn" href="/auth/logout">
+            <img src="/images/logout.png" alt="logout icon">
+            <p>Log Out</p>
+        </a>
+    {{else}}
         {{#if user.isTribe}}
             <form action="/follow/new/{{user._id}}" method="post">
-                <button type="submit" class="follow-btn">
-                    {{#if isFollowing}}
-                        Unfollow
-                    {{else}}
-                        Follow
-                    {{/if}}
-                </button>
+                {{#if isFollowing}}
+                    <button type="submit" class="profile-btn follow-btn following">
+                        <img src="/images/following.png" alt="following icon">
+                        <p>Unfollow</p>
+                    </button>
+                {{else}}
+                    <button type="submit" class="profile-btn follow-btn not-following">
+                        <img src="/images/follow.png" alt="follow icon">
+                        <p>Follow</p>
+                    </button>
+                {{/if}}
             </form>
         {{/if}}
-    {{/unless}}
-    {{#if user.isTribe}}<a class="follows" href="#">Followers: {{user.followers}}</a>{{/if}}
-    <a class="follows" href="#">Following: {{user.following}}</a>
-    <nav class="profile-pages-nav">
-        {{#if owner}}
-            {{#if user.isTribe}}<a href="/profile/posts">Posts</a>{{/if}}
-            <a href="/profile/liked">Liked</a>
-            <a href="/profile/calendar">Calendar</a>
-        {{else}}
-            <a href="/profile/view/{{user._id}}/posts">Posts</a>
-            <a href="/profile/view/{{user._id}}/calendar">Calendar</a>
-        {{/if}}
-    </nav>
+    {{/if}}
 </div>
+
+<nav class="profile-pages-nav">
+    {{#if owner}}
+        {{#if user.isTribe}}<a class="nav-border-right" href="/profile/posts">Posts</a>{{/if}}
+        <a class="{{#if user.isTribe}}nav-border-left{{/if}} nav-border-right" href="/profile/liked">Liked</a>
+        <a class="nav-border-left" href="/profile/calendar">Calendar</a>
+    {{else}}
+        <a class="nav-border-right" href="/profile/view/{{user._id}}/posts">Posts</a>
+        <a class="nav-border-left" href="/profile/view/{{user._id}}/calendar">Calendar</a>
+    {{/if}}
+</nav>
+
 {{#if posts}}
     {{>postsPage posts}}
 {{/if}}
