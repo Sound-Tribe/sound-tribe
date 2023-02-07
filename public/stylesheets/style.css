@@ -343,6 +343,31 @@ nav.main-nav img {
   height: 3vh;
   width: auto;
 }
+
+.profile-empty-page {
+  width: 100%;
+  margin-top: 5%;
+  padding: var(--page-heading-padding);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  opacity: 0.3;
+}
+.profile-empty-page > img {
+  width: 40%;
+} 
+.profile-empty-page h2 {
+  font-size: 1rem;
+  text-align: center;
+}
+.profile-empty-page p {
+  text-align: center;
+}
+.profile-empty-page .text-icon {
+  height: 2rem;
+  width: auto;
+}
 /* Signup */
 .signup-form {
   display: flex;

@@ -54,7 +54,12 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
         });
         Promise.all(likedPromises).then((likedResolvedPromises) => {
             const liked = likedResolvedPromises;
-            res.render('profile/profile', {user, owner: true, liked: liked});
+            if (liked.length === 0) {
+                res.render('profile/profile', {user, owner: true, emptyLiked: 'Emplty liked page'});
+                return;
+            } else {
+                res.render('profile/profile', {user, owner: true, liked: liked});
+            }
         });
     } catch (error) {
         next(error);

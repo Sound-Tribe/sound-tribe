@@ -67,6 +67,15 @@
 {{#if posts}}
     {{>postsPage posts}}
 {{/if}}
+{{#if emptyLiked}}
+    <div class="profile-empty-page">
+        <img src="/images/profile.png" alt="App Icon">
+        <h2>Looks like you haven't found interesting labums yet</h2>
+        <p>Head to your discover page</p>
+        <img class="text-icon" src="/images/discover.png" alt="Discover Icon">
+        <p>and show some love for the Tribes.</p>
+    </div>
+{{/if}}
 {{#if liked}}
     {{>postsPage liked}}
 {{/if}}
