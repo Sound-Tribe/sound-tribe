@@ -60,7 +60,6 @@ router.post("/login", async (req, res, next) => {
 // @access  Public
 router.post("/signup", async (req, res, next) => {
   const { email, password, username, type } = req.body;
-  // ⚠️ Add validations!
   if (!email || !password || !username || !type) {
     res.render("auth/signup", { error: "All fields are necessary" });
     return;
@@ -80,10 +79,17 @@ router.post("/signup", async (req, res, next) => {
     return;
   }
   try {
-    const userDB = await User.findOne({ username: username });
-    if (userDB) {
+    const userUsernameDB = await User.findOne({ username: username });
+    if (userUsernameDB) {
       res.render("auth/signup", {
         error: "Username already exists. Please try another one",
+      });
+      return;
+    }
+    const userMailDB = await User.findOne({ email: email });
+    if (userMailDB) {
+      res.render("auth/signup", {
+        error: "This email already exists. Please try another one",
       });
       return;
     }
