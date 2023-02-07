@@ -159,7 +159,7 @@ router.get('/complete-profile', (req, res, next) => {
 // @access  Private
 router.post('/complete-profile', async (req, res, next) => {
   const user = req.session.currentUser;
-  const { picture, country, city, socialMedia } = req.body;
+  const { picture, country, city, spotifyLink, instagramLink } = req.body;
   const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
   let filledInfo = {};
   if (picture) {
@@ -176,23 +176,20 @@ router.post('/complete-profile', async (req, res, next) => {
   if (city) {
     filledInfo.city = city;
   }
-  if (socialMedia) {
-    console.log(socialMedia)
-    if (typeof socialMedia === 'string') {
-      if (regexURL.test(socialMedia)) {
-        filledInfo.socialMedia = socialMedia;
-      } else {
-        res.render('profile/complete-info', {user, error: 'Enter a valid URL for social media link'});
-        return;
-      }
+  if (spotifyLink) {
+    if (regexURL.test(spotifyLink)) {
+      filledInfo.spotifyLink = spotifyLink;
     } else {
-      const wrongSocialMedia = socialMedia.filter(link => !regexURL.test(link));
-      if (wrongSocialMedia.length === 0) {
-        filledInfo.socialMedia = socialMedia;
-      } else {
-        res.render('profile/complete-info', {user, error: 'Enter a valid URL for social media links'});
-        return;
-      }
+      res.render('profile/complete-info', {user, error: 'Enter a valid URL for spotify link'});
+      return;
+    }
+  }
+  if (instagramLink) {
+    if (regexURL.test(instagramLink)) {
+      filledInfo.instagramLink = instagramLink;
+    } else {
+      res.render('profile/complete-info', {user, error: 'Enter a valid URL for instagram link'});
+      return;
     }
   }
   const userId = user._id;

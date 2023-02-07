@@ -29,19 +29,17 @@
     </div>
   </div>
   {{#if user.isTribe}}
-    <fieldset>
-      <legend>Social Media</legend>
-      <label for="spotify"><img
-          src="/images/spotify-logo.png"
-          alt="Spotify logo"
-        /></label>
-      <input type="text" name="socialMedia" id="spotify" />
-      <label for="instagram"><img
-          src="/images/insta-logo.png"
-          alt="Instagram logo"
-        /></label>
-      <input type="text" name="socialMedia" id="instagram" />
-    </fieldset>
+    <p>Social Media Links</p>
+    <label for="spotifyLink"><img
+        src="/images/spotify-logo.png"
+        alt="Spotify logo"
+      /></label>
+    <input type="text" name="spotifyLink" placeholder="https://..." />
+    <label for="instagramLink"><img
+        src="/images/insta-logo.png"
+        alt="Instagram logo"
+      /></label>
+    <input type="text" name="instagramLink" placeholder="https://..." />
   {{/if}}
   <button type="submit">Submit</button>
 </form>
