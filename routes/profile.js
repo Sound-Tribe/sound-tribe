@@ -90,6 +90,7 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
 // @access  Private
 router.get('/edit', isLoggedIn, async (req, res, next) => {
     const userId = req.session.currentUser._id;
+    //remeber to add isTribe
     try {
         const user = await User.findById(userId);
         res.render('profile/edit-profile', { user, owner: true })

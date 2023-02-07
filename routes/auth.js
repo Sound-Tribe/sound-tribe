@@ -158,10 +158,17 @@ router.get('/complete-profile', (req, res, next) => {
 // @route   /auth/complete-profile
 // @access  Private
 router.post('/complete-profile', async (req, res, next) => {
+  const user = req.session.currentUser;
   const { picture, country, city, socialMedia } = req.body;
+  const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
   let filledInfo = {};
   if (picture) {
-    filledInfo.picture = picture;
+    if (regexURL.test(picture)) {
+      filledInfo.picture = picture;
+    } else {
+      res.render('profile/complete-info', {user, error: 'Enter a valid URL for picture'});
+      return;
+    }
   }
   if (country) {
     filledInfo.country = country;
@@ -170,9 +177,25 @@ router.post('/complete-profile', async (req, res, next) => {
     filledInfo.city = city;
   }
   if (socialMedia) {
-    filledInfo.socialMedia = socialMedia;
+    console.log(socialMedia)
+    if (typeof socialMedia === 'string') {
+      if (regexURL.test(socialMedia)) {
+        filledInfo.socialMedia = socialMedia;
+      } else {
+        res.render('profile/complete-info', {user, error: 'Enter a valid URL for social media link'});
+        return;
+      }
+    } else {
+      const wrongSocialMedia = socialMedia.filter(link => !regexURL.test(link));
+      if (wrongSocialMedia.length === 0) {
+        filledInfo.socialMedia = socialMedia;
+      } else {
+        res.render('profile/complete-info', {user, error: 'Enter a valid URL for social media links'});
+        return;
+      }
+    }
   }
-  const userId = req.session.currentUser._id;
+  const userId = user._id;
   try {
     await User.findByIdAndUpdate(userId, filledInfo);
     res.redirect('/profile/posts');

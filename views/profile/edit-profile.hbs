@@ -22,17 +22,18 @@
       <input type="text" name="city" value="{{user.city}}" />
     </div>
     </div>
-  
-  <fieldset class="edit-fieldset">
-    <legend>SocialMedia</legend>
-    <div class="edit-fieldset-1">
-      <img src="/images/spotify-logo.png" alt="spotify logo">
-    <input type="text" name="socialMedia" id="spotify" value="{{user.socialMedia}}"/>
-    </div>
-    <div class="edit-fieldset-1">
-      <img src="/images/insta-logo.png" alt="instagram logo">
-    <input type="text" name="socialMedia" id="instagram" value="{{user.socialMedia}}"/>
-    </div>
-  </fieldset>
+  {{#if user.isTribe}}
+    <fieldset class="edit-fieldset">
+      <legend>SocialMedia</legend>
+      <div class="edit-fieldset-1">
+        <img src="/images/spotify-logo.png" alt="spotify logo">
+      <input type="text" name="socialMedia" id="spotify" value="{{user.socialMedia}}"/>
+      </div>
+      <div class="edit-fieldset-1">
+        <img src="/images/insta-logo.png" alt="instagram logo">
+      <input type="text" name="socialMedia" id="instagram" value="{{user.socialMedia}}"/>
+      </div>
+    </fieldset>
+  {{/if}}
   <button type="submit">Submit</button>
 </form>

@@ -35,7 +35,8 @@ const userSchema = new Schema(
     },
     city: String,
     country: String,
-    socialMedia: [String]
+    spotifyLink: String,
+    instagramLink: String
   },
   {
     timestamps: true
