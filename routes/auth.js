@@ -119,7 +119,7 @@ router.get('/interests', isLoggedIn, (req, res, next) => {
 // @route   /auth/interests
 // @access  Private
 router.post('/interests', isLoggedIn, async (req, res, next) => {
-  const {genres} = req.body;
+  let {genres} = req.body;
   const user = req.session.currentUser
   const userId = user._id;
   let wrongGenres = [];
@@ -127,6 +127,8 @@ router.post('/interests', isLoggedIn, async (req, res, next) => {
     if (!interestsDB.includes(genres)) {
         wrongGenres.push(genres);
     }
+  } else if (typeof genres === 'undefined') {
+    genres = [];
   } else {
     wrongGenres = genres.filter(genre => !interestsDB.includes(genre));
   }
