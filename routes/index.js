@@ -101,7 +101,7 @@ router.get('/discover', async (req, res, next) => {
     });
     Promise.all(likePromises).then((latestAlbums) => {
       if (latestAlbums.length === 0) {
-        res.render('discover', {user, error: 'No albums to show'});
+        res.render('discover', {user, empty: 'No interests defined'});
         return;
       } else {
         res.render('discover', {user, latestAlbums});
