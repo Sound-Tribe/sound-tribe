@@ -149,12 +149,26 @@ router.get('/edit/interests', isLoggedIn, async (req, res, next) => {
 router.post('/edit/interests', isLoggedIn, async (req, res, next) => {
     const user = req.session.currentUser;
     const { genres } = req.body;
-    try {
-        const updatedUser = await User.findByIdAndUpdate(user._id, {interests: genres}, { new: true });
-        req.session.currentUser = updatedUser;
-        res.redirect('/profile/posts');
-    } catch (error) {
-        next(error);
+    let wrongGenres = [];
+    if (typeof genres === 'string') {
+        if (!interestsDB.includes(genres)) {
+            wrongGenres.push(genres);
+        }
+    } else {
+        wrongGenres = genres.filter(genre => !interestsDB.includes(genre));
+    }
+    if (wrongGenres.length === 0) {
+        try {
+            const updatedUser = await User.findByIdAndUpdate(user._id, {interests: genres}, { new: true });
+            req.session.currentUser = updatedUser;
+            res.redirect('/profile/posts');
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        const { interests } = await User.findById(user._id);
+        const notCheckedInterests = interestsDB.filter((item) => !interests.includes(item));
+        res.render('profile/edit-interests', {user, interests, notCheckedInterests, error: 'Something went wrong. Try again'});
     }
 });
 

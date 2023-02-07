@@ -119,12 +119,17 @@ router.get('/interests', isLoggedIn, (req, res, next) => {
 // @route   /auth/interests
 // @access  Private
 router.post('/interests', isLoggedIn, async (req, res, next) => {
-  const { genres } = req.body;
-  // WIP here
-  console.log(genres)
+  const {genres} = req.body;
   const user = req.session.currentUser
   const userId = user._id;
-  const wrongGenres = genres.filter(genre => !interestsDB.includes(genre));
+  let wrongGenres = [];
+  if (typeof genres === 'string') {
+    if (!interestsDB.includes(genres)) {
+        wrongGenres.push(genres);
+    }
+  } else {
+    wrongGenres = genres.filter(genre => !interestsDB.includes(genre));
+  }
   if (wrongGenres.length === 0) {
     try {
       await User.findByIdAndUpdate(userId, { interests: genres });
@@ -133,7 +138,7 @@ router.post('/interests', isLoggedIn, async (req, res, next) => {
       next(error);
     }
   } else {
-    res.render('profile/interests', { user, interestsDB, error: 'Something went wrong. Try again' });
+    res.render('profile/interests', { user, interestsDB, error: 'Something went wrong. Try again'});
   }
   
 });

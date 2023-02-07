@@ -5,6 +5,9 @@
     </div>
 </div>
 <h4 class="steps">Step 1/2</h4>
+{{#if this.error}}
+  <p style="color: red;">{{this.error}}</p>
+{{/if}}
 <form class="signup-interests" action="/auth/interests" method="post">
   <div class="legend">What are you into?</div>
   <div class="interest-group">
