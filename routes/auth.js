@@ -64,6 +64,11 @@ router.post("/signup", async (req, res, next) => {
     res.render("auth/signup", { error: "All fields are necessary" });
     return;
   }
+  const types = ['tribe', 'fan'];
+  if (!types.includes(type)) {
+    res.render("auth/signup", { error: 'Something went wrong. Try again.'});
+    return;
+  }
   const regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!regexPassword.test(password)) {
     res.render("auth/signup", {
@@ -74,7 +79,6 @@ router.post("/signup", async (req, res, next) => {
   }
   const regexUsername =  /^[a-z0-9_-]{3,15}$/;
   if (!regexUsername.test(username)) {
-    console.log('usernaaame')
     res.render("auth/signup", { error: 'Username can only contain characters from a-z, 0-9, "-" and "_"'});
     return;
   }
