@@ -565,42 +565,6 @@ nav.main-nav img {
   margin-top: 10px;
 }
 
-/* page heading */
-.page-heading {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  border-bottom: 1px solid var(--main-black);
-}
-
-.page-name {
-  font-size: 20px;
-}
-
-.page-name-1 {
-  font-size: 15px;
-}
-
-.page-icon {
-  width: 10vw;
-}
-
-.app-name {
-  font-size: 20px;
-}
-
-.page-heading-name {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-}
-
-.page-heading-name img {
-  width: 7vw;
-  height: auto;
-  object-fit: contain;
-}
 
 .edit-profile-1 {
   display: flex;
