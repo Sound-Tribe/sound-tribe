@@ -132,7 +132,8 @@ router.post('/interests', isLoggedIn, async (req, res, next) => {
   }
   if (wrongGenres.length === 0) {
     try {
-      await User.findByIdAndUpdate(userId, { interests: genres });
+      const newUser = await User.findByIdAndUpdate(userId, { interests: genres },{ new: true });
+      req.session.currentUser = newUser;
       res.redirect('/auth/complete-profile');
     } catch (error) {
       next(error);
@@ -194,7 +195,8 @@ router.post('/complete-profile', async (req, res, next) => {
   }
   const userId = user._id;
   try {
-    await User.findByIdAndUpdate(userId, filledInfo);
+    const newUser = await User.findByIdAndUpdate(userId, filledInfo, { new: true });
+    req.session.currentUser = newUser;
     res.redirect('/profile/posts');
   } catch (error) {
     next(error);
