@@ -7,6 +7,9 @@
     {{!-- Missing log out and edit profile links in burger menu --}}
 </div>
 <h3 class="steps">Step 1/2</h3>
+{{#if this.error}}
+  <p style="color: red;">{{this.error}}</p>
+{{/if}}
 <form class="edit-profile-1" action="/profile/edit" method="POST">
   <label class="label-edit-profile" for="username">New username</label>
   <input class="input-edit-profile"type="text" name="username" value="{{user.username}}" />
@@ -23,17 +26,21 @@
     </div>
     </div>
   {{#if user.isTribe}}
-    <fieldset class="edit-fieldset">
-      <legend>SocialMedia</legend>
-      <div class="edit-fieldset-1">
-        <img src="/images/spotify-logo.png" alt="spotify logo">
-      <input type="text" name="socialMedia" id="spotify" value="{{user.socialMedia}}"/>
-      </div>
-      <div class="edit-fieldset-1">
-        <img src="/images/insta-logo.png" alt="instagram logo">
-      <input type="text" name="socialMedia" id="instagram" value="{{user.socialMedia}}"/>
-      </div>
-    </fieldset>
+    <p>Social Media Links</p>
+    <div class="edit-fieldset-1">
+      <label for="spotifyLink"><img
+        src="/images/spotify-logo.png"
+        alt="Spotify logo"
+      /></label>
+      <input type="text" name="spotifyLink" value="{{user.spotifyLink}}"/>
+    </div>
+    <div class="edit-fieldset-1">
+      <label for="instagramLink"><img
+        src="/images/insta-logo.png"
+        alt="Instagram logo"
+      /></label>
+      <input type="text" name="instagramLink" value="{{user.instagramLink}}"/>
+    </div>
   {{/if}}
   <button type="submit">Submit</button>
 </form>

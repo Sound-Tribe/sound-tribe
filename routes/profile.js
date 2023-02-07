@@ -88,46 +88,63 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
 // @desc    Profile Edit Page.
 // @route   GET /profile/edit
 // @access  Private
-router.get('/edit', isLoggedIn, async (req, res, next) => {
-    const userId = req.session.currentUser._id;
-    //remeber to add isTribe
-    try {
-        const user = await User.findById(userId);
-        res.render('profile/edit-profile', { user, owner: true })
-    } catch (error) {
-        next (error);
+router.get('/edit', isLoggedIn, (req, res, next) => {
+    const user = req.session.currentUser;
+    if (user.type === 'tribe') {
+        user.isTribe = true;
     }
+    res.render('profile/edit-profile', { user })
 });
 
 // @desc    Profile Edit Page
 // @route   POST /profile/edit
 // @access  Private
 router.post('/edit', isLoggedIn, async (req, res, next) => {
-    const { username, picture, country, city, socialMedia } = req.body;
+    const { username, picture, country, city, spotifyLink, instagramLink } = req.body;
+    const user = req.session.currentUser;
+    const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
     let updatedInfo = {};
-  if(username) {
-    updatedInfo.username = username;
-  }  
-  if (picture) {
-    updatedInfo.picture = picture;
-  }
-  if (country) {
-    updatedInfo.country = country;
-  }
-  if (city) {
-    updatedInfo.city = city;
-  }
-  if (socialMedia) {
-    updatedInfo.socialMedia = socialMedia;
-  }
-  const userId = req.session.currentUser._id;
-  try {
-    const newUser = await User.findByIdAndUpdate(userId, updatedInfo, { new: true });
-    req.session.currentUser = newUser;
-    res.redirect('/profile/edit/interests');
-  } catch (error) {
-    next(error);
-  }
+    if(username) {
+        updatedInfo.username = username;
+    }  
+    if (picture) {
+        if (regexURL.test(picture)) {
+            updatedInfo.picture = picture;
+        } else {
+            res.render('profile/edit-profile', {user, error: 'Enter a valid URL for picture'});
+            return;
+        }
+      }
+    if (country) {
+        updatedInfo.country = country;
+    }
+    if (city) {
+        updatedInfo.city = city;
+    }
+    if (spotifyLink) {
+        if (regexURL.test(spotifyLink)) {
+            updatedInfo.spotifyLink = spotifyLink;
+        } else {
+            res.render('profile/edit-profile', {user, error: 'Enter a valid URL for spotify link'});
+            return;
+        }
+      }
+      if (instagramLink) {
+        if (regexURL.test(instagramLink)) {
+            updatedInfo.instagramLink = instagramLink;
+        } else {
+            res.render('profile/edit-profile', {user, error: 'Enter a valid URL for instagram link'});
+            return;
+        }
+      }
+    const userId = user._id;
+    try {
+        const newUser = await User.findByIdAndUpdate(userId, updatedInfo, { new: true });
+        req.session.currentUser = newUser;
+        res.redirect('/profile/edit/interests');
+    } catch (error) {
+        next(error);
+    }
 });
 
 // @desc    Profile Edit Interests
