@@ -436,10 +436,6 @@ nav.main-nav img {
   gap: 5px;
 }
 
-.interest-group input {
-  /* display: none; */
-}
-
 .interests-input {
   background-color: var(--main-dark-green);
   color: var(--main-white);

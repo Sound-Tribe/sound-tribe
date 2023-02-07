@@ -11,19 +11,11 @@ router.post('/edit/:albumId', isLoggedIn, async (req, res, next) => {
     try {
         const like = await Like.findOne({ albumId: albumId, likeUserId: userId });
         if(!like) {
-            try {
-                await Like.create({albumId: albumId, likeUserId: userId})
-                res.redirect('back');
-            } catch (error) {
-                next(error);
-            }
+            await Like.create({albumId: albumId, likeUserId: userId})
+            res.redirect('back');
         } else {
-            try {
-                await Like.findOneAndDelete({albumId: albumId, likeUserId: userId });
-                res.redirect('back');
-            } catch (error) {
-                next(error);
-            }
+            await Like.findOneAndDelete({albumId: albumId, likeUserId: userId });
+            res.redirect('back');
         }
     } catch (error) {
         next(error);
