@@ -175,6 +175,25 @@ nav.main-nav img {
   width: auto;
   height: 90%;
 }
+.empty-page {
+  width: 100%;
+  margin-top: 10%;
+  padding: var(--page-heading-padding);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  opacity: 0.3;
+}
+.empty-page > img {
+  width: 60%;
+} 
+.empty-page h2 {
+  text-align: center;
+}
+.empty-page p {
+  text-align: center;
+}
 
 /* Profile Page */
 .profile-info {
