@@ -27,10 +27,24 @@ router.post('/new', isLoggedIn, isTribe, fileUploader.single('image'), async (re
     } else {
         try {
             const createdAlbum = await Album.create({title, description, genres, image, tribe: user._id });
-            res.redirect(`/posts/new/add-tracks`);
+            res.redirect(`/posts/new/${createdAlbum._id}/add-tracks`);
         } catch (error) {
             next(error);  
         }   
+    }
+});
+
+// @desc    Adding tracks to the album 
+// @route   GET /posts/new/:albumId/add-tracks
+// @access  Private
+router.get('/new/:albumId/add-tracks', isLoggedIn, isTribe, async (req, res, next) => {
+    const user = req.session.currentUser;
+    const {albumId} = req.params;
+    try {
+        const album = await Album.findById(albumId);
+        res.render('/posts/add-tracks', {user, album});
+    } catch (error) {
+        next(error);
     }
 });
 
