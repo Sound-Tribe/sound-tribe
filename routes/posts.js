@@ -18,51 +18,19 @@ router.get('/new', isLoggedIn, isTribe, (req, res ,next) => {
 // @desc    Gets info of new post (album) 
 // @route   POST /posts/new
 // @access  Private
-router.post('/new', isLoggedIn, isTribe, async (req, res, next) => {
+router.post('/new', isLoggedIn, isTribe, fileUploader.single('image'), async (req, res, next) => {
     const user = req.session.currentUser;
     const { title, description, genres } = req.body;
-    if (!title || !genres ) {
+    const image = req.file.path;
+    if (!image || !title || !genres ) {
         res.render(res.render('posts/new-album', {user, interestsDB, error: 'Please, fill all the required fields'}))
     } else {
         try {
-            const createdAlbum = await Album.create({title, description, genres, tribe: user._id });
-            res.redirect(`/posts/new/add-photo/${createdAlbum._id}`);
+            const createdAlbum = await Album.create({title, description, genres, image, tribe: user._id });
+            res.redirect(`/posts/new/add-tracks`);
         } catch (error) {
             next(error);  
         }   
-    }
-});
-
-// @desc    Get view for upload photo to album
-// @route   GET /posts/new/add-photo/:albumId
-// @access  Private
-router.get('/new/add-photo/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
-    const user = req.session.currentUser;
-    const {albumId} = req.params;
-    try {
-        const album = await Album.findById(albumId);
-        res.render('posts/new-album-image', {user, album});
-    } catch (error) {
-        next(error);
-    }
-});
-
-// @desc    Post uploaded photo to album
-// @route   POST /posts/new/add-photo/:albumId
-// @access  Private
-router.post('/new/add-photo/:albumId', isLoggedIn, isTribe, fileUploader.single('albumImage'), async (req, res, next) => {
-    const user = req.session.currentUser;
-    const {albumId} = req.params;
-    try {
-        if (req.file.path) {
-            const newAlbum = await Album.findByIdAndUpdate(albumId, {image: req.file.path}, { new: true });
-            res.json(newAlbum);
-        } else {
-            const album = Album.findById(albumId);
-            res.render('posts/new-album-image', {user, album, error: 'Must upload an image'});
-        }
-    } catch (error) {
-        next(error);
     }
 });
 
