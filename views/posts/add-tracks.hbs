@@ -10,3 +10,19 @@
     <p>{{error}}</p>
 {{/if}}
 <h1>Add tracks for {{album.title}}</h1>
+<button 
+      id="upload_widget" 
+      class="cloudinary-button">
+        Add
+</button>
+<div id="tracks">
+    <p class="track-num"></p>
+    <img src="" alt="">
+    {{!-- <audio src=""></audio> --}}
+</div>
+<!-- cloudinary upload widget -->
+<script 
+    src="https://widget.cloudinary.com/v2.0/global/all.js" 
+    type="text/javascript">
+</script>
+<script src="/scripts/add-tracks.js"></script>

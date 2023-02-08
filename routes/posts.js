@@ -2,9 +2,6 @@ const router = require('express').Router();
 const Album = require('../models/Album.js');
 const {isLoggedIn, isTribe} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
-const multer = require('multer');
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
 const fileUploader = require('../config/cloudinary.config');
 
 // @desc    Get view for new post (album) page
