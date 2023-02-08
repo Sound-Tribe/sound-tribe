@@ -18,10 +18,12 @@ const myWidget = cloudinary.createUploadWidget(
     },
     (error, result) => {
       if (!error && result && result.event === "success") {
-        console.log("Done! Here is the upload info: ", result.info);
+        // console.log("Done! Here is the upload info: ", result.info);
         document
           .getElementById("tracks")
-          .innerHTML += `<p class="track-num">Num</p><audio controls src="${result.info.secure_url}"></audio><p>End</p>`;
+          .innerHTML += `<input style="display: none;" type="text" name="tracks" value="${result.info.secure_url}">
+                          <input style="display: none;" type="text" name="trackNames" value="${result.info.original_filename}">
+                          <audio controls src="${result.info.secure_url}"></audio>`;
       }
     }
   );

@@ -31,7 +31,7 @@ router.post('/new', isLoggedIn, isTribe, fileUploader.single('image'), async (re
     }
 });
 
-// @desc    Adding tracks to the album 
+// @desc    Adding tracks to the album view
 // @route   GET /posts/new/:albumId/add-tracks
 // @access  Private
 router.get('/new/:albumId/add-tracks', isLoggedIn, isTribe, async (req, res, next) => {
@@ -44,6 +44,16 @@ router.get('/new/:albumId/add-tracks', isLoggedIn, isTribe, async (req, res, nex
         next(error);
     }
 });
+
+// @desc    Adding tracks to the album get tracks
+// @route   POST /posts/new/:albumId/add-tracks
+// @access  Private
+router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, (req, res, next) => {
+    const {tracks, trackNames} = req.body;
+    console.log('tracks', tracks);
+    console.log('trackNames', trackNames);
+    res.json({tracks});
+})
 
 // @desc    Delete album
 // @route   GET /posts/delete/:albumId

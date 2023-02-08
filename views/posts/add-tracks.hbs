@@ -15,9 +15,13 @@
       class="cloudinary-button">
         Add
 </button>
-<div id="tracks">
+<form action="/posts/new/{{album._id}}/add-tracks" method="post">
+    <div id="tracks">
+    {{!-- Filled when upload --}}
+    </div>
+    <button type="submit">Submit</button>
+</form>
 
-</div>
 
 <!-- cloudinary upload widget -->
 <script 
