@@ -5,13 +5,12 @@
         <h2 class="page-name">New Album</h2>
     </div>
 </div>
-<h3 class="steps">Step 1/2</h3>
+<h3 class="steps">Step 1/3</h3>
 {{#if error}}
     <p>{{error}}</p>
 {{/if}}
+<h1>Tell us about your release</h1>
 <form action="/posts/new" method="post">
-    <label for="image">Album's image URL:</label>
-    <input type="text" name="image" placeholder="https://google.com/..." required="true">
     <label for="title">Title of the album</label>
     <input type="text" name="title" placeholder="The Dark Side Of The Moon" required="true">
     <label for="description">Description of the album:</label>
@@ -23,5 +22,5 @@
              <label for="{{this}}">{{this}}</label><br>
          {{/each}}
   </fieldset>
-  <button type="submit">Add tracks</button>
+  <button type="submit">Submit</button>
 </form>

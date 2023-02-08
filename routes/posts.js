@@ -2,13 +2,16 @@ const router = require('express').Router();
 const Album = require('../models/Album.js');
 const {isLoggedIn, isTribe} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // @desc    Get view for new post (album) page
 // @route   GET /posts/new
 // @access  Private
 router.get('/new', isLoggedIn, isTribe, (req, res ,next) => {
     const user = req.session.currentUser;
-    res.render('posts/newAlbum', { user, interestsDB });
+    res.render('posts/new-album', { user, interestsDB });
 });
 
 // @desc    Gets info of new post (album) 
@@ -16,21 +19,50 @@ router.get('/new', isLoggedIn, isTribe, (req, res ,next) => {
 // @access  Private
 router.post('/new', isLoggedIn, isTribe, async (req, res, next) => {
     const user = req.session.currentUser;
-    const { image, title, description, genres } = req.body;
-    if (!image || !title || !genres ) {
-        res.render(res.render('posts/newAlbum', {user, interestsDB, error: 'Please, fill all the required fields'}))
+    const { title, description, genres } = req.body;
+    if (!title || !genres ) {
+        res.render(res.render('posts/new-album', {user, interestsDB, error: 'Please, fill all the required fields'}))
     } else {
         try {
-            const createdAlbum = await Album.create({ image, title, description, genres, tribe: user._id });
-            // This is the correct redirect
-            // res.redirect(`/posts/new/add-tracks/${createdAlbum._id}`);
-            // But for testing purposes:
-            res.redirect('/profile/posts');
+            const createdAlbum = await Album.create({title, description, genres, tribe: user._id });
+            res.redirect(`/posts/new/add-photo/${createdAlbum._id}`);
         } catch (error) {
             next(error);  
         }   
     }
-})
+});
+
+// @desc    Get view for upload photo to album
+// @route   GET /posts/new/add-photo/:albumId
+// @access  Private
+router.get('/new/add-photo/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
+    const user = req.session.currentUser;
+    const {albumId} = req.params;
+    try {
+        const album = await Album.findById(albumId);
+        res.render('posts/new-album-image', {user, album});
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @desc    Post uploaded photo to album
+// @route   POST /posts/new/add-photo/:albumId
+// @access  Private
+router.post('/new/add-photo/:albumId', isLoggedIn, isTribe, upload.single('albumImage'), async (req, res, next) => {
+    const user = req.session.currentUser;
+    const {albumId} = req.params;
+    try {
+        const album = await Album.findByIdAndUpdate(albumId, {image: {
+            data: req.file.buffer,
+            contentType: req.file.mimetype
+        }}, {new: true});
+        res.render('posts/testImg', {user, album});
+    } catch (error) {
+        next(error);
+    }
+    
+});
 
 // @desc    Delete album
 // @route   GET /posts/delete/:albumId
