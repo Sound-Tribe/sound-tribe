@@ -235,4 +235,32 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
     }
 });
 
+// @desc    View followers of certain profile
+// @route   GET /profile/:userId/followers
+// @access  Private
+router.get('/:userId/followers', isLoggedIn, async (req, res, next) => {
+    const {userId} = req.params;
+    try {
+        const user = await User.findById(userId);
+        const followers = await Follow.find({ followeeId: userId }).populate('followerId');
+        res.render('profile/followers', {user, followers});
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @desc    View followings of certain profile
+// @route   GET /profile/:userId/following
+// @access  Private
+router.get('/:userId/following', isLoggedIn, async (req, res, next) => {
+    const {userId} = req.params;
+    try {
+        const user = await User.findById(userId);
+        const followings = await Follow.find({ followerId: userId }).populate('followeeId');
+        res.render('profile/following', {user, followings});
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = router;

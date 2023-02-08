@@ -11,8 +11,8 @@
     <img class="profile-picture" src="{{user.picture}}" alt="{{user.username}} profile picture">
     <div class="content-container">
         <div class="follows-container">
-            {{#if user.isTribe}}<a class="follows" href="#">Followers: {{user.followers}}</a>{{/if}}
-            <a class="follows" href="#">Following: {{user.following}}</a>
+            {{#if user.isTribe}}<a class="follows" href="/profile/{{user._id}}/followers">Followers: {{user.followers}}</a>{{/if}}
+            <a class="follows" href="/profile/{{user._id}}/following">Following: {{user.following}}</a>
         </div>
         <div class="location-container">
             <p>Country:{{user.country}}</p>

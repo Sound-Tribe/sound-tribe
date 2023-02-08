@@ -1,0 +1,15 @@
+<div class="page-heading">
+    <h1 class="app-name">SoundTribe</h1>
+    <div class="page-heading-name">
+        <img class="page-icon" src="/images/profile.png" alt="Profile icon">
+        <h2 class="page-name">{{user.username}}</h2>
+    </div>
+</div>
+{{#each followings}}
+    <div class="profile-card">
+        <a href="/profile/view/{{this.followeeId._id}}/posts">
+            <img src="{{this.followeeId.picture}}" alt="Profile picture">
+            <p>{{this.followeeId.username}}</p>
+        </a>
+    </div>
+{{/each}}
