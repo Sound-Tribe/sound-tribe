@@ -5,6 +5,7 @@ const interestsDB = require('../utils/interests');
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
+const fileUploader = require('../config/cloudinary.config');
 
 // @desc    Get view for new post (album) page
 // @route   GET /posts/new
@@ -49,19 +50,20 @@ router.get('/new/add-photo/:albumId', isLoggedIn, isTribe, async (req, res, next
 // @desc    Post uploaded photo to album
 // @route   POST /posts/new/add-photo/:albumId
 // @access  Private
-router.post('/new/add-photo/:albumId', isLoggedIn, isTribe, upload.single('albumImage'), async (req, res, next) => {
+router.post('/new/add-photo/:albumId', isLoggedIn, isTribe, fileUploader.single('albumImage'), async (req, res, next) => {
     const user = req.session.currentUser;
     const {albumId} = req.params;
     try {
-        const album = await Album.findByIdAndUpdate(albumId, {image: {
-            data: req.file.buffer,
-            contentType: req.file.mimetype
-        }}, {new: true});
-        res.render('posts/testImg', {user, album});
+        if (req.file.path) {
+            const newAlbum = await Album.findByIdAndUpdate(albumId, {image: req.file.path}, { new: true });
+            res.json(newAlbum);
+        } else {
+            const album = Album.findById(albumId);
+            res.render('posts/new-album-image', {user, album, error: 'Must upload an image'});
+        }
     } catch (error) {
         next(error);
     }
-    
 });
 
 // @desc    Delete album
