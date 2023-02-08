@@ -42,7 +42,7 @@ router.get('/new/:albumId/add-tracks', isLoggedIn, isTribe, async (req, res, nex
     const {albumId} = req.params;
     try {
         const album = await Album.findById(albumId);
-        res.render('/posts/add-tracks', {user, album});
+        res.render('posts/add-tracks', {user, album});
     } catch (error) {
         next(error);
     }
