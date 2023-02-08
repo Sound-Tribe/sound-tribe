@@ -5,6 +5,7 @@
         <h2 class="page-name">{{user.username}}</h2>
     </div>
 </div>
+<h2 class="page-name follows-page-title">Following:</h2>
 {{#each followings}}
     <div class="profile-card">
         <a href="/profile/view/{{this.followeeId._id}}/posts">
@@ -13,3 +14,13 @@
         </a>
     </div>
 {{/each}}
+{{#if empty}}
+    <div class="empty-page">
+        <img src="/images/profile.png" alt="App Icon">
+        <h2>Explore the jungle first</h2>
+        <p>Head to your discover page</p>
+        <img class="text-icon" src="/images/discover.png" alt="Discover Icon">
+        <p>and start following Tribes.</p>
+        <p>Here you will find the ones you are currently following.</p>
+    </div>
+{{/if}}

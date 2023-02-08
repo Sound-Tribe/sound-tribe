@@ -368,6 +368,12 @@ nav.main-nav img {
   height: 2rem;
   width: auto;
 }
+
+/* Follow Pages */
+.follows-page-title {
+  padding-left: var(--page-heading-padding);
+  font-size: 1.2rem;
+}
 /* Signup */
 .signup-form {
   display: flex;

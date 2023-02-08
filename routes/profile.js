@@ -243,7 +243,12 @@ router.get('/:userId/followers', isLoggedIn, async (req, res, next) => {
     try {
         const user = await User.findById(userId);
         const followers = await Follow.find({ followeeId: userId }).populate('followerId');
-        res.render('profile/followers', {user, followers});
+        if (followers.length === 0) {
+            res.render('profile/followers', {user, empty: 'No followers'});
+            return;
+        } else {
+            res.render('profile/followers', {user, followers});
+        }
     } catch (error) {
         next(error);
     }
@@ -257,7 +262,12 @@ router.get('/:userId/following', isLoggedIn, async (req, res, next) => {
     try {
         const user = await User.findById(userId);
         const followings = await Follow.find({ followerId: userId }).populate('followeeId');
-        res.render('profile/following', {user, followings});
+        if (followings.length === 0) {
+            res.render('profile/following', {user, empty: 'No followings'});
+            return;
+        } else {
+            res.render('profile/following', {user, followings});
+        }
     } catch (error) {
         next(error);
     }

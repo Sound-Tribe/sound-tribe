@@ -5,6 +5,7 @@
         <h2 class="page-name">{{user.username}}</h2>
     </div>
 </div>
+<h2 class="page-name follows-page-title">Followers:</h2>
 {{#each followers}}
     <div class="profile-card">
         <a href="/profile/view/{{this.followerId._id}}/posts">
@@ -13,3 +14,11 @@
         </a>
     </div>
 {{/each}}
+{{#if empty}}
+    <div class="empty-page">
+        <img src="/images/profile.png" alt="App Icon">
+        <h2>Nothing here yet</h2>
+        <p>Post your albums to catch fan's attention</p>
+        <img class="text-icon" src="/images/new-post.png" alt="New Post Icon">
+    </div>
+{{/if}}
