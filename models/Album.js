@@ -7,9 +7,8 @@ const albumSchema = new Schema ({
         required: [true, 'An album needs to have a title']
     },
     image: {
-        data: Buffer,
-        contentType: String,
-        // required: [true, 'An album needs to have the url for an image']
+        type: String,
+        required: [true, 'An album needs to have the url for an image']
     },
     description: {
         type: String,
