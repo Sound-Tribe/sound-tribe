@@ -87,6 +87,10 @@ nav.main-nav img {
   padding: 0 var(--page-heading-padding);
   margin-bottom: 10px;
 }
+.post .album-detail-link {
+  text-decoration: none;
+  color: var(--main-black);
+}
 
 .post-profile-info {
   display: flex;

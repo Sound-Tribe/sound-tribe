@@ -19,8 +19,10 @@
                 <img class="post-profile-picture" src="{{this.tribe.picture}}" alt="Profile picture">
                 <p class="post-tribe-name">{{this.tribe.username}}</p>
             </a>
-            <h5 class="post-album-title">{{this.title}}</h5>
-            <img class="post-album-img" src="{{this.image}}" alt="{{this.title}} cover image">
+            <a href="/posts/detail/{{this._id}}" class="album-detail-link">
+                <h5 class="post-album-title">{{this.title}}</h5>
+                <img class="post-album-img" src="{{this.image}}" alt="{{this.title}} cover image">
+            </a>
             <div class="post-likes">
                 <form action="/like/edit/{{this._id}}" method="post">
                     <button type="submit">
