@@ -3,6 +3,7 @@ const Album = require('../models/Album.js');
 const {isLoggedIn, isTribe} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
 const fileUploader = require('../config/cloudinary.config');
+const spotifyApi = require('../utils/connectSpotify');
 
 // @desc    Get view for new post (album) page
 // @route   GET /posts/new
@@ -45,7 +46,7 @@ router.get('/new/:albumId/add-tracks', isLoggedIn, isTribe, async (req, res, nex
     }
 });
 
-// @desc    Adding tracks to the album get tracks
+// @desc    Adding tracks to the album
 // @route   POST /posts/new/:albumId/add-tracks
 // @access  Private
 router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, next) => {
@@ -73,6 +74,18 @@ router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, nex
         next(error);
     }
 });
+
+// @desc    Adding tracks to the album from Spotify
+// @route   POST /posts/new/:albumId/add-tracks/spotify
+// @access  Private
+router.get('/new/:albumId/add-tracks/spotify', isLoggedIn, isTribe, async (req, res, next) => {
+    try {
+        const resultFromApi = await spotifyApi.searchArtists('ZOO');
+        res.json(resultFromApi);
+    } catch (error) {
+        next(error);
+    }
+})
 
 // @desc    Delete album
 // @route   GET /posts/delete/:albumId
