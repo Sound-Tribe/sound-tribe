@@ -82,6 +82,7 @@ router.get('/calendar', isLoggedIn, isTribe, async (req, res, next) => {
         const events = JSON.parse(JSON.stringify(eventsDB));
         events.forEach(event => {
             event.isOwner = true;
+            event.date = new Date(event.date).toISOString().substring(0, 10);
         });
         const calendar = {};
         if (events.length === 0) {
@@ -107,10 +108,11 @@ router.get('/calendar/new', isLoggedIn, isTribe, (req, res, next) => {
 // @access  Private
 router.post('/calendar/new', isLoggedIn, isTribe, async (req, res, next) => {
     const user = req.session.currentUser;
-    const {day, month, year, location } = req.body;
+    const { location, date } = req.body;
+    const jsDate = new Date(date);
     try {
-        await Event.create({ tribeId: user._id, day, month, year, location });
-        res.redirect('/profile/posts');
+        await Event.create({ tribeId: user._id, date: jsDate, location });
+        res.redirect('/profile/calendar');
     } catch (error) {
         next(error);
     }
@@ -123,7 +125,8 @@ router.get('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, next
     const user = req.session.currentUser;
     const {eventId} = req.params;
     try {
-        const event = await Event.findById(eventId);
+        const event = JSON.parse(JSON.stringify(await Event.findById(eventId)));
+        event.date = new Date(event.date).toISOString().substring(0, 10);
         res.render('events/edit-event', {user, event});
     } catch (error) {
         next(error);
@@ -136,9 +139,10 @@ router.get('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, next
 router.post('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, next) => {
     const user = req.session.currentUser;
     const {eventId} = req.params;
-    const {day, month, year, location } = req.body;
+    const { location, date } = req.body;
+    const jsDate = new Date(date);
     try {
-        await Event.findByIdAndUpdate(eventId, { tribeId: user._id, day, month, year, location })
+        await Event.findByIdAndUpdate(eventId, { tribeId: user._id, date: jsDate, location })
         res.redirect('/profile/calendar');
     } catch (error) {
         next(error);

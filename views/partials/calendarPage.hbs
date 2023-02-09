@@ -5,9 +5,8 @@
 {{/if}}
 {{#each events}}
     <div class="event">
-        <h5>{{this.day}}</h5>
-        <p>{{this.month}}</p>
-        <p>{{this.year}}</p>
+        <h5>{{this.date}}</h5>
+        <p>{{this.location}}</p>
         {{#if this.isOwner}}
             <a href="/profile/calendar/delete/{{this._id}}">Delete event</a>
             <a href="/profile/calendar/edit/{{this._id}}">Edit event</a>

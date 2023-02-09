@@ -5,21 +5,15 @@ const eventSchma = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    day: {
-        type: Number,
-        min: 1,
-        max: 31
+    date: {
+        type: Date,
+        required: [true, 'A date is required']
+
     },
-    month: {
-        type: Number,
-        min: 1,
-        max: 12
-    },
-    year: {
-        type: Number,
-        min: 2023
-    },
-    location: String
+    location: {
+        type: String,
+        required: [true, 'A location is required']
+    }
 });
 
 const Event = model('Event', eventSchma);

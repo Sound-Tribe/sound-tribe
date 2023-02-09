@@ -6,13 +6,9 @@
     </div>
 </div>
 <form action="/profile/calendar/edit/{{event._id}}" method="post">
-    <label for="day"></label>
-    <input type="number" name="day" value="{{event.day}}">
-    <label for="month"></label>
-    <input type="number" name="month" value="{{event.month}}">
-    <label for="year"></label>
-    <input type="number" name="year" value="{{event.year}}">
-    <label for="location"></label>
+    <label for="date">Date of the concert</label>
+    <input type="date" name="date" value="{{event.date}}">
+    <label for="location">Location of the concert</label>
     <input type="text" name="location" value="{{event.location}}">
     <button type="submit">Save event</button>
 </form>
