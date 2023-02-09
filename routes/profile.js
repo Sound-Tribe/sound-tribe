@@ -116,6 +116,34 @@ router.post('/calendar/new', isLoggedIn, isTribe, async (req, res, next) => {
     }
 });
 
+// @desc    Edit event view
+// @route   GET /profile/calendar/edit/:eventId
+// @access  Private
+router.get('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, next) => {
+    const user = req.session.currentUser;
+    const {eventId} = req.params;
+    try {
+        const event = await Event.findById(eventId);
+        res.render('events/edit-event', {user, event});
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @desc    Edit event post
+// @route   POST /profile/calendar/edit/:eventId
+// @access  Private
+router.post('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, next) => {
+    const user = req.session.currentUser;
+    const {eventId} = req.params;
+    const {day, month, year, location } = req.body;
+    try {
+        await Event.findByIdAndUpdate(eventId, { tribeId: user._id, day, month, year, location })
+        res.redirect('/profile/calendar');
+    } catch (error) {
+        next(error);
+    }
+});
 
 // @desc    Profile Edit Page.
 // @route   GET /profile/edit

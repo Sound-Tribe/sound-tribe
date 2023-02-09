@@ -10,7 +10,7 @@
         <p>{{this.year}}</p>
         {{#if this.isOwner}}
             <a href="#">Delete event</a>
-            <a href="#">Edit event</a>
+            <a href="/profile/calendar/edit/{{this._id}}">Edit event</a>
         {{/if}}
     </div>
 {{/each}}
