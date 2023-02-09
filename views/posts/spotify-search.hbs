@@ -10,11 +10,14 @@
 {{/if}}
 <h3>Select an album</h3>
 {{#each results}}
-<a href=""></a>
     <div class="spotify-search-result">
         <img src="{{this.img}}" alt="Album cover image">
         <h4>{{this.title}}</h4>
         <h4>{{this.artist}}</h4>
         <p>{{this.totalTracks}}</p>
     </div>
+    <p></p>
+    <form action="/posts/new/{{this.albumId}}/add-tracks/spotify/{{this.id}}" method="post">
+        <button type="submit">Add tracks from this album</button>
+    </form>
 {{/each}}

@@ -97,7 +97,7 @@ router.get('/new/:albumId/add-tracks/spotify', isLoggedIn, isTribe, async (req, 
                   id,
                   total_tracks
                 } = result;
-                return {artist: artists[0].name, img: images[0].url, title: name, id: id, totalTracks: total_tracks};
+                return {artist: artists[0].name, img: images[0].url, title: name, id: id, albumId: albumId , totalTracks: total_tracks};
               });
             res.render('posts/spotify-search', {user, album, results});
         }
@@ -105,6 +105,29 @@ router.get('/new/:albumId/add-tracks/spotify', isLoggedIn, isTribe, async (req, 
         next(error);
     }
 });
+
+// @desc    Adding tracks to the album from Spotify. Post tracks to DB
+// @route   POST /posts/new/:albumId/add-tracks/spotify/:spotifyId
+// @access  Private
+router.post('/new/:albumId/add-tracks/spotify/:spotifyId', isLoggedIn, isTribe, async (req, res, next) => {
+    const { albumId, spotifyId } = req.params;
+    try {
+        const album = await Album.findById(albumId);
+        const resultFromApi = await spotifyApi.getAlbumTracks(spotifyId);
+        const tracks = resultFromApi.body.items.map((result, idx) => { 
+            let {
+              name,
+              preview_url
+            } = result;
+            return {trackUrl: preview_url, trackName: name, trackNumber: idx + 1};
+        });
+        const newAlbum = await Album.findByIdAndUpdate(albumId, {tracks}, {new: true});
+        console.log(newAlbum);
+        res.redirect('/profile/posts');
+    } catch (error) {
+        next(error);
+    }
+})
 
 // @desc    Delete album
 // @route   GET /posts/delete/:albumId
