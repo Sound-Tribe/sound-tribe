@@ -8,6 +8,7 @@ const logger = require('morgan');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const hbs = require('hbs');
+const SpotifyWebApi = require('spotify-web-api-node');
 
 // Routers require
 const indexRouter = require('./routes/index');
@@ -44,7 +45,19 @@ app.use(
       mongoUrl: process.env.MONGO_URL
     })
   }) 
-)
+);
+
+// setting the Spotify API:
+const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET
+});
+
+// Retrieve an access token for Spotify API
+spotifyApi
+  .clientCredentialsGrant()
+  .then(data => spotifyApi.setAccessToken(data.body['access_token']))
+  .catch(error => console.log('Something went wrong when retrieving an access token', error));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

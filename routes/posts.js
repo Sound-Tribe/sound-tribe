@@ -55,11 +55,8 @@ router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, nex
     const {albumId} = req.params;
     try {
         const album = await Album.findById(albumId);
-        console.log('tracks', tracks);
-        console.log('trackNames', trackNames);
         for (let trackIdx = 0; trackIdx < tracks.length; trackIdx++) {
             if (trackNames[trackIdx].length === 0 || tracks[trackIdx].length === 0) {
-                console.log('hereeee');
                 res.render('posts/add-tracks', {user, album, error: 'All tracks must have a name and a file associated. Try again'});
                 return;
             } else {
@@ -71,7 +68,6 @@ router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, nex
             }
         }
         const updatedAlbum = await Album.findByIdAndUpdate(albumId, {tracks: tracksDB}, {new: true});
-        console.log(updatedAlbum);
         res.redirect('/profile/posts');
     } catch (error) {
         next(error);
