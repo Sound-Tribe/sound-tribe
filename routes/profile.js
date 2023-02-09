@@ -145,6 +145,19 @@ router.post('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, nex
     }
 });
 
+// @desc    Delete event
+// @route   GET /profile/calendar/delete/:eventId
+// @access  Private
+router.get('/calendar/delete/:eventId', isLoggedIn, isTribe, async (req, res, next) => {
+    const {eventId} = req.params;
+    try {
+        await Event.findByIdAndDelete(eventId);
+        res.redirect('/profile/calendar');
+    } catch (error) {
+        next(error);
+    }
+});
+
 // @desc    Profile Edit Page.
 // @route   GET /profile/edit
 // @access  Private
