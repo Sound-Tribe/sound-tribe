@@ -1,7 +1,9 @@
 {{#each this}}
     <div class="post">
-        <h5 class="post-album-title">{{this.title}}</h5>
-        <img class="post-album-img" src="{{this.image}}" alt="{{this.title}} cover image">
+        <a href="/posts/detail/{{this._id}}" class="album-detail-link">
+            <h5 class="post-album-title">{{this.title}}</h5>
+            <img class="post-album-img" src="{{this.image}}" alt="{{this.title}} cover image">
+        </a>
         <div class="bottom-album">
             <div class="post-likes">
                 <form action="/like/edit/{{this._id}}" method="post">
