@@ -128,7 +128,7 @@ router.post('/edit/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
         const album = await Album.findById(albumId);
         const checkedGenres = album.genres
         const notCheckedGenres = interestsDB.filter((item) => !checkedGenres.includes(item));
-        res.render(res.render(`posts/edit/:${albumId}`, {user, album, checkedGenres, notCheckedGenres, error: 'Please, fill all the required fields'}))
+        res.render(`posts/edit/:${albumId}`, {user, album, checkedGenres, notCheckedGenres, error: 'Please, fill all the required fields'});
     } else {
         try {
             const editedAlbum = await Album.findByIdAndUpdate(albumId, { image, title, description, genres, tribe: user._id });
@@ -137,6 +137,20 @@ router.post('/edit/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
             next(error);  
         }   
     }
+});
 
+// @desc    View details of the album
+// @route   GET posts/detail/:albumId
+// @access  Private
+router.get('/detail/:albumId', isLoggedIn, async (req, res, next) => {
+    const user = req.session.currentUser;
+    const { albumId } = req.params;
+    try {
+        const album = await Album.findById(albumId);
+        res.render('posts/album-detail', {user, album});
+    } catch (error) {
+        next(error);
+    }
 })
+
 module.exports = router;

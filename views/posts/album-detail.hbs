@@ -1,0 +1,14 @@
+<div class="page-heading">
+    <h1 class="app-name">SoundTribe</h1>
+    <div class="page-heading-name">
+        <img class="page-icon" src="/images/drum.png" alt="Drum icon">
+        <h2 class="page-name">{{album.title}}</h2>
+    </div>
+</div>
+{{#each album.tracks}}
+    <div class="track-card">
+        <p>{{this.trackNumber}}</p>
+        <h4>{{this.trackName}}</h4>
+        <audio controls src="{{this.trackUrl}}"></audio>
+    </div>
+{{/each}}
