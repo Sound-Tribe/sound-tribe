@@ -1,6 +1,16 @@
+{{!-- Needs to verify if owner --}}
+<a href="#">Add event</a>
+{{#if this.empty}}
+    <p class="empty-calendar">No events scheduled</p>
+{{/if}}
 {{#each this}}
     <div class="event">
-        <h5>{{this.date}}</h5>
-        <p>{{this.location}}</p>
+        <h5>{{this.day}}</h5>
+        <p>{{this.month}}</p>
+        <p>{{this.year}}</p>
+        {{#if this.isOwner}}
+            <a href="#">Delete event</a>
+            <a href="#">Edit event</a>
+        {{/if}}
     </div>
 {{/each}}

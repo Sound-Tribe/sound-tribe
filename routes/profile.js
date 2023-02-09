@@ -2,12 +2,12 @@ const router = require('express').Router();
 const Album = require('../models/Album.js');
 const User = require('../models/User.js');
 const Follow = require('../models/Follow');
-const {isLoggedIn} = require('../middlewares/index');
+const {isLoggedIn, isTribe} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
 const computeFollows = require('../utils/computeFollows');
 const Like = require('../models/Like');
 const computeLikes = require('../utils/computeLikes');
-const { json } = require('express');
+const Event = require('../models/Event');
 
 
 // @desc    Profile Page. Content = Posts
@@ -74,22 +74,22 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
 // @desc    Profile Page. Content = Calendar
 // @route   GET /profile/calendar
 // @access  Private
-router.get('/calendar', isLoggedIn, async (req, res, next) => {
-    const userId = req.session.currentUser._id;
+router.get('/calendar', isLoggedIn, isTribe, async (req, res, next) => {
+    const userCookie = req.session.currentUser;
     try {
-        const user = await User.findById(userId);
-        // Should retreive all calendar events from user
-        // For testing purposes
-        const content =[{
-            date: 'Wednesday 1st',
-            location: 'Barcelona'
-        },{
-            date: 'Thursday 2nd',
-            location: 'Valencia'
-        }];
-        // Remember to add owner property like in /profile/posts
-        // Remeber to computeFollows
-        res.render('profile/profile', {user, owner:true, calendar: content});
+        const user = await computeFollows(userCookie);
+        const eventsDB = await Event.find({tribeId: user._id});
+        const events = JSON.parse(JSON.stringify(eventsDB));
+        events.forEach(event => {
+            event.isOwner = true;
+        });
+        const calendar = {};
+        if (events.length === 0) {
+            calendar.empty = true;
+        }
+        calendar.events = events;
+        console.log(events)
+        res.render('profile/profile', {user, owner:true, calendar});
     } catch (error) {
         next(error);
     }

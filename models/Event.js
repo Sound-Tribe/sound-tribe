@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const eventSchme = new Schema({
+const eventSchma = new Schema({
     tribeId:{
         type: Schema.Types.ObjectId,
         ref: 'User'
@@ -19,4 +19,7 @@ const eventSchme = new Schema({
         type: Number,
         min: 2023
     }
-})
+});
+
+const Event = model('Event', eventSchma);
+module.exports = Event;
