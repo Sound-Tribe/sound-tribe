@@ -17,7 +17,7 @@ img {
 :root {
   --main-red: #AF3800;
   --main-white: #FBFCFF;
-  --main-black: #1b2d2a;
+  --main-black: #010900;
   --main-dark-green: #1B2D2A;
   --main-mid-green: #3A4F41;
   --main-light-green: #7FB685;
@@ -60,6 +60,7 @@ nav.main-nav img {
   padding: 0 var(--page-heading-padding);
   border-bottom: 2px solid var(--main-dark-green);
   margin-bottom: 10px;
+  color: var(--main-black);
 }
 .page-heading .app-name {
   font-size: 1.5rem;
@@ -143,6 +144,7 @@ nav.main-nav img {
 }
 .post-likes .post-num-likes {
   text-align: center;
+  color: var(--main-black);
   margin: 0;
 }
 
