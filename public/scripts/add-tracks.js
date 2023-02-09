@@ -1,9 +1,8 @@
-// require('dotenv').config();
-// const cloudinary = require('cloudinary').v2;
-
 const cloudName = 'dxackd82m'; 
 const uploadPreset = 'sound-tribe';
 
+// Local uploads
+document.getElementById('local-uploads-form').style = 'display: none;';
 const myWidget = cloudinary.createUploadWidget(
     {
       cloudName: cloudName,
@@ -31,7 +30,16 @@ const myWidget = cloudinary.createUploadWidget(
   document.getElementById("upload_widget").addEventListener(
     "click",
     function () {
+      document.getElementById('local-uploads-form').style = 'display: block;';
+      document.getElementById('spotify-search-form').style = 'display: none;';
       myWidget.open();
     },
     false
   );
+
+  // Spotify Uploads
+  document.getElementById('spotify-search-form').style = 'display: none;';
+  document.getElementById('add-spotify-btn').addEventListener("click", function () {
+    document.getElementById('local-uploads-form').style = 'display: none;';
+    document.getElementById('spotify-search-form').style = 'display: block;';
+  })

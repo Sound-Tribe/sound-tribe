@@ -15,8 +15,12 @@
       class="cloudinary-button">
         Add
 </button>
-<a href="/posts/new/{{album._id}}/add-tracks/spotify">Import from Spotify</a>
-<form action="/posts/new/{{album._id}}/add-tracks" method="post">
+<button id="add-spotify-btn">Import from Spotify</button>
+<form action="/posts/new/{{album._id}}/add-tracks/spotify" method="get" id="spotify-search-form">
+    <label for="albumName">Search for an album</label>
+    <input type="text" name="albumName" placeholder="The Dark Side Of The Moon">
+</form>
+<form action="/posts/new/{{album._id}}/add-tracks" method="post" id="local-uploads-form">
     <div id="tracks">
     {{!-- Filled when upload --}}
     </div>
