@@ -20,6 +20,21 @@ const albumSchema = new Schema ({
     tribe: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    tracks: {
+        type: [{
+            trackUrl: {
+                type: String
+            },
+            trackName : {
+                type: String,
+                default: 'No name'
+            },
+            trackNumber: {
+                type: Number,
+                min: 1
+            }
+        }]
     }
 }, {
     timestamps: true

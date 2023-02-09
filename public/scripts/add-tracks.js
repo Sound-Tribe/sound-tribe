@@ -22,7 +22,8 @@ const myWidget = cloudinary.createUploadWidget(
         document
           .getElementById("tracks")
           .innerHTML += `<input style="display: none;" type="text" name="tracks" value="${result.info.secure_url}">
-                          <input style="display: none;" type="text" name="trackNames" value="${result.info.original_filename}">
+                          <label for="trackNames">Track name:</label>
+                          <input type="text" name="trackNames" value="${result.info.original_filename}">
                           <audio controls src="${result.info.secure_url}"></audio>`;
       }
     }

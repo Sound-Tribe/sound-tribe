@@ -48,12 +48,35 @@ router.get('/new/:albumId/add-tracks', isLoggedIn, isTribe, async (req, res, nex
 // @desc    Adding tracks to the album get tracks
 // @route   POST /posts/new/:albumId/add-tracks
 // @access  Private
-router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, (req, res, next) => {
+router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, next) => {
     const {tracks, trackNames} = req.body;
-    console.log('tracks', tracks);
-    console.log('trackNames', trackNames);
-    res.json({tracks});
-})
+    const tracksDB = [];
+    const user = req.session.currentUser;
+    const {albumId} = req.params;
+    try {
+        const album = await Album.findById(albumId);
+        console.log('tracks', tracks);
+        console.log('trackNames', trackNames);
+        for (let trackIdx = 0; trackIdx < tracks.length; trackIdx++) {
+            if (trackNames[trackIdx].length === 0 || tracks[trackIdx].length === 0) {
+                console.log('hereeee');
+                res.render('posts/add-tracks', {user, album, error: 'All tracks must have a name and a file associated. Try again'});
+                return;
+            } else {
+                tracksDB.push({
+                    trackUrl: tracks[trackIdx],
+                    trackName: trackNames[trackIdx],
+                    trackNumber: trackIdx
+                });
+            }
+        }
+        const updatedAlbum = await Album.findByIdAndUpdate(albumId, {tracks: tracksDB}, {new: true});
+        console.log(updatedAlbum);
+        res.redirect('/profile/posts');
+    } catch (error) {
+        next(error);
+    }
+});
 
 // @desc    Delete album
 // @route   GET /posts/delete/:albumId
