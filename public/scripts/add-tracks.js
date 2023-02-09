@@ -13,7 +13,30 @@ const myWidget = cloudinary.createUploadWidget(
         "camera"
         ],
       multiple: true,
-      theme: "office", 
+      styles: {
+        palette: {
+            window: "#FBFCFF",
+            sourceBg: "#FBFCFF",
+            windowBorder: "#3A4F41",
+            tabIcon: "#7FB685",
+            inactiveTabIcon: "#1B2D2A",
+            menuIcons: "#1B2D2A",
+            link: "#7FB685",
+            action: "#7FB685",
+            inProgress: "#1EA896",
+            complete: "#7FB685",
+            error: "#AF3800",
+            textDark: "#000000",
+            textLight: "#FFFFFF"
+        },
+        fonts: {
+            default: null,
+            "'Poppins', sans-serif": {
+                url: "https://fonts.googleapis.com/css?family=Poppins",
+                active: true
+            }
+        }
+    } 
     },
     (error, result) => {
       if (!error && result && result.event === "success") {
