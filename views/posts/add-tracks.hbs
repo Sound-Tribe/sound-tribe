@@ -10,11 +10,7 @@
     <p>{{error}}</p>
 {{/if}}
 <h1>Add tracks for {{album.title}}</h1>
-<button 
-      id="upload_widget" 
-      class="cloudinary-button">
-        Add
-</button>
+<button id="upload_widget" class="cloudinary-button">Upload</button>
 <button id="add-spotify-btn">Import from Spotify</button>
 <form action="/posts/new/{{album._id}}/add-tracks/spotify" method="get" id="spotify-search-form">
     <label for="albumName">Search for an album</label>
