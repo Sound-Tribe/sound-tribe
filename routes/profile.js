@@ -10,7 +10,7 @@ const computeLikes = require('../utils/computeLikes');
 const Event = require('../models/Event');
 
 
-// @desc    Profile Page. Content = Posts
+// @desc    Profile Page owner. Content = Posts
 // @route   GET /profile/posts
 // @access  Private
 router.get('/posts', isLoggedIn, async (req, res, next) => {
@@ -41,7 +41,7 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
     }
 });
 
-// @desc    Profile Page. Content = Liked
+// @desc    Profile Page owner. Content = Liked
 // @route   GET /profile/liked
 // @access  Private
 router.get('/liked', isLoggedIn, async (req, res, next) => {
@@ -71,7 +71,7 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
     }
 });
 
-// @desc    Profile Page. Content = Calendar
+// @desc    Profile Page owner. Content = Calendar
 // @route   GET /profile/calendar
 // @access  Private
 router.get('/calendar', isLoggedIn, isTribe, async (req, res, next) => {
@@ -88,12 +88,34 @@ router.get('/calendar', isLoggedIn, isTribe, async (req, res, next) => {
             calendar.empty = true;
         }
         calendar.events = events;
-        console.log(events)
         res.render('profile/profile', {user, owner:true, calendar});
     } catch (error) {
         next(error);
     }
-})
+});
+
+// @desc    Create new event view
+// @route   GET /profile/calendar/new
+// @access  Private
+router.get('/calendar/new', isLoggedIn, isTribe, (req, res, next) => {
+    const user = req.session.currentUser;
+    res.render('events/new-event', {user});
+});
+
+// @desc    Create new event post
+// @route   POST /profile/calendar/new
+// @access  Private
+router.post('/calendar/new', isLoggedIn, isTribe, async (req, res, next) => {
+    const user = req.session.currentUser;
+    const {day, month, year, location } = req.body;
+    try {
+        await Event.create({ tribeId: user._id, day, month, year, location });
+        res.redirect('/profile/posts');
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 // @desc    Profile Edit Page.
 // @route   GET /profile/edit

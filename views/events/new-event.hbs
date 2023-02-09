@@ -1,0 +1,18 @@
+<div class="page-heading">
+    <h1 class="app-name">SounTribe</h1>
+    <div class="page-heading-name">
+        <img class="page-icon" src="/images/event.png" alt="Event icon">
+        <h2 class="page-name">New Event</h2>
+    </div>
+</div>
+<form action="/profile/calendar/new" method="post">
+    <label for="day"></label>
+    <input type="number" name="day" placeholder="18">
+    <label for="month"></label>
+    <input type="number" name="month" placeholder="6">
+    <label for="year"></label>
+    <input type="number" name="year" placeholder="2023">
+    <label for="location"></label>
+    <input type="text" name="location" placeholder="Barcelona">
+    <button type="submit">Add event</button>
+</form>

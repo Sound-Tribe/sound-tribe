@@ -18,7 +18,8 @@ const eventSchma = new Schema({
     year: {
         type: Number,
         min: 2023
-    }
+    },
+    location: String
 });
 
 const Event = model('Event', eventSchma);

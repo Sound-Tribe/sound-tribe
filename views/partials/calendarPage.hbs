@@ -1,9 +1,9 @@
 {{!-- Needs to verify if owner --}}
-<a href="#">Add event</a>
+<a href="/profile/calendar/new">Add event</a>
 {{#if this.empty}}
     <p class="empty-calendar">No events scheduled</p>
 {{/if}}
-{{#each this}}
+{{#each events}}
     <div class="event">
         <h5>{{this.day}}</h5>
         <p>{{this.month}}</p>
