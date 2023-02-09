@@ -1,0 +1,20 @@
+<div class="page-heading">
+    <h1 class="app-name">SounTribe</h1>
+    <div class="page-heading-name">
+        <img class="page-icon" src="/images/new-post.png" alt="New post icon">
+        <h2 class="page-name">New Album</h2>
+    </div>
+</div>
+{{#if error}}
+    <p>{{error}}</p>
+{{/if}}
+<h3>Select an album</h3>
+{{#each results}}
+<a href=""></a>
+    <div class="spotify-search-result">
+        <img src="{{this.img}}" alt="Album cover image">
+        <h4>{{this.title}}</h4>
+        <h4>{{this.artist}}</h4>
+        <p>{{this.totalTracks}}</p>
+    </div>
+{{/each}}

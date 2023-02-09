@@ -75,17 +75,36 @@ router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, nex
     }
 });
 
-// @desc    Adding tracks to the album from Spotify
+// @desc    Adding tracks to the album from Spotify. Search results for albums
 // @route   POST /posts/new/:albumId/add-tracks/spotify
 // @access  Private
 router.get('/new/:albumId/add-tracks/spotify', isLoggedIn, isTribe, async (req, res, next) => {
+    const { albumName } = req.query;
+    const { albumId } = req.params;
+    const user = req.session.currentUser;
     try {
-        const resultFromApi = await spotifyApi.searchArtists('ZOO');
-        res.json(resultFromApi);
+        const album = await Album.findById(albumId);
+        const resultFromApi = await spotifyApi.searchAlbums(albumName);
+        if (resultFromApi.body.albums.items.length === 0) {
+            res.render('posts/add-tracks', {user, album, error: 'No album found by that name'});
+            return;
+        } else {
+            const results = resultFromApi.body.albums.items.map(result => {
+                let {
+                  name,
+                  artists,
+                  images,
+                  id,
+                  total_tracks
+                } = result;
+                return {artist: artists[0].name, img: images[0].url, title: name, id: id, totalTracks: total_tracks};
+              });
+            res.render('posts/spotify-search', {user, album, results});
+        }
     } catch (error) {
         next(error);
     }
-})
+});
 
 // @desc    Delete album
 // @route   GET /posts/delete/:albumId
