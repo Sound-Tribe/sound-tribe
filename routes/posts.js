@@ -66,7 +66,7 @@ router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, nex
                 tracksDB.push({
                     trackUrl: tracks[trackIdx],
                     trackName: trackNames[trackIdx],
-                    trackNumber: trackIdx
+                    trackNumber: trackIdx + 1
                 });
             }
         }
@@ -146,7 +146,7 @@ router.get('/detail/:albumId', isLoggedIn, async (req, res, next) => {
     const user = req.session.currentUser;
     const { albumId } = req.params;
     try {
-        const album = await Album.findById(albumId);
+        const album = await Album.findById(albumId).populate('tribe');
         res.render('posts/album-detail', {user, album});
     } catch (error) {
         next(error);

@@ -5,10 +5,25 @@
         <h2 class="page-name">{{album.title}}</h2>
     </div>
 </div>
-{{#each album.tracks}}
-    <div class="track-card">
-        <p>{{this.trackNumber}}</p>
-        <h4>{{this.trackName}}</h4>
-        <audio controls src="{{this.trackUrl}}"></audio>
+<div class="album-card">
+    <img src="{{album.image}}" alt="Cover album image">
+    <h3 class="tribe-name">{{album.tribe.username}}</h3>
+    {{#each album.genres}}
+        <p class="genre">{{this}}</p>
+    {{/each}}
+    <p class="description">{{album.description}}</p>
+</div>
+{{#if album.tracks}}
+    {{#each album.tracks}}
+        <div class="track-card">
+            <p>{{this.trackNumber}}</p>
+            <h4>{{this.trackName}}</h4>
+            <audio controls src="{{this.trackUrl}}"></audio>
+        </div>
+    {{/each}}
+{{else}}
+    <div class="empty-page">
+        <img src="/images/profile.png" alt="App Icon">
+        <h2>No tracks were posted</h2>
     </div>
-{{/each}}
+{{/if}}
