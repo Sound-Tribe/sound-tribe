@@ -47,6 +47,9 @@ const myWidget = cloudinary.createUploadWidget(
                           <label for="trackNames">Track name:</label>
                           <input type="text" name="trackNames" value="${result.info.original_filename}">
                           <audio controls src="${result.info.secure_url}"></audio>`;
+      } else {
+        document.getElementById("cloudinary-error").style = 'display: block;';
+        document.getElementById("cloudinary-error").innerHTML = 'Something went wrong with the upload. Import from spotify or try again later.'
       }
     }
   );
