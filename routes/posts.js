@@ -51,18 +51,22 @@ router.get('/new/:albumId/add-tracks', isLoggedIn, isTribe, async (req, res, nex
 // @route   POST /posts/new/:albumId/add-tracks
 // @access  Private
 router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, next) => {
-    const {tracks, trackNames} = req.body;
-    // Error if track is only one --> Needs to be put into an array
-    console.log('tracks', tracks);
-    console.log('trackNames', trackNames);
+    const {tracksForm, trackNamesForm} = req.body;
+    let tracks = [];
+    let trackNames = [];
+    if (typeof tracksForm === 'string') {
+        tracks.push(tracksForm);
+        trackNames.push(trackNamesForm);
+    } else {
+        tracks = tracksForm.map(track => track);
+        trackNames = trackNamesForm.map(name => name);
+    }
     const tracksDB = [];
     const user = req.session.currentUser;
     const {albumId} = req.params;
     try {
         const album = await Album.findById(albumId);
         for (let trackIdx = 0; trackIdx < tracks.length; trackIdx++) {
-            console.log('file:',tracks[trackIdx])
-            console.log('is audio:',isAudioFile(tracks[trackIdx]))
             if (trackNames[trackIdx].length === 0 || tracks[trackIdx].length === 0) {
                 res.render('posts/add-tracks', {user, album, error: 'All tracks must have a name and a file associated. Try again'});
                 return;
@@ -77,7 +81,7 @@ router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, nex
                 });
             }
         }
-        const updatedAlbum = await Album.findByIdAndUpdate(albumId, {tracks: tracksDB}, {new: true});
+        await Album.findByIdAndUpdate(albumId, {tracks: tracksDB}, {new: true});
         res.redirect('/profile/posts');
     } catch (error) {
         next(error);
