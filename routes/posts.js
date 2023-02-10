@@ -4,6 +4,7 @@ const {isLoggedIn, isTribe} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
 const fileUploader = require('../config/cloudinary.config');
 const spotifyApi = require('../utils/connectSpotify');
+const isAudioFile = require('../utils/isAudio');
 
 // @desc    Get view for new post (album) page
 // @route   GET /posts/new
@@ -59,6 +60,9 @@ router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, nex
         for (let trackIdx = 0; trackIdx < tracks.length; trackIdx++) {
             if (trackNames[trackIdx].length === 0 || tracks[trackIdx].length === 0) {
                 res.render('posts/add-tracks', {user, album, error: 'All tracks must have a name and a file associated. Try again'});
+                return;
+            } else if (!isAudioFile(tracks[trackIdx])){
+                res.render('posts/add-tracks', {user, album, error: 'You uploaded an unsupported file type. Try again'});
                 return;
             } else {
                 tracksDB.push({
