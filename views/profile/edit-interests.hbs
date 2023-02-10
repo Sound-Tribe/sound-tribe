@@ -12,7 +12,8 @@
   <p style="color: red;">{{this.error}}</p>
 {{/if}}
 <form class="form-edit-interests"action="/profile/edit/interests" method="post">
-    <div class="legend">What are you into?</div>
+<fieldset>
+    <legend class="legend">What are you into?</legend>
     <div class="interest-group">
     {{#each interests}}
         <input type="checkbox" id="{{this}}" name="genres" value="{{this}}" checked>
@@ -23,6 +24,7 @@
         <label for="{{this}}">{{this}}</label><br>
     {{/each}}
   </div>
+  </fieldset>
   <button class="interests-input" type="submit">Submit</button>
 </form>
 </div>

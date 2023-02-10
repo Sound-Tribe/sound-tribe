@@ -768,7 +768,32 @@ nav.main-nav img {
   margin-top: 10px;
 }
 
+ /* Edit interests */
 .form-edit-interests {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ .form-edit-interests fieldset {
+  border: 0px;
+}
+
+.form-edit-interests fieldset legend {
+  margin: 0 auto;
+  border-bottom: 1px solid var(--main-black);
+  width: 85vw;
+  font-size: 15px;
+}
+
+.interest-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 10px;
+}
+/* .form-edit-interests {
   display: grid;
   place-items: center;
 }
@@ -784,7 +809,7 @@ nav.main-nav img {
   border-bottom: 1px solid var(--main-black);
   width: 68vw;
   margin-bottom: 5px;
-}
+} */
 
 /* New album */
 
