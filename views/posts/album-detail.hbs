@@ -2,17 +2,30 @@
     <h1 class="app-name">SoundTribe</h1>
     <div class="page-heading-name">
         <img class="page-icon" src="/images/drum.png" alt="Drum icon">
-        <h2 class="page-name">{{album.title}}</h2>
     </div>
 </div>
-<button onclick="history.back()"><< Go Back</button>
+<h2 class="album-detail-name">{{album.title}} - {{album.tribe.username}}</h2>
+<button class="go-back-btn" onclick="history.back()"><< Go Back</button>
 <div class="album-card">
     <img src="{{album.image}}" alt="Cover album image">
-    <h3 class="tribe-name">{{album.tribe.username}}</h3>
-    {{#each album.genres}}
-        <p class="genre">{{this}}</p>
-    {{/each}}
-    <p class="description">{{album.description}}</p>
+    <div class="post-likes">
+        <form action="/like/edit/{{album._id}}" method="post">
+            <button type="submit">
+                {{#if album.isLiked}}
+                    <img class="post-like-icon" src="/images/liked.png" alt="liked post icon">
+                {{else}}
+                    <img class="post-like-icon" src="/images/like.png" alt="unliked post icon">
+                {{/if}}
+            </button>
+        </form>
+        <p class="post-num-likes">{{album.numOfLikes}}</p>
+    </div>
+    <div class="album-card-info">
+        {{#each album.genres}}
+            <p class="genre">{{this}}</p>
+        {{/each}}
+        <p class="description">{{album.description}}</p>
+    </div>
 </div>
 {{#if album.tracks}}
     {{#each album.tracks}}

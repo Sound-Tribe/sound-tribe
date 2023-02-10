@@ -5,6 +5,7 @@ const interestsDB = require('../utils/interests');
 const fileUploader = require('../config/cloudinary.config');
 const spotifyApi = require('../utils/connectSpotify');
 const isAudioFile = require('../utils/isAudio');
+const computeLikes = require('../utils/computeLikes.js');
 
 // @desc    Get view for new post (album) page
 // @route   GET /posts/new
@@ -210,7 +211,8 @@ router.get('/detail/:albumId', isLoggedIn, async (req, res, next) => {
     const user = req.session.currentUser;
     const { albumId } = req.params;
     try {
-        const album = await Album.findById(albumId).populate('tribe');
+        let album = JSON.parse(JSON.stringify(await Album.findById(albumId).populate('tribe')));
+        album = await computeLikes(album, user);
         res.render('posts/album-detail', {user, album});
     } catch (error) {
         next(error);
