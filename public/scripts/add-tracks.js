@@ -1,8 +1,16 @@
 const cloudName = 'dxackd82m'; 
 const uploadPreset = 'sound-tribe';
 
+isAudioFile = (url) => {
+  const audioFileExtensions = [".mp3", ".wav", ".aac", ".flac", ".wma", ".m4a", ".ogg", ".amr"];
+  const fileExtension = url.substr(url.lastIndexOf("."));
+  console.log('file extension detected', fileExtension);
+  return audioFileExtensions.includes(fileExtension);
+}
+
 // Local uploads
 document.getElementById('local-uploads-form').style = 'display: none;';
+document.getElementById("cloudinary-error").style = 'display: none;';
 const myWidget = cloudinary.createUploadWidget(
     {
       cloudName: cloudName,
@@ -40,17 +48,16 @@ const myWidget = cloudinary.createUploadWidget(
     },
     (error, result) => {
       if (!error && result && result.event === "success") {
-        // console.log("Done! Here is the upload info: ", result.info);
+        console.log("Done! Here is the upload info: ", result.info);
+        document.getElementById("cloudinary-error").style = 'display: none;';
+        document.getElementById('local-uploads-form').style = 'display: block;';
         document
           .getElementById("tracks")
           .innerHTML += `<input style="display: none;" type="text" name="tracks" value="${result.info.secure_url}">
                           <label for="trackNames">Track name:</label>
                           <input type="text" name="trackNames" value="${result.info.original_filename}">
                           <audio controls src="${result.info.secure_url}"></audio>`;
-      } else {
-        document.getElementById("cloudinary-error").style = 'display: block;';
-        document.getElementById("cloudinary-error").innerHTML = 'Something went wrong with the upload. Import from spotify or try again later.'
-      }
+      } 
     }
   );
   document.getElementById("upload_widget").addEventListener(
