@@ -8,7 +8,7 @@
 <button class="go-back-btn" onclick="history.back()"><< Go Back</button>
 <div class="album-card">
     <img src="{{album.image}}" alt="Cover album image">
-    <div class="post-likes">
+    <div class="post-likes detail-likes">
         <form action="/like/edit/{{album._id}}" method="post">
             <button type="submit">
                 {{#if album.isLiked}}
@@ -21,20 +21,24 @@
         <p class="post-num-likes">{{album.numOfLikes}}</p>
     </div>
     <div class="album-card-info">
-        {{#each album.genres}}
-            <p class="genre">{{this}}</p>
-        {{/each}}
+        <div class="genres">
+            {{#each album.genres}}
+                <p class="genre">{{this}}</p>
+            {{/each}}
+        </div>
         <p class="description">{{album.description}}</p>
     </div>
 </div>
 {{#if album.tracks}}
-    {{#each album.tracks}}
-        <div class="track-card">
-            <p>{{this.trackNumber}}</p>
-            <h4>{{this.trackName}}</h4>
-            <audio controls src="{{this.trackUrl}}"></audio>
-        </div>
-    {{/each}}
+    <div class="detail-track-container">
+        {{#each album.tracks}}
+            <div class="track-card">
+                {{!-- <p>{{this.trackNumber}}</p> --}}
+                <h4 class="track-name">{{this.trackName}}</h4>
+                <audio controls src="{{this.trackUrl}}"></audio>
+            </div>
+        {{/each}}
+    </div>
 {{else}}
     <div class="empty-page">
         <img src="/images/profile.png" alt="App Icon">

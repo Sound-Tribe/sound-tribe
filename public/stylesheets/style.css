@@ -13,6 +13,27 @@ body {
 img {
   width: 100px;
 }
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-pause-button {
+    display: flex !important;
+    width: 5em;
+    height: 5em;
+}
+audio::-webkit-media-controls-volume-slider,
+audio::-webkit-media-controls-mute-button,
+audio::-webkit-media-controls-timeline,
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display,
+audio::-webkit-media-controls-seek-back-button,
+audio::-webkit-media-controls-seek-forward-button {
+    display: none !important;
+}
+audio::-webkit-media-controls-play-button,
+     audio::-webkit-media-controls-panel {
+     background-color: transparent;
+     color: #000;
+     }
+
 
 :root {
   --main-red: #AF3800;
@@ -34,6 +55,7 @@ nav.main-nav {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  z-index: 1;
 }
 
 nav.main-nav a {
@@ -61,6 +83,7 @@ nav.main-nav img {
   border-bottom: 2px solid var(--main-dark-green);
   margin-bottom: 10px;
   color: var(--main-black);
+  z-index: 1;
 }
 .page-heading .app-name {
   font-size: 1.5rem;
@@ -399,15 +422,59 @@ nav.main-nav img {
 .album-card {
   margin: 0 var(--page-heading-padding);
   display: flex;
+  flex-direction: column;
   gap: 10px;
   flex-wrap: wrap;
 }
-.album-card img {
+.album-card > img {
   height: calc(10 * var(--page-heading-padding));
   width: 100%;
   object-fit: cover;
   border-radius: 10px;
 }
+.detail-likes {
+  margin: 0;
+}
+.album-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.album-card-info .genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.album-card-info .genre {
+  width: max-content;
+  padding: 5px;
+  background-color: var(--main-dark-green);
+  color: var(--main-white);
+  border-radius: 5px;
+}
+.detail-track-container {
+  width: 90%;
+  margin: var(--page-heading-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.detail-track-container .track-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(58, 79, 65, 0.5);
+  padding: 0 10px;
+  padding-top: 5px;
+}
+.detail-track-container .track-card audio {
+  flex-shrink: 4;
+  width: 20%;
+  background-color: transparent;
+  border: none;
+}
+
 /* Signup */
 .signup-form {
   display: flex;
