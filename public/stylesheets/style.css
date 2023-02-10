@@ -548,26 +548,23 @@ nav.main-nav img {
   margin-top: 15px;
 }
 
-.legend {
-  border-bottom: 1px solid var(--main-black);
-  width: 60vw;
-  margin: 0 auto;
-  margin-bottom: 20px;
-}
+/* Assing interests sign up */
 
 .signup-interests {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
-.interest-group {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 5px;
+ .signup-interests fieldset {
+  border: 0px;
+}
+
+.signup-interests fieldset legend {
+  margin: 0 auto;
+  border-bottom: 1px solid var(--main-black);
+  width: 85vw;
+  font-size: 15px;
 }
 
 .interests-input {
@@ -660,6 +657,12 @@ nav.main-nav img {
   gap: 10px;
 }
 
+.signup-form-2 p {
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--main-black);
+  width: 55vw;
+}
+
 .signup-form-2 button {
   background-color: var(--main-dark-green);
   color: var(--main-white);
@@ -729,24 +732,18 @@ nav.main-nav img {
   margin-bottom: 15px;
 }
 
-.edit-fieldset {
-  border: 0px;
-  margin: 0 auto;
-  display: grid;
-  place-items: center;
+.edit-profile-1 p {
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--main-black);
+  width: 55vw;
 }
 
-.edit-fieldset legend {
-  border-bottom: 1px solid var(--main-black);
-  width: 68vw;
-  margin-bottom: 5px;
-}
-.edit-fieldset input {
+.edit-fieldset-1 input {
   padding: 10px;
   width: 50vw;
 }
 
-.edit-fieldset img {
+.edit-fieldset-1 img {
   width: 10vw;
 }
 
@@ -754,6 +751,7 @@ nav.main-nav img {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   margin-bottom: 15px;
   gap: 10px;
 }

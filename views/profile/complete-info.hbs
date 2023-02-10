@@ -30,16 +30,20 @@
   </div>
   {{#if user.isTribe}}
     <p>Social Media Links</p>
+    <div class="edit-fieldset-1">
     <label for="spotifyLink"><img
         src="/images/spotify-logo.png"
         alt="Spotify logo"
       /></label>
     <input type="text" name="spotifyLink" placeholder="https://..." />
+    </div>
+    <div class="edit-fieldset-1">
     <label for="instagramLink"><img
         src="/images/insta-logo.png"
         alt="Instagram logo"
       /></label>
     <input type="text" name="instagramLink" placeholder="https://..." />
+    </div>
   {{/if}}
   <button type="submit">Submit</button>
 </form>

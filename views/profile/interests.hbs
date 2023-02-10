@@ -9,13 +9,15 @@
   <p style="color: red;">{{this.error}}</p>
 {{/if}}
 <form class="signup-interests" action="/auth/interests" method="post">
-  <div class="legend">What are you into?</div>
+ <fieldset>
+  <legend>What are you into?</legend>
   <div class="interest-group">
     {{#each interestsDB}}
       <input type="checkbox" id="{{this}}" name="genres" value="{{this}}" />
       <label for="{{this}}">{{this}}</label><br />
     {{/each}}
   </div>
+  </fieldset>
   <input class="interests-input" type="submit" value="Submit" />
   <a href="/auth/complete-profile">>>Skip</a>
 </form>
