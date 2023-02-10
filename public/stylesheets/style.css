@@ -517,9 +517,10 @@ nav.main-nav img {
   margin-left: 10px;
 }
 
-/*.signup-form fieldset input {
-  visibility: hidden;
-}*/
+/* .signup-form fieldset input {
+  display: none;
+} */
+
 
 
 .signup-form fieldset label img {
@@ -527,6 +528,7 @@ nav.main-nav img {
   margin-left: 35px;
   cursor: pointer;
 }
+
 
 .signup-form button {
   background-color: var(--main-dark-green);
@@ -706,6 +708,7 @@ nav.main-nav img {
   margin-top: 10px;
 }
 
+/* Edit profile */
 
 .edit-profile-1 {
   display: flex;
@@ -781,4 +784,83 @@ nav.main-nav img {
   border-bottom: 1px solid var(--main-black);
   width: 68vw;
   margin-bottom: 5px;
+}
+
+/* New album */
+
+.newalbum-title {
+  font-size: 18px;
+  margin-left: 10px;
+  margin-top: -25px;
+  margin-bottom: 10px;
+}
+
+.newalbum-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-newalbum {
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--main-black);
+  width: 55vw;
+}
+
+.title-newalbum {
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--main-black);
+  width: 55vw;
+}
+
+.description-newalbum {
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--main-black);
+  width: 55vw;
+}
+
+.image-newalbum-input {
+  padding: 10px;
+  width: 50vw;
+  margin-bottom: 5px;
+}
+
+.title-newalbum-input {
+  padding: 10px;
+  width: 50vw;
+  margin-bottom: 20px;
+}
+
+.description-newalbum-input {
+  padding: 10px;
+  width: 50vw;
+  margin-bottom: 20px;
+}
+.newalbum-form button {
+  background-color: var(--main-dark-green);
+  color: var(--main-white);
+  padding: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  border: none;
+  margin-top: 10px;
+}
+
+.newalbum-form fieldset {
+  border: 0px;
+}
+
+.newalbum-form fieldset legend {
+  margin: 0 auto;
+  border-bottom: 1px solid var(--main-black);
+  width: 85vw;
+  font-size: 15px;
+}
+
+.newalbum-interests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 10px;
 }
