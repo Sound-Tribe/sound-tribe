@@ -1,15 +1,23 @@
+<div class="page-heading">
+    <h1 class="app-name">SoundTribe</h1>
+    <div class="page-heading-name">
+        <img class="page-icon" src="/images/feather.png" alt="feahter icon">
+        <h2 class="page-name">Edit Album</h2>
+    </div>
+</div>
 {{#if error}}
     <p>{{error}}</p>
 {{/if}}
-<form action="/posts/edit/{{album._id}}" method="post">
-    <label for="image">Album's image URL:</label>
-    <input type="text" name="image" value="{{album.image}}" required="true">
-    <label for="title">Title of the album</label>
-    <input type="text" name="title" value="{{album.title}}" required="true">
-    <label for="description">Description of the album:</label>
-    <input {{#if album.description}} value ="{{album.description}}"{{/if}} type="text" name="description" placeholder="Created during the pandemic, this is our manifest as a tribe...">
+<form class="newalbum-form" action="/posts/edit/{{album._id}}" method="post">
+    <label class="image-newalbum" for="image">Album's image URL:</label>
+    <input class="image-newalbum-input" type="text" name="image" value="{{album.image}}" required="true">
+    <label class="title-newalbum" for="title">Title of the album</label>
+    <input class="title-newalbum-input" type="text" name="title" value="{{album.title}}" required="true">
+    <label class="description-newalbum" for="description">Description of the album:</label>
+    <input class="description-newalbum-input" {{#if album.description}} value ="{{album.description}}"{{/if}} type="text" name="description" placeholder="Created during the pandemic, this is our manifest as a tribe...">
     <fieldset required="true">
         <legend>Choose the genres that represent this album:</legend>
+        <div class="newalbum-interests">
          {{#each checkedGenres}}
             <input type="checkbox" id="{{this}}" name="genres" value="{{this}}" checked>
             <label for="{{this}}">{{this}}</label><br>
@@ -18,6 +26,7 @@
             <input type="checkbox" id="{{this}}" name="genres" value="{{this}}">
             <label for="{{this}}">{{this}}</label><br>
         {{/each}}
+        </div>
   </fieldset>
   <button type="submit">Edit Album</button>
 </form>
