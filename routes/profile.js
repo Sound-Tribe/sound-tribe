@@ -302,6 +302,29 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
     }
 });
 
+// @desc    View other's profile. content = calendar
+// @route   GET /profile/view/:userId/calendar
+// @access  Private
+router.get('/view/:userId/calendar', isLoggedIn, async (req, res, next) => {
+    const { userId } = req.params;
+    const viewerCookie = req.session.currentUser;
+    try {
+        const events = JSON.parse(JSON.stringify(await Event.find({tribeId: userId})));
+        events.forEach(event => {
+            event.date = new Date(event.date).toISOString().substring(0, 10);
+        });
+        const calendar = {};
+        if (events.length === 0) {
+            calendar.empty = true;
+        }
+        calendar.events = events;
+        const user = await User.findById(userId);
+        res.render('profile/profile', {user, viewer: viewerCookie, calendar});
+    } catch (error) {
+        next(error);
+    }
+});
+
 // @desc    View followers of certain profile
 // @route   GET /profile/:userId/followers
 // @access  Private
