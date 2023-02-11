@@ -50,8 +50,8 @@ app.use(
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
-hbs.registerHelper('evaluateType', function(object, options) {
-  if (object === 'tribe') {
+hbs.registerHelper('evaluateType', function(user, options) {
+  if (user === 'tribe') {
     return '<a href="/posts/new"><img class="nav-icon" src="/images/new-post.png" alt="New post icon link"></a>';
   } 
 });
