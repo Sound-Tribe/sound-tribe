@@ -9,6 +9,7 @@ body {
   margin-bottom: 12vh;
   margin-top: 10vh;
   font-family: 'Noto Sans JP', sans-serif;
+  background-color: var(--main-white);
 }
 img {
   width: 100px;
@@ -28,11 +29,10 @@ audio::-webkit-media-controls-seek-back-button,
 audio::-webkit-media-controls-seek-forward-button {
     display: none !important;
 }
-audio::-webkit-media-controls-play-button,
-     audio::-webkit-media-controls-panel {
-     background-color: transparent;
-     color: #000;
-     }
+audio::-webkit-media-controls-panel {
+  background-color: var(--main-white);
+  color: var(--main-black);
+} 
 
 
 :root {
