@@ -19,8 +19,12 @@
             <p>City: {{user.city}}</p>
         </div>
         <div class="social-media-container">
-            <a href="#"><img src="/images/spotify-logo.png" alt="Spotify logo link"></a>
-            <a href="#"><img src="/images/insta-logo.png" alt="Instagram logo link"></a>
+            {{#if user.spotifyLink}}
+                <a href="{{user.spotifyLink}}"><img src="/images/spotify-logo.png" alt="Spotify logo link"></a>
+            {{/if}}
+            {{#if user.instagramLink}}
+                <a href="{{user.instagramLink}}"><img src="/images/insta-logo.png" alt="Instagram logo link"></a>
+            {{/if}}
         </div>
     </div>
 </div>
