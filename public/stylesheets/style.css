@@ -994,3 +994,31 @@ margin-left: 10px;
 .event-buttons a {
   margin-left: 5px;
 }
+
+/* Spotify search results */
+
+.select-album {
+  margin-left: 10px;
+  margin-bottom: 15px;
+}
+
+.spotify-search-result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid var(--main-black);
+  width: 60vw;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.spotify-search-result form button {
+  background-color: var(--main-dark-green);
+  color: var(--main-white);
+  padding: 5px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 10px;
+  border: none;
+  margin-bottom: 5px;
+}
