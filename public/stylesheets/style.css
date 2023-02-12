@@ -887,3 +887,48 @@ nav.main-nav img {
   justify-content: center;
   margin-top: 10px;
 }
+
+/* Add tracks */
+
+.h1-add-tracks {
+  font-size: 18px;
+  margin-left: 10px;
+  margin-top: -15px;
+  margin-bottom: 10px;
+}
+
+.button-add-tracks {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.button-add-tracks button {
+  background-color: var(--main-dark-green);
+  color: var(--main-white);
+  padding: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  border: none;
+  margin-top: 10px;
+}
+
+#upload_widget {
+  border-radius: 0px;
+}
+
+.spotify-form {
+  margin-left: 20px;
+  margin-top: 15px;
+}
+
+.spotify-form button {
+  background-color: var(--main-dark-green);
+  color: var(--main-white);
+  padding: 5px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 10px;
+  border: none;
+  margin-top: 10px;
+}
