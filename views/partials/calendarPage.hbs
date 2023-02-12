@@ -1,6 +1,8 @@
 {{!-- Needs to verify if owner --}}
 <div class="add-event">
+{{#if this.isOwner}}
 <a href="/profile/calendar/new">Add event</a>
+{{/if}}
 {{#if this.empty}}
     <p>No events scheduled</p>
 {{/if}}
