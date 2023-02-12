@@ -1,15 +1,19 @@
 {{!-- Needs to verify if owner --}}
+<div class="add-event">
 <a href="/profile/calendar/new">Add event</a>
 {{#if this.empty}}
-    <p class="empty-calendar">No events scheduled</p>
+    <p>No events scheduled</p>
 {{/if}}
+</div>
 {{#each events}}
     <div class="event">
         <h5>{{this.date}}</h5>
         <p>{{this.location}}</p>
+        <div class="event-buttons">
         {{#if this.isOwner}}
-            <a href="/profile/calendar/delete/{{this._id}}">Delete event</a>
-            <a href="/profile/calendar/edit/{{this._id}}">Edit event</a>
+            <a href="/profile/calendar/edit/{{this._id}}"><img src="/images/feather.png" alt="Feather icon for edit event"></a>
+            <a href="/profile/calendar/delete/{{this._id}}"><img src="/images/delete.png" alt="Trash icon for delete event"></a> 
         {{/if}}
+        </div>
     </div>
 {{/each}}

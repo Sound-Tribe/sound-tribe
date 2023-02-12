@@ -517,12 +517,6 @@ nav.main-nav img {
   margin-left: 10px;
 }
 
-/* .signup-form fieldset input {
-  display: none;
-} */
-
-
-
 .signup-form fieldset label img {
   width: 15vw;
   margin-left: 35px;
@@ -791,23 +785,6 @@ nav.main-nav img {
   justify-content: center;
   margin-top: 10px;
 }
-/* .form-edit-interests {
-  display: grid;
-  place-items: center;
-}
-
-.edit-fieldset-interests {
-  border: 0px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.edit-fieldset-interests legend {
-  border-bottom: 1px solid var(--main-black);
-  width: 68vw;
-  margin-bottom: 5px;
-} */
 
 /* New album */
 
@@ -931,4 +908,89 @@ nav.main-nav img {
   font-size: 10px;
   border: none;
   margin-top: 10px;
+}
+
+/* Add event */
+
+.add-event {
+margin-top: 30px;
+margin-left: 10px;
+}
+
+.add-event a {
+  background-color: var(--main-dark-green);
+  color: var(--main-white);
+  padding: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  border: none;
+  margin-bottom: 10px;
+  text-decoration: none;
+}
+
+.add-event p {
+  margin-top: 10px;
+}
+
+.new-event-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 160px;
+}
+
+.new-event-form label {
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--main-black);
+  width: 55vw;
+}
+
+.new-event-form input {
+  padding: 10px;
+  width: 50vw;
+  margin-bottom: 20px;
+}
+
+.new-event-form button {
+  background-color: var(--main-dark-green);
+  color: var(--main-white);
+  padding: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  border: none;
+}
+
+.event {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--main-black);
+  width: 50vw;
+  margin: 0 auto;
+  margin-top: 20px;
+
+}
+
+.event h5 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.event p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.event img {
+  height: 3vh;
+  width: auto;
+}
+
+.event-buttons {
+  margin-left: 125px;
+}
+
+.event-buttons a {
+  margin-left: 5px;
 }
