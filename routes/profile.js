@@ -180,43 +180,16 @@ router.post('/edit', isLoggedIn, async (req, res, next) => {
     const { username, picture, country, city, spotifyLink, instagramLink } = req.body;
     const user = req.session.currentUser;
     const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
-    let updatedInfo = {};
-    if(username) {
-        updatedInfo.username = username;
-    }  
-    if (picture) {
-        if (regexURL.test(picture)) {
-            updatedInfo.picture = picture;
-        } else {
-            res.render('profile/edit-profile', {user, error: 'Enter a valid URL for picture'});
-            return;
-        }
-      }
-    if (country) {
-        updatedInfo.country = country;
+    if (spotifyLink && !regexURL.test(spotifyLink)) {
+        res.render('profile/edit-profile', {user, error: 'Enter a valid URL for spotify link'});
+        return;
     }
-    if (city) {
-        updatedInfo.city = city;
+    if (instagramLink && !regexURL.test(instagramLink)) {
+        res.render('profile/edit-profile', {user, error: 'Enter a valid URL for instagram link'});
+        return;
     }
-    if (spotifyLink) {
-        if (regexURL.test(spotifyLink)) {
-            updatedInfo.spotifyLink = spotifyLink;
-        } else {
-            res.render('profile/edit-profile', {user, error: 'Enter a valid URL for spotify link'});
-            return;
-        }
-      }
-      if (instagramLink) {
-        if (regexURL.test(instagramLink)) {
-            updatedInfo.instagramLink = instagramLink;
-        } else {
-            res.render('profile/edit-profile', {user, error: 'Enter a valid URL for instagram link'});
-            return;
-        }
-      }
-    const userId = user._id;
     try {
-        const newUser = await User.findByIdAndUpdate(userId, updatedInfo, { new: true });
+        const newUser = await User.findByIdAndUpdate(user._id, { username, picture, country, city, spotifyLink, instagramLink }, { new: true });
         req.session.currentUser = newUser;
         res.redirect('/profile/edit/interests');
     } catch (error) {
