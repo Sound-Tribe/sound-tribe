@@ -164,40 +164,16 @@ router.post('/complete-profile', async (req, res, next) => {
   const user = req.session.currentUser;
   const { picture, country, city, spotifyLink, instagramLink } = req.body;
   const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
-  let filledInfo = {};
-  if (picture) {
-    if (regexURL.test(picture)) {
-      filledInfo.picture = picture;
-    } else {
-      res.render('profile/complete-info', {user, error: 'Enter a valid URL for picture'});
+  if (spotifyLink && !regexURL.test(spotifyLink)) {
+    res.render('profile/edit-profile', {user, error: 'Enter a valid URL for spotify link'});
+    return;
+  }
+  if (instagramLink && !regexURL.test(instagramLink)) {
+      res.render('profile/edit-profile', {user, error: 'Enter a valid URL for instagram link'});
       return;
-    }
   }
-  if (country) {
-    filledInfo.country = country;
-  }
-  if (city) {
-    filledInfo.city = city;
-  }
-  if (spotifyLink) {
-    if (regexURL.test(spotifyLink)) {
-      filledInfo.spotifyLink = spotifyLink;
-    } else {
-      res.render('profile/complete-info', {user, error: 'Enter a valid URL for spotify link'});
-      return;
-    }
-  }
-  if (instagramLink) {
-    if (regexURL.test(instagramLink)) {
-      filledInfo.instagramLink = instagramLink;
-    } else {
-      res.render('profile/complete-info', {user, error: 'Enter a valid URL for instagram link'});
-      return;
-    }
-  }
-  const userId = user._id;
   try {
-    const newUser = await User.findByIdAndUpdate(userId, filledInfo, { new: true });
+    const newUser = await User.findByIdAndUpdate(user._id, { picture, country, city, spotifyLink, instagramLink }, { new: true });
     req.session.currentUser = newUser;
     res.redirect('/profile/posts');
   } catch (error) {
