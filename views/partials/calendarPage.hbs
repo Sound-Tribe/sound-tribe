@@ -9,7 +9,14 @@
     <div class="event">
         <h5>{{this.date}}</h5>
         <p>{{this.location}}</p>
-        <a href="{{this.ticketsLink}}" class="but-tickets">Buy tickets</a>
+        <a href="{{this.ticketsLink}}" class="buy-tickets">Buy tickets</a>
+        {{#if this.canAttend}}
+            {{#if this.isAttending}}
+                <a href="/attend/{{this._id}}" class="attend-btn">Attending</a>
+            {{else}}
+                <a href="/attend/{{this._id}}" class="attend-btn">Attend Event</a>
+            {{/if}}
+        {{/if}}
         <div class="event-buttons">
         {{#if this.isOwner}}
             <a href="/profile/calendar/edit/{{this._id}}"><img src="/images/feather.png" alt="Feather icon for edit event"></a>

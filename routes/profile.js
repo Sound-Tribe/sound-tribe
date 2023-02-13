@@ -8,6 +8,7 @@ const computeFollows = require('../utils/computeFollows');
 const Like = require('../models/Like');
 const computeLikes = require('../utils/computeLikes');
 const Event = require('../models/Event');
+const Attend = require('../models/Attend');
 
 
 // @desc    Profile Page owner. Content = Posts
@@ -15,6 +16,10 @@ const Event = require('../models/Event');
 // @access  Private
 router.get('/posts', isLoggedIn, async (req, res, next) => {
     const userCookie = req.session.currentUser;
+    if(userCookie.type === 'fan') {
+        res.redirect('/profile/liked');
+        return;
+    }
     try {
         const user = await computeFollows(userCookie);
         // Retreives all posts from DB
@@ -74,22 +79,40 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
 // @desc    Profile Page owner. Content = Calendar
 // @route   GET /profile/calendar
 // @access  Private
-router.get('/calendar', isLoggedIn, isTribe, async (req, res, next) => {
+router.get('/calendar', isLoggedIn, async (req, res, next) => {
     const userCookie = req.session.currentUser;
     try {
         const user = await computeFollows(userCookie);
-        const eventsDB = await Event.find({tribeId: user._id});
-        const events = JSON.parse(JSON.stringify(eventsDB));
-        events.forEach(event => {
-            event.isOwner = true;
-            event.date = new Date(event.date).toISOString().substring(0, 10);
-        });
-        const calendar = {};
-        if (events.length === 0) {
-            calendar.empty = true;
+        if (user.type === 'tribe') {
+            const eventsDB = await Event.find({tribeId: user._id});
+            const events = JSON.parse(JSON.stringify(eventsDB));
+            events.forEach(event => {
+                event.isOwner = true;
+                event.date = new Date(event.date).toISOString().substring(0, 10);
+            });
+            const calendar = {};
+            if (events.length === 0) {
+                calendar.empty = true;
+            }
+            calendar.events = events;
+            res.render('profile/profile', {user, owner:true, calendar});
+            return;
+        } else {
+            const events = JSON.parse(JSON.stringify(await Attend.find({ userId: user._id }).populate('eventId')));
+            const calendar = {};
+            calendar.events = [];
+            events.forEach(event => {
+                event.eventId.canAttend = true;
+                event.eventId.isAttending = true;
+                event.eventId.date = new Date(event.eventId.date).toISOString().substring(0, 10);
+                calendar.events.push(event.eventId);
+            });
+            if (events.length === 0) {
+                calendar.empty = true;
+            }
+            res.render('profile/profile', {user, owner:true, calendar});
+            return;
         }
-        calendar.events = events;
-        res.render('profile/profile', {user, owner:true, calendar});
     } catch (error) {
         next(error);
     }
@@ -283,8 +306,18 @@ router.get('/view/:userId/calendar', isLoggedIn, async (req, res, next) => {
     const viewerCookie = req.session.currentUser;
     try {
         const events = JSON.parse(JSON.stringify(await Event.find({tribeId: userId})));
+        const attendingEvents = await Attend.find({userId: viewerCookie._id});
+        const attendingEventsIds = attendingEvents.map(event => event.eventId.toString());
         events.forEach(event => {
             event.date = new Date(event.date).toISOString().substring(0, 10);
+            if (viewerCookie.type === 'fan') {
+                event.canAttend = true;
+            }
+            if (attendingEventsIds.includes(event._id.toString())) {
+                event.isAttending = true;
+            } else {
+                event.isAttending = false;
+            }
         });
         const calendar = {};
         if (events.length === 0) {
