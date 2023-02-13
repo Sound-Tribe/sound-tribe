@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const {isLoggedIn} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
+const fileUploader = require('../config/cloudinary.config');
 
 // @desc    Displays form view to sign up
 // @route   GET /auth/signup
@@ -160,9 +161,10 @@ router.get('/complete-profile', (req, res, next) => {
 // @desc    After choosing interests, prompts the user to complete profile info
 // @route   /auth/complete-profile
 // @access  Private
-router.post('/complete-profile', async (req, res, next) => {
+router.post('/complete-profile', fileUploader.single('picture'), async (req, res, next) => {
   const user = req.session.currentUser;
-  const { picture, country, city, spotifyLink, instagramLink } = req.body;
+  const picture = req.file.path;
+  const { country, city, spotifyLink, instagramLink } = req.body;
   const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
   if (spotifyLink && !regexURL.test(spotifyLink)) {
     res.render('profile/edit-profile', {user, error: 'Enter a valid URL for spotify link'});

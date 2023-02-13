@@ -11,6 +11,7 @@ const Event = require('../models/Event');
 const Attend = require('../models/Attend');
 
 
+
 // @desc    Profile Page owner. Content = Posts
 // @route   GET /profile/posts
 // @access  Private
