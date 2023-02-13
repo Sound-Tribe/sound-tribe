@@ -13,6 +13,9 @@ const eventSchma = new Schema({
     location: {
         type: String,
         required: [true, 'A location is required']
+    },
+    ticketsLink : {
+        type: String
     }
 });
 

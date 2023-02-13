@@ -108,10 +108,10 @@ router.get('/calendar/new', isLoggedIn, isTribe, (req, res, next) => {
 // @access  Private
 router.post('/calendar/new', isLoggedIn, isTribe, async (req, res, next) => {
     const user = req.session.currentUser;
-    const { location, date } = req.body;
+    const { location, date, ticketsLink } = req.body;
     const jsDate = new Date(date);
     try {
-        await Event.create({ tribeId: user._id, date: jsDate, location });
+        await Event.create({ tribeId: user._id, date: jsDate, location, ticketsLink });
         res.redirect('/profile/calendar');
     } catch (error) {
         next(error);
@@ -139,10 +139,10 @@ router.get('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, next
 router.post('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, next) => {
     const user = req.session.currentUser;
     const {eventId} = req.params;
-    const { location, date } = req.body;
+    const { location, date, ticketsLink } = req.body;
     const jsDate = new Date(date);
     try {
-        await Event.findByIdAndUpdate(eventId, { tribeId: user._id, date: jsDate, location })
+        await Event.findByIdAndUpdate(eventId, { tribeId: user._id, date: jsDate, location, ticketsLink })
         res.redirect('/profile/calendar');
     } catch (error) {
         next(error);

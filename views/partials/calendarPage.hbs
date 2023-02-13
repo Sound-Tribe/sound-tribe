@@ -9,6 +9,7 @@
     <div class="event">
         <h5>{{this.date}}</h5>
         <p>{{this.location}}</p>
+        <a href="{{this.ticketsLink}}" class="but-tickets">Buy tickets</a>
         <div class="event-buttons">
         {{#if this.isOwner}}
             <a href="/profile/calendar/edit/{{this._id}}"><img src="/images/feather.png" alt="Feather icon for edit event"></a>
