@@ -681,13 +681,27 @@ nav.main-nav img {
   width: 55vw;
 }
 
-.login-form input {
+.login-input {
   padding: 10px;
   width: 50vw;
   margin-bottom: 20px;
 }
 
-.login-form button {
+.password-div input {
+  padding: 10px;
+  width: 50vw;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.password-div button {
+  position: absolute;
+  background-color: var(--main-white);
+  border: none;
+  margin-top: 10px;
+}
+
+.login-btn {
   background-color: var(--main-dark-green);
   color: var(--main-white);
   padding: 10px;

@@ -8,17 +8,22 @@
 <div>
   <form class="login-form" action="/auth/login" method="POST">
  
-    <label>Username or Email</label>
-    <input type="text" name="usernameOrEmail" placeholder="john12 or john@doe.com" />
+    <label class="username">Username or Email</label>
+    <input class="login-input" type="text" name="usernameOrEmail" placeholder="john12 or john@doe.com" />
     
     <label>Password</label>
-    <input type="password" name="password" placeholder="********" />
+    <div class="password-div">
+    <input type="password" name="password" placeholder="********" id="password"/>
+    <button class="show-pass" type="button" id="showpass">Show</button>
+    </div>
      
     {{#if error}}
     <p style="color:rgb(218, 90, 90)">{{ error }}</p>
     {{/if}}
     
-    <button type="submit">Login</button>
+    <button class="login-btn" type="submit">Login</button>
     <a href="/auth/signup">Don't have an account?</a>
   </form>
 </div>
+
+<script src="/scripts/show-pass.js"></script>
