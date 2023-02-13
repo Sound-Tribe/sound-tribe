@@ -287,11 +287,7 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
         });
         Promise.all(postPromises).then(postsResolvedPromises => {
             const posts = postsResolvedPromises;
-            if (isFollowing) {
-                res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, posts});
-            } else {
-                res.render('profile/profile', {user, viewer: viewerCookie, posts});
-            }
+            res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, posts});
         })
     } catch (error) {
         next(error);
