@@ -242,8 +242,9 @@ nav.main-nav img {
 
 .profile-info .profile-picture {
   height: 100%;
-  width: auto;
+  width: 34%;
   border-radius: 50%;
+  object-fit: cover;
 }
 .profile-info .content-container {
   height: 100%;
