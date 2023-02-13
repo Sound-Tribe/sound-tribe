@@ -324,8 +324,11 @@ router.get('/view/:userId/calendar', isLoggedIn, async (req, res, next) => {
             calendar.empty = true;
         }
         calendar.events = events;
-        const user = await User.findById(userId);
-        res.render('profile/profile', {user, viewer: viewerCookie, calendar});
+        const userDB = await User.findById(userId);
+        const userPreFollows = JSON.parse(JSON.stringify(userDB));
+        const user = await computeFollows(userPreFollows);
+        const isFollowing = await Follow.findOne({ followerId: viewerCookie._id, followeeId: userId });
+        res.render('profile/profile', {user, viewer: viewerCookie, calendar, isFollowing});
     } catch (error) {
         next(error);
     }
