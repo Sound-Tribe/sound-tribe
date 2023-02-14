@@ -46,9 +46,21 @@ audio::-webkit-media-controls-panel {
   --profile-picture-height: 14vh;
 }
 /* Layout */
+.wave-separator {
+  /* background-image: url('/images/wave-separator.png');
+  aspect-ratio: 960/100; */
+  width: 100%;
+  height: auto;
+  /* background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover; */
+  position: fixed;
+  bottom: 7vh;
+  z-index: 1;
+}
 nav.main-nav {
   width: 100%;
-  height: 10vh;
+  height: 8vh;
   background-color: var(--main-light-green);
   position: fixed;
   bottom: 0;

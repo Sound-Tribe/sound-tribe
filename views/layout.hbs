@@ -9,20 +9,22 @@
   <title>SoundTribe</title>
 </head>
 <body>
-   <nav class="main-nav">
-      <a href="/home"><img class="nav-icon" src="/images/home.png" alt="Home icon link"></a>
-      <a href="/discover"><img class="nav-icon" src="/images/discover.png" alt="Discover icon link"></a>
-      {{#if viewer}}
-        {{#evaluateType this.viewer.type 'tribe' }}
-        {{!-- Handlebars helper returns the anchor with the new post icon --}}
-        {{/evaluateType}}
-      {{else}}
-        {{#evaluateType this.user.type 'tribe' }}
-        {{!-- Handlebars helper returns the anchor with the new post icon --}}
-        {{/evaluateType}}
-      {{/if}}
-      <a href="/profile/posts"><img class="nav-icon" src="/images/profile.png" alt="Profile icon link"></a>
-    </nav>
+  {{!-- <div class="wave-separator"></div> --}}
+  <img class="wave-separator" src="/images/wave-separator.png" alt="wave separator">
+  <nav class="main-nav">
+    <a href="/home"><img class="nav-icon" src="/images/home.png" alt="Home icon link"></a>
+    <a href="/discover"><img class="nav-icon" src="/images/discover.png" alt="Discover icon link"></a>
+    {{#if viewer}}
+      {{#evaluateType this.viewer.type 'tribe' }}
+      {{!-- Handlebars helper returns the anchor with the new post icon --}}
+      {{/evaluateType}}
+    {{else}}
+      {{#evaluateType this.user.type 'tribe' }}
+      {{!-- Handlebars helper returns the anchor with the new post icon --}}
+      {{/evaluateType}}
+    {{/if}}
+    <a href="/profile/posts"><img class="nav-icon" src="/images/profile.png" alt="Profile icon link"></a>
+  </nav>
     {{{ body }}}
 </body>
 </html>
