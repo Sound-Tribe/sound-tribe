@@ -15,8 +15,8 @@
             <a class="follows" href="/profile/{{user._id}}/following">Following: {{user.following}}</a>
         </div>
         <div class="location-container">
-            <p>Country: {{user.country}}</p>
-            <p>City: {{user.city}}</p>
+            {{#if user.country}}<p>Country: {{user.country}}</p>{{/if}}
+            {{#if user.city}}<p>City: {{user.city}}</p>{{/if}}
         </div>
         <div class="social-media-container">
             {{#if user.spotifyLink}}
@@ -71,7 +71,7 @@
 {{#if emptyPosts}}
     <div class="profile-empty-page">
         <img src="/images/profile.png" alt="App Icon">
-        <h2>Looks like you haven't posted any albums yet</h2>
+        <h2>Looks like you haven't posted <br> any albums yet</h2>
         <p>Go ahead and share your pasion!</p>
         <img class="text-icon" src="/images/new-post.png" alt="Discover Icon">
         <p>Here you'll be able to manage your posts.</p>
@@ -94,5 +94,18 @@
 {{/if}}
 
 {{#if calendar}}
+    {{#if owner}}
+        {{#if user.isTribe}}
+            <div class="add-event">
+            <a href="/profile/calendar/new">Add event</a>
+            </div>
+        {{/if}}
+    {{/if}}
+    {{#if calendar.empty}}
+        <div class="profile-empty-page">
+        <img src="/images/profile.png" alt="App Icon">
+        <h2>No events sheduled</h2>
+    </div>
+    {{/if}}
     {{>calendarPage calendar}}
 {{/if}}

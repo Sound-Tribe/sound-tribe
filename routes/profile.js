@@ -85,6 +85,7 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
     try {
         const user = await computeFollows(userCookie);
         if (user.type === 'tribe') {
+            user.isTribe = true;
             const eventsDB = await Event.find({tribeId: user._id});
             const events = JSON.parse(JSON.stringify(eventsDB));
             events.forEach(event => {
@@ -111,6 +112,7 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
             if (events.length === 0) {
                 calendar.empty = true;
             }
+            console.log(user);
             res.render('profile/profile', {user, owner:true, calendar});
             return;
         }

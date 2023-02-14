@@ -1,10 +1,3 @@
-{{!-- Needs to verify if owner --}}
-<div class="add-event">
-<a href="/profile/calendar/new">Add event</a>
-{{#if this.empty}}
-    <p>No events scheduled</p>
-{{/if}}
-</div>
 {{#each events}}
     <div class="event">
         <h5>{{this.date}}</h5>
