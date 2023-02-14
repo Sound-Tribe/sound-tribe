@@ -372,4 +372,29 @@ router.get('/:userId/following', isLoggedIn, async (req, res, next) => {
     }
 });
 
+// @desc    Delete profile and all its posts
+// @route   GET /profile/delete-profile
+// @access  Private
+router.get('/delete-profile', isLoggedIn, async (req, res, next) => {
+    const userId = req.session.currentUser._id;
+    try {
+        await Album.deleteMany({ tribe: userId });
+        await Follow.deleteMany({ followeeId: userId });
+        await Follow.deleteMany({ followerId: userId });
+        await Like.deleteMany({ likeUserId: userId });
+        await Event.deleteMany({ tribeId: userId });
+        await Attend.deleteMany({ userId: userId });
+        await User.findByIdAndDelete(userId);
+        req.session.destroy((err) => {
+            if (err) {
+              next(err);
+            } else {
+              res.redirect("/");
+            }
+          });
+    } catch (error) {
+        next(error);
+    }
+})
+
 module.exports = router;
