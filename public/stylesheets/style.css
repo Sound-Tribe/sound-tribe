@@ -6,7 +6,7 @@
 
 body {
   padding: 0;
-  margin-bottom: 12vh;
+  margin-bottom: 14vh;
   margin-top: 10vh;
   font-family: 'Noto Sans JP', sans-serif;
   background-color: var(--main-white);
@@ -1089,44 +1089,46 @@ margin-left: 10px;
 .landing-page-heading .landing-page-title {
   font-size: 3rem;
 }
-.blob-motion-tribe {
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.blob-motion {
   width: 100vw;
-  position: absolute;
-  top: -10vh;
+  position: relative;
   z-index: -1;
 }
 .blob-content {
   z-index: 0;
+  height: 450px;
 }
 .blob-content p {
   width: 50%;
   text-align: center;
 }
-.landing-tribe {
-  position: absolute;
-  top: 20vh;
+.landing-content {
+  position: relative;
+  top: -250px;
   display: flex;
   gap: 10px;
   flex-direction: column;
   align-items: center;
 }
-.landing-tribe .tribe-logo {
-  margin-bottom: 40px;
-}
-
 .landing-fan {
-  position: absolute;
-  top: 60vh;
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
-  align-items: center;
+  margin-bottom: 50px;
 }
-.landing-fan .fan-logo {
-  margin-bottom: 40px;
+.landing-content .landing-logo {
+  margin-bottom: 100px;
+}
+.explore-btn {
+  margin: 20px 0 40px 0;
+  text-decoration: none;
+  font-family: 'Noto Sans JP', sans-serif;
+  color: var(--main-white);
+  font-size: 1.5rem;
+  background-color: var(--main-dark-green);
+  border-radius: 10px;
+  padding: 10px;
 }
 
-/* .blobs {
-  width: 100%;
-  background: url('./blobs.svg') no-repeat bottom / cover;
-} */
