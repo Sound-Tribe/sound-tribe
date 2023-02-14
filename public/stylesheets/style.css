@@ -1018,6 +1018,29 @@ margin-left: 10px;
   width: auto;
 }
 
+.event a {
+  text-decoration: none;
+}
+
+.buy-tickets {
+  background-color: var(--main-light-green);
+  border-radius: 20px;
+  padding: 5px 10px;
+  color: var(--main-white);
+  cursor: pointer;
+}
+
+.attend-btn {
+  color: var(--main-black);
+  font-size: 15px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.buy-tickets:active {
+  background-color: var(--main-dark-green);
+}
+
 .event-buttons {
   margin-left: 125px;
 }
