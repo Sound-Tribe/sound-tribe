@@ -4,9 +4,9 @@ const showButton = document.getElementById('showpass');
 showButton.addEventListener('click', function() {
     if(pass.type === 'password') {
         pass.type = 'text';
-        showButton.innerHTML = 'Hide';
+        this.src = '/images/hide.png';
     } else {
         pass.type = 'password';
-        showButton.innerHTML = 'Show';
+        this.src = '/images/show.png'
     }
 })
