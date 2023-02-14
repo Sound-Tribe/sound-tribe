@@ -10,6 +10,7 @@ const computeLikes = require('../utils/computeLikes');
 const Event = require('../models/Event');
 const Attend = require('../models/Attend');
 const fileUploader = require('../config/cloudinary.config');
+const cloudinary = require('cloudinary');
 
 
 // @desc    Profile Page owner. Content = Posts
@@ -203,9 +204,13 @@ router.get('/edit', isLoggedIn, (req, res, next) => {
 // @route   POST /profile/edit
 // @access  Private
 router.post('/edit', isLoggedIn, fileUploader.single('picture'), async (req, res, next) => {
-    const { username, country, city, spotifyLink, instagramLink } = req.body;
-    const picture = req.file.path;
     const user = req.session.currentUser;
+    const { username, country, city, spotifyLink, instagramLink } = req.body;
+    if(req.file) {
+        picture = req.file.path;
+    } else {
+        picture = cloudinary.url(user.picture)
+    }
     const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
     if (spotifyLink && !regexURL.test(spotifyLink)) {
         res.render('profile/edit-profile', {user, error: 'Enter a valid URL for spotify link'});
