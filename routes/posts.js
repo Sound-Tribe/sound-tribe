@@ -23,7 +23,7 @@ router.post('/new', isLoggedIn, isTribe, fileUploader.single('image'), async (re
     const { title, description, genres } = req.body;
     const image = req.file.path;
     if (!image || !title || !genres ) {
-        res.render(res.render('posts/new-album', {user, interestsDB, error: 'Please, fill all the required fields'}))
+        res.render('posts/new-album', {user, interestsDB, error: 'Please, fill all the required fields'});
     } else {
         try {
             const createdAlbum = await Album.create({title, description, genres, image, tribe: user._id });
