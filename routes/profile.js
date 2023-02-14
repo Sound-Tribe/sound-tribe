@@ -378,6 +378,14 @@ router.get('/:userId/following', isLoggedIn, async (req, res, next) => {
 router.get('/delete-profile', isLoggedIn, async (req, res, next) => {
     const userId = req.session.currentUser._id;
     try {
+        const albums = await Album.find({ tribe: userId });
+        const deleteLikesPromises = [];
+        albums.forEach(album => {
+            deleteLikesPromises.push(new Promise((resolve, reject) => {
+                resolve(Like.deleteMany({ albumId: album._id }));
+            }))
+        });
+        await Promise.all(deleteLikesPromises);
         await Album.deleteMany({ tribe: userId });
         await Follow.deleteMany({ followeeId: userId });
         await Follow.deleteMany({ followerId: userId });
