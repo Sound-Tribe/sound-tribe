@@ -163,7 +163,12 @@ router.get('/complete-profile', (req, res, next) => {
 // @access  Private
 router.post('/complete-profile', fileUploader.single('picture'), async (req, res, next) => {
   const user = req.session.currentUser;
-  const picture = req.file.path;
+  let picture = ''
+  if(req.file) {
+      picture = req.file.path;
+  } else {
+      picture = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fdiscoverafricanart.com%2Fwp-content%2Fuploads%2F2017%2F07%2FDAA-Houzz-profile.jpg&f=1&nofb=1&ipt=219a451070beec9677f6682221d5f467ed36dd8c119b74e1a27cd945347e6999&ipo=images'
+  }
   const { country, city, spotifyLink, instagramLink } = req.body;
   const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
   if (spotifyLink && !regexURL.test(spotifyLink)) {
