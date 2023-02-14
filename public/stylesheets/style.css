@@ -127,7 +127,7 @@ nav.main-nav img {
 }
 .post-profile-info .post-profile-picture {
   height: 3em;
-  width: auto;
+  width: 14%;
   border-radius: 50%;
 }
 .post-profile-info .post-tribe-name {
@@ -1036,4 +1036,33 @@ margin-left: 10px;
   font-size: 10px;
   border: none;
   margin-bottom: 5px;
+}
+
+/* Search result users */
+
+.search-result-profile {
+  width: 30vw;
+  margin-top: 20px;
+  border-bottom: 1px solid var(--main-black);
+  margin-left: 30px;
+}
+
+.search-result-profile a {
+  text-decoration: none;
+  color: var(--main-black);
+}
+
+.search-result-profile a img {
+  border-radius: 50%;
+  width: 50%;
+  height: 60px;
+  object-fit: cover;
+}
+
+.search-result-profile {
+  text-align: center;
+}
+
+.search-result-profile a p {
+  margin-bottom: 10px;
 }
