@@ -47,13 +47,8 @@ audio::-webkit-media-controls-panel {
 }
 /* Layout */
 .wave-separator {
-  /* background-image: url('/images/wave-separator.png');
-  aspect-ratio: 960/100; */
   width: 100%;
   height: auto;
-  /* background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover; */
   position: fixed;
   bottom: 7vh;
   z-index: 1;
