@@ -38,6 +38,13 @@
         </div>
     {{/each}}
 {{/if}}
+{{#if emptySearch}}
+    <div class="empty-page">
+        <h2>No username found</h2>
+        <p>Please try again</p>
+        <img src="/images/profile.png" alt="App Icon">
+    </div>
+    {{/if}}
 {{#if searchResults}}
     {{#each searchResults}}
         <div class="search-result-profile">
