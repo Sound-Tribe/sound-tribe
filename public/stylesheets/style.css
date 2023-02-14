@@ -1079,3 +1079,54 @@ margin-left: 10px;
   height: 60px;
   object-fit: cover;
 }
+
+/* Landing Page */
+.landing-page-heading {
+  justify-content: center;
+  border: none;
+  height: 15vh;
+}
+.landing-page-heading .landing-page-title {
+  font-size: 3rem;
+}
+.blob-motion-tribe {
+  width: 100vw;
+  position: absolute;
+  top: -10vh;
+  z-index: -1;
+}
+.blob-content {
+  z-index: 0;
+}
+.blob-content p {
+  width: 50%;
+  text-align: center;
+}
+.landing-tribe {
+  position: absolute;
+  top: 20vh;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+}
+.landing-tribe .tribe-logo {
+  margin-bottom: 40px;
+}
+
+.landing-fan {
+  position: absolute;
+  top: 60vh;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+}
+.landing-fan .fan-logo {
+  margin-bottom: 40px;
+}
+
+/* .blobs {
+  width: 100%;
+  background: url('./blobs.svg') no-repeat bottom / cover;
+} */
