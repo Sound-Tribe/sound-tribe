@@ -63,41 +63,46 @@ router.get('/discover', async (req, res, next) => {
       next(error);
     }
   } else {
-    // Logged in gets latest content from interests genres shuffled
-    const user = req.session.currentUser;
-    const { interests } = await User.findById(req.session.currentUser._id);
-    let latestAlbumsAll = [];
-    for (let interest of interests) {
-      let albums = await Album.find({
-        genres: {
-          $in: [interest]
+    try {
+      // Logged in gets latest content from interests genres shuffled
+      const user = req.session.currentUser;
+      const { interests } = await User.findById(req.session.currentUser._id);
+      const albumsPromises = [];
+      interests.forEach(interest => {
+        albumsPromises.push(new Promise((resolve, reject) => {
+          resolve(Album.find({
+            genres: {
+              $in: [interest]
+            }
+          }).sort({ createdAt: -1 }).limit(10).populate('tribe'));
+        }));
+      });
+      let latestAlbumsAll = (await Promise.all(albumsPromises)).flat();
+      // Removes duplicates & Own Albums
+      const ids = [];
+      let latestAlbumsPreLikes = latestAlbumsAll.filter(album => {
+        if (!ids.includes(album._id.toString()) && album.tribe._id.toString() != user._id.toString()) {
+          ids.push(album._id.toString());
+          return true;
         }
-      }).sort({ createdAt: -1 }).limit(10).populate('tribe');
-      albums.forEach(album => latestAlbumsAll.push(album));
-    }
-    // Removes duplicates & Own Albums
-    const ids = [];
-    let latestAlbumsPreLikes = latestAlbumsAll.filter(album => {
-      if (!ids.includes(album._id.toString()) && album.tribe._id.toString() != user._id.toString()) {
-        ids.push(album._id.toString());
-        return true;
-      }
-    });
-    latestAlbumsPreLikes = shuffle(latestAlbumsPreLikes);
-    likePromises = [];
-    latestAlbumsPreLikes.forEach(album => {
-      likePromises.push(new Promise((resolve, reject) => {
-        resolve(computeLikes(album, user));
-      }));
-    });
-    Promise.all(likePromises).then((latestAlbums) => {
+      });
+      latestAlbumsPreLikes = shuffle(latestAlbumsPreLikes);
+      likePromises = [];
+      latestAlbumsPreLikes.forEach(album => {
+        likePromises.push(new Promise((resolve, reject) => {
+          resolve(computeLikes(album, user));
+        }));
+      });
+      const latestAlbums = await Promise.all(likePromises);
       if (latestAlbums.length === 0) {
         res.render('discover', {user, empty: 'No interests defined'});
         return;
       } else {
         res.render('discover', {user, latestAlbums});
       }
-    })
+    } catch (error) {
+      next(error);
+    }
   }
 });
 
@@ -110,7 +115,6 @@ router.post('/discover/search', isLoggedIn, async (req, res, next) => {
   try {
     // Filters out your username
     const searchResults = (await User.find({ username: userQuery.toLowerCase() })).filter(userDB => userDB._id.toString() != user._id.toString());
-    
     if (searchResults.length === 0) {
       res.render('discover', {user, emptySearch: 'Not found'});
     } else {
