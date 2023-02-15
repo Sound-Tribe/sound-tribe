@@ -58,7 +58,7 @@ const myWidget = cloudinary.createUploadWidget(
           .getElementById("tracks")
           .innerHTML += `<div class="track-card"><input style="display: none;" type="text" name="tracksForm" value="${result.info.secure_url}">
                           <label for="trackNamesForm">Track name:</label>
-                          <input type="text" name="trackNamesForm" value="${result.info.original_filename}">
+                          <input type="text" name="trackNamesForm" value="${result.info.original_filename}" required="true">
                           <audio controls src="${result.info.secure_url}"></audio></div>`;
       } else {
         document.getElementById("cloudinary-error").style = 'display: block;';
