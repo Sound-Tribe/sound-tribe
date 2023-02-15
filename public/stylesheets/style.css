@@ -555,6 +555,7 @@ nav.main-nav img {
 
 .signup-form img {
   width: 60px;
+
 }
 
 .signup-form fieldset label {
@@ -591,6 +592,67 @@ nav.main-nav img {
 
 /* Assing interests sign up */
 
+[type=checkbox] {
+  position: absolute;
+  opacity: 0;
+}
+@keyframes bg {
+  0% {
+      background-size:    0 3px,
+                          3px 0,
+                          0 3px,
+                          3px 0;
+  }
+  25% {
+      background-size:    100% 3px,
+                          3px 0,
+                          0 3px,
+                          3px 0;
+  }
+  50% {
+      background-size:    100% 3px,
+                          3px 100%,
+                          0 3px,
+                          3px 0;
+  }
+  75% {
+      background-size:    100% 3px,
+                          3px 100%,
+                          100% 3px,
+                          3px 0;
+  }
+  100% {
+      background-size:    100% 3px,
+                          3px 100%,
+                          100% 3px,
+                          3px 100%;
+  }
+}
+[type=checkbox] + p {
+
+  animation-play-state: paused;
+  padding: 10px;
+}
+[type=checkbox]:checked + p {
+  background-repeat: no-repeat;
+    background-image:   linear-gradient(to right, var(--main-light-green) 100%, var(--main-light-green) 100%),
+                        linear-gradient(to bottom, var(--main-light-green) 100%, var(--main-light-green) 100%),
+                        linear-gradient(to right, var(--main-light-green) 100%, var(--main-light-green) 100%),
+                        linear-gradient(to bottom, var(--main-light-green) 100%, var(--main-light-green) 100%);
+    background-size:    100% 3px,
+                        3px 100%,
+                        100% 3px,
+                        3px 100%;
+    background-position:    0 0,
+                            100% 0,
+                            100% 100%,
+                            0 100%;
+    animation: bg 0.5s cubic-bezier(0.19, 1, 0.22, 1) 1;
+  border-radius: 3px;
+  animation-play-state: running;
+  padding: 10px
+}
+
 .signup-interests {
   display: flex;
   flex-direction: column;
@@ -607,6 +669,8 @@ nav.main-nav img {
   width: 85vw;
   font-size: 15px;
 }
+
+
 
 .interests-input {
   background-color: var(--main-dark-green);
@@ -842,10 +906,15 @@ nav.main-nav img {
 
 .interest-group {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: 12px;
   justify-content: center;
   margin-top: 10px;
+  gap: 20px;
+}
+
+.interest-group label p {
+  padding: 10px;
 }
 
 /* New album */
