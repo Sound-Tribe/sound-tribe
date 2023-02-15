@@ -9,6 +9,7 @@ const {isLoggedIn, isTribe} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
 const computeFollows = require('../utils/computeFollows');
 const computeLikes = require('../utils/computeLikes');
+const computeEventOwner = require('../utils/computeEventOwner.js');
 const fileUploader = require('../config/cloudinary.config');
 const cloudinary = require('cloudinary');
 
@@ -98,13 +99,21 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
             res.render('profile/profile', {user, owner:true, calendar});
             return;
         } else {
-            const events = JSON.parse(JSON.stringify(await Attend.find({ userId: user._id }).populate('eventId')));
+            const eventsPreOwner = JSON.parse(JSON.stringify(await Attend.find({ userId: user._id }).populate('eventId')));
+            const eventOwnerPromises = [];
+            eventsPreOwner.forEach(event => {
+                eventOwnerPromises.push(new Promise((resolve, reject) => {
+                    resolve(computeEventOwner(event));
+                }));
+            });
+            const events = await Promise.all(eventOwnerPromises);
             const calendar = {};
             calendar.events = [];
             events.forEach(event => {
                 event.eventId.canAttend = true;
                 event.eventId.isAttending = true;
                 event.eventId.date = new Date(event.eventId.date).toISOString().substring(0, 10);
+                event.eventId.tribe = event.tribe;
                 calendar.events.push(event.eventId);
             });
             if (events.length === 0) {
