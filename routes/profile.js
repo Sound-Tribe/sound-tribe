@@ -314,9 +314,17 @@ router.get('/delete-profile', isLoggedIn, async (req, res, next) => {
         albums.forEach(album => {
             deleteLikesPromises.push(new Promise((resolve, reject) => {
                 resolve(Like.deleteMany({ albumId: album._id }));
-            }))
+            }));
         });
+        const events = await Event.find({ tribeId: userId });
+        const deleteAttendPromises = [];
+        events.forEach(event => {
+            deleteAttendPromises.push(new Promise((resolve, reject) => {
+                resolve(Attend.deleteMany({ eventId: event._id }));
+            }));
+        })
         await Promise.all(deleteLikesPromises);
+        await Promise.all(deleteAttendPromises)
         await Album.deleteMany({ tribe: userId });
         await Follow.deleteMany({ followeeId: userId });
         await Follow.deleteMany({ followerId: userId });

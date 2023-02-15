@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const {isLoggedIn, isTribe} = require('../middlewares/index');
 const Event = require('../models/Event');
+const Attend = require('../models/Attend');
 
 
 // @desc    Create new event view
@@ -83,6 +84,7 @@ router.post('/edit/:eventId', isLoggedIn, isTribe, async (req, res, next) => {
 router.get('/delete/:eventId', isLoggedIn, isTribe, async (req, res, next) => {
     const {eventId} = req.params;
     try {
+        await Attend.deleteMany({eventId: eventId});
         await Event.findByIdAndDelete(eventId);
         res.redirect('/profile/calendar');
     } catch (error) {
