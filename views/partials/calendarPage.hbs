@@ -1,6 +1,7 @@
 {{#each events}}
     <div class="event">
         <h5>{{this.date}}</h5>
+        <h5>{{this.tribe}}</h5>
         <p>{{this.location}}</p>
         {{#if this.ticketsLink}}
             <a href="{{this.ticketsLink}}" class="buy-tickets">Buy tickets</a>
