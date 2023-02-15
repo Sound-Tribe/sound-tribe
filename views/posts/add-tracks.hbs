@@ -1,5 +1,5 @@
 <div class="page-heading">
-    <h1 class="app-name">SounTribe</h1>
+    <h1 class="app-name">SoundTribe</h1>
     <div class="page-heading-name">
         <img class="page-icon" src="/images/new-post.png" alt="New post icon">
         <h2 class="page-name">New Album</h2>
@@ -9,10 +9,12 @@
 {{#if error}}
     <p>{{error}}</p>
 {{/if}}
-<h1>Add tracks for {{album.title}}</h1>
-<button id="upload_widget" class="cloudinary-button">Upload</button>
-<button id="add-spotify-btn">Import from Spotify</button>
-<form action="/posts/new/{{album._id}}/add-tracks/spotify" method="get" id="spotify-search-form">
+<h1 class="h1-add-tracks">Add tracks for {{album.title}}</h1>
+<div class="button-add-tracks">
+    <button id="upload_widget" class="cloudinary-button">Upload</button>
+    <button id="add-spotify-btn">Import from Spotify</button>
+</div>
+<form class="spotify-form" action="/posts/new/{{album._id}}/add-tracks/spotify" method="get" id="spotify-search-form">
     <label for="albumName">Search for an album</label>
     <input type="text" name="albumName" placeholder="The Dark Side Of The Moon">
     <button type="submit">Search</button>

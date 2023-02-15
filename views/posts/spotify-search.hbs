@@ -1,5 +1,5 @@
 <div class="page-heading">
-    <h1 class="app-name">SounTribe</h1>
+    <h1 class="app-name">SoundTribe</h1>
     <div class="page-heading-name">
         <img class="page-icon" src="/images/new-post.png" alt="New post icon">
         <h2 class="page-name">New Album</h2>
@@ -8,16 +8,15 @@
 {{#if error}}
     <p>{{error}}</p>
 {{/if}}
-<h3>Select an album</h3>
+<h3 class="select-album">Select an album</h3>
 {{#each results}}
     <div class="spotify-search-result">
         <img src="{{this.img}}" alt="Album cover image">
         <h4>{{this.title}}</h4>
         <h4>{{this.artist}}</h4>
         <p>{{this.totalTracks}}</p>
-    </div>
-    <p></p>
     <form action="/posts/new/{{this.albumId}}/add-tracks/spotify/{{this.id}}" method="post">
         <button type="submit">Add tracks from this album</button>
     </form>
+    </div>
 {{/each}}

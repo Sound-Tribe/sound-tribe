@@ -9,14 +9,14 @@
 {{#if this.error}}
   <p style="color: red;">{{this.error}}</p>
 {{/if}}
-<form class="signup-form-2" action="/auth/complete-profile" method="post">
+<form class="signup-form-2" action="/auth/complete-profile" enctype="multipart/form-data" method="post">
   <label class="picture" for="picture">Picture</label>
   <input
     class="input-picture"
-    type="text"
+    type="file"
     name="picture"
     id="profile-picture"
-    placeholder="https://duckduckgo.com/?t=..."
+    accept="image/*"
   />
   <div class="country-city">
     <div class="country">

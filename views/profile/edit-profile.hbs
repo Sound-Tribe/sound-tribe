@@ -10,11 +10,11 @@
 {{#if this.error}}
   <p style="color: red;">{{this.error}}</p>
 {{/if}}
-<form class="edit-profile-1" action="/profile/edit" method="POST">
+<form class="edit-profile-1" action="/profile/edit" enctype="multipart/form-data" method="POST">
   <label class="label-edit-profile" for="username">New username</label>
   <input class="input-edit-profile"type="text" name="username" value="{{user.username}}" />
   <label class="label-edit-profile" for="picture">New Profile Picture:</label>
-  <input class="input-edit-profile" type="text" name="picture" value="{{user.picture}}" />
+  <input class="input-edit-profile" type="file" name="picture" value="{{user.picture}}" accept="image/*" />
   <div class="country-city">
     <div class="country">
       <label for="country">New Country</label>
@@ -43,4 +43,5 @@
     </div>
   {{/if}}
   <button type="submit">Submit</button>
+  <a href="/profile/delete-profile" class="delete-profile">Delete profile</a>
 </form>

@@ -124,8 +124,9 @@ router.post('/discover/search', isLoggedIn, async (req, res, next) => {
   try {
     // Filters out your username
     const searchResults = (await User.find({ username: userQuery.toLowerCase() })).filter(userDB => userDB._id.toString() != user._id.toString());
+    
     if (searchResults.length === 0) {
-      res.render('discover', {user, error: `No username by ${userQuery.toLowerCase()}`})
+      res.render('discover', {user, emptySearch: 'Not found'});
     } else {
       res.render('discover', {user, searchResults});
     }

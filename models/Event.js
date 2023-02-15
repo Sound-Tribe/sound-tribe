@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const eventSchma = new Schema({
+const eventSchema = new Schema({
     tribeId:{
         type: Schema.Types.ObjectId,
         ref: 'User'
@@ -13,8 +13,11 @@ const eventSchma = new Schema({
     location: {
         type: String,
         required: [true, 'A location is required']
+    },
+    ticketsLink : {
+        type: String
     }
 });
 
-const Event = model('Event', eventSchma);
+const Event = model('Event', eventSchema);
 module.exports = Event;

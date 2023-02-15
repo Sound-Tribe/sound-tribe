@@ -8,6 +8,9 @@ const computeFollows = require('../utils/computeFollows');
 const Like = require('../models/Like');
 const computeLikes = require('../utils/computeLikes');
 const Event = require('../models/Event');
+const Attend = require('../models/Attend');
+const fileUploader = require('../config/cloudinary.config');
+const cloudinary = require('cloudinary');
 
 
 // @desc    Profile Page owner. Content = Posts
@@ -15,6 +18,10 @@ const Event = require('../models/Event');
 // @access  Private
 router.get('/posts', isLoggedIn, async (req, res, next) => {
     const userCookie = req.session.currentUser;
+    if(userCookie.type === 'fan') {
+        res.redirect('/profile/liked');
+        return;
+    }
     try {
         const user = await computeFollows(userCookie);
         // Retreives all posts from DB
@@ -74,22 +81,42 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
 // @desc    Profile Page owner. Content = Calendar
 // @route   GET /profile/calendar
 // @access  Private
-router.get('/calendar', isLoggedIn, isTribe, async (req, res, next) => {
+router.get('/calendar', isLoggedIn, async (req, res, next) => {
     const userCookie = req.session.currentUser;
     try {
         const user = await computeFollows(userCookie);
-        const eventsDB = await Event.find({tribeId: user._id});
-        const events = JSON.parse(JSON.stringify(eventsDB));
-        events.forEach(event => {
-            event.isOwner = true;
-            event.date = new Date(event.date).toISOString().substring(0, 10);
-        });
-        const calendar = {};
-        if (events.length === 0) {
-            calendar.empty = true;
+        if (user.type === 'tribe') {
+            user.isTribe = true;
+            const eventsDB = await Event.find({tribeId: user._id});
+            const events = JSON.parse(JSON.stringify(eventsDB));
+            events.forEach(event => {
+                event.isOwner = true;
+                event.date = new Date(event.date).toISOString().substring(0, 10);
+            });
+            const calendar = {};
+            if (events.length === 0) {
+                calendar.empty = true;
+            }
+            calendar.events = events;
+            res.render('profile/profile', {user, owner:true, calendar});
+            return;
+        } else {
+            const events = JSON.parse(JSON.stringify(await Attend.find({ userId: user._id }).populate('eventId')));
+            const calendar = {};
+            calendar.events = [];
+            events.forEach(event => {
+                event.eventId.canAttend = true;
+                event.eventId.isAttending = true;
+                event.eventId.date = new Date(event.eventId.date).toISOString().substring(0, 10);
+                calendar.events.push(event.eventId);
+            });
+            if (events.length === 0) {
+                calendar.empty = true;
+            }
+            console.log(user);
+            res.render('profile/profile', {user, owner:true, calendar});
+            return;
         }
-        calendar.events = events;
-        res.render('profile/profile', {user, owner:true, calendar});
     } catch (error) {
         next(error);
     }
@@ -108,10 +135,19 @@ router.get('/calendar/new', isLoggedIn, isTribe, (req, res, next) => {
 // @access  Private
 router.post('/calendar/new', isLoggedIn, isTribe, async (req, res, next) => {
     const user = req.session.currentUser;
-    const { location, date } = req.body;
+    const { location, date, ticketsLink } = req.body;
     const jsDate = new Date(date);
+    const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
+    if (ticketsLink && !regexURL.test(ticketsLink)) {
+        res.render('events/new-event', {user, error:"Please enter a valid link"});
+        return;
+    }
+    if (!date || !location) {
+        res.render('events/new-event', {user, error:"Please input required fields"});
+        return;
+    }
     try {
-        await Event.create({ tribeId: user._id, date: jsDate, location });
+        await Event.create({ tribeId: user._id, date: jsDate, location, ticketsLink });
         res.redirect('/profile/calendar');
     } catch (error) {
         next(error);
@@ -139,10 +175,19 @@ router.get('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, next
 router.post('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, next) => {
     const user = req.session.currentUser;
     const {eventId} = req.params;
-    const { location, date } = req.body;
+    const { location, date, ticketsLink } = req.body;
     const jsDate = new Date(date);
+    const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
+    if (ticketsLink && !regexURL.test(ticketsLink)) {
+        res.redirect(`/profile/calendar/edit/${eventId}`); 
+        return;
+    }
+    if (!date || !location) {
+        res.redirect(`/profile/calendar/edit/${eventId}`);
+        return;
+    }
     try {
-        await Event.findByIdAndUpdate(eventId, { tribeId: user._id, date: jsDate, location })
+        await Event.findByIdAndUpdate(eventId, { tribeId: user._id, date: jsDate, location, ticketsLink })
         res.redirect('/profile/calendar');
     } catch (error) {
         next(error);
@@ -176,47 +221,25 @@ router.get('/edit', isLoggedIn, (req, res, next) => {
 // @desc    Profile Edit Page
 // @route   POST /profile/edit
 // @access  Private
-router.post('/edit', isLoggedIn, async (req, res, next) => {
-    const { username, picture, country, city, spotifyLink, instagramLink } = req.body;
+router.post('/edit', isLoggedIn, fileUploader.single('picture'), async (req, res, next) => {
     const user = req.session.currentUser;
+    const { username, country, city, spotifyLink, instagramLink } = req.body;
+    if(req.file) {
+        picture = req.file.path;
+    } else {
+        picture = cloudinary.url(user.picture)
+    }
     const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
-    let updatedInfo = {};
-    if(username) {
-        updatedInfo.username = username;
-    }  
-    if (picture) {
-        if (regexURL.test(picture)) {
-            updatedInfo.picture = picture;
-        } else {
-            res.render('profile/edit-profile', {user, error: 'Enter a valid URL for picture'});
-            return;
-        }
-      }
-    if (country) {
-        updatedInfo.country = country;
+    if (spotifyLink && !regexURL.test(spotifyLink)) {
+        res.render('profile/edit-profile', {user, error: 'Enter a valid URL for spotify link'});
+        return;
     }
-    if (city) {
-        updatedInfo.city = city;
+    if (instagramLink && !regexURL.test(instagramLink)) {
+        res.render('profile/edit-profile', {user, error: 'Enter a valid URL for instagram link'});
+        return;
     }
-    if (spotifyLink) {
-        if (regexURL.test(spotifyLink)) {
-            updatedInfo.spotifyLink = spotifyLink;
-        } else {
-            res.render('profile/edit-profile', {user, error: 'Enter a valid URL for spotify link'});
-            return;
-        }
-      }
-      if (instagramLink) {
-        if (regexURL.test(instagramLink)) {
-            updatedInfo.instagramLink = instagramLink;
-        } else {
-            res.render('profile/edit-profile', {user, error: 'Enter a valid URL for instagram link'});
-            return;
-        }
-      }
-    const userId = user._id;
     try {
-        const newUser = await User.findByIdAndUpdate(userId, updatedInfo, { new: true });
+        const newUser = await User.findByIdAndUpdate(user._id, { username, picture, country, city, spotifyLink, instagramLink }, { new: true });
         req.session.currentUser = newUser;
         res.redirect('/profile/edit/interests');
     } catch (error) {
@@ -291,11 +314,7 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
         });
         Promise.all(postPromises).then(postsResolvedPromises => {
             const posts = postsResolvedPromises;
-            if (isFollowing) {
-                res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, posts});
-            } else {
-                res.render('profile/profile', {user, viewer: viewerCookie, posts});
-            }
+            res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, posts});
         })
     } catch (error) {
         next(error);
@@ -310,16 +329,29 @@ router.get('/view/:userId/calendar', isLoggedIn, async (req, res, next) => {
     const viewerCookie = req.session.currentUser;
     try {
         const events = JSON.parse(JSON.stringify(await Event.find({tribeId: userId})));
+        const attendingEvents = await Attend.find({userId: viewerCookie._id});
+        const attendingEventsIds = attendingEvents.map(event => event.eventId.toString());
         events.forEach(event => {
             event.date = new Date(event.date).toISOString().substring(0, 10);
+            if (viewerCookie.type === 'fan') {
+                event.canAttend = true;
+            }
+            if (attendingEventsIds.includes(event._id.toString())) {
+                event.isAttending = true;
+            } else {
+                event.isAttending = false;
+            }
         });
         const calendar = {};
         if (events.length === 0) {
             calendar.empty = true;
         }
         calendar.events = events;
-        const user = await User.findById(userId);
-        res.render('profile/profile', {user, viewer: viewerCookie, calendar});
+        const userDB = await User.findById(userId);
+        const userPreFollows = JSON.parse(JSON.stringify(userDB));
+        const user = await computeFollows(userPreFollows);
+        const isFollowing = await Follow.findOne({ followerId: viewerCookie._id, followeeId: userId });
+        res.render('profile/profile', {user, viewer: viewerCookie, calendar, isFollowing});
     } catch (error) {
         next(error);
     }
@@ -362,5 +394,38 @@ router.get('/:userId/following', isLoggedIn, async (req, res, next) => {
         next(error);
     }
 });
+
+// @desc    Delete profile and all its posts
+// @route   GET /profile/delete-profile
+// @access  Private
+router.get('/delete-profile', isLoggedIn, async (req, res, next) => {
+    const userId = req.session.currentUser._id;
+    try {
+        const albums = await Album.find({ tribe: userId });
+        const deleteLikesPromises = [];
+        albums.forEach(album => {
+            deleteLikesPromises.push(new Promise((resolve, reject) => {
+                resolve(Like.deleteMany({ albumId: album._id }));
+            }))
+        });
+        await Promise.all(deleteLikesPromises);
+        await Album.deleteMany({ tribe: userId });
+        await Follow.deleteMany({ followeeId: userId });
+        await Follow.deleteMany({ followerId: userId });
+        await Like.deleteMany({ likeUserId: userId });
+        await Event.deleteMany({ tribeId: userId });
+        await Attend.deleteMany({ userId: userId });
+        await User.findByIdAndDelete(userId);
+        req.session.destroy((err) => {
+            if (err) {
+              next(err);
+            } else {
+              res.redirect("/");
+            }
+          });
+    } catch (error) {
+        next(error);
+    }
+})
 
 module.exports = router;

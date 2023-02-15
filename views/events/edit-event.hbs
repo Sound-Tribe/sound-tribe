@@ -1,14 +1,16 @@
 <div class="page-heading">
-    <h1 class="app-name">SounTribe</h1>
+    <h1 class="app-name">SoundTribe</h1>
     <div class="page-heading-name">
         <img class="page-icon" src="/images/event.png" alt="Event icon">
         <h2 class="page-name">New Event</h2>
     </div>
 </div>
-<form action="/profile/calendar/edit/{{event._id}}" method="post">
+<form class="new-event-form" action="/profile/calendar/edit/{{event._id}}" method="post">
     <label for="date">Date of the concert</label>
-    <input type="date" name="date" value="{{event.date}}">
+    <input type="date" name="date" value="{{event.date}}" required="true">
     <label for="location">Location of the concert</label>
-    <input type="text" name="location" value="{{event.location}}">
+    <input type="text" name="location" value="{{event.location}}" required="true">
+    <label for="ticketsLink">Link to buy tickets for the event (optional)</label>
+    <input type="text" name="ticketsLink" value="{{event.ticketsLink}}">
     <button type="submit">Save event</button>
 </form>

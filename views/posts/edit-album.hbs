@@ -8,9 +8,9 @@
 {{#if error}}
     <p>{{error}}</p>
 {{/if}}
-<form class="newalbum-form" action="/posts/edit/{{album._id}}" method="post">
-    <label class="image-newalbum" for="image">Album's image URL:</label>
-    <input class="image-newalbum-input" type="text" name="image" value="{{album.image}}" required="true">
+<form class="newalbum-form" action="/posts/edit/{{album._id}}" enctype="multipart/form-data" method="post">
+    <label class="image-newalbum" for="image">Album's image</label>
+    <input class="image-newalbum-input" type="file" name="image" value="{{album.image}}" accept="image/*">
     <label class="title-newalbum" for="title">Title of the album</label>
     <input class="title-newalbum-input" type="text" name="title" value="{{album.title}}" required="true">
     <label class="description-newalbum" for="description">Description of the album:</label>

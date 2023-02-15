@@ -38,11 +38,18 @@
         </div>
     {{/each}}
 {{/if}}
+{{#if emptySearch}}
+    <div class="empty-page">
+        <h2>No username found</h2>
+        <p>Please try again</p>
+        <img src="/images/profile.png" alt="App Icon">
+    </div>
+    {{/if}}
 {{#if searchResults}}
     {{#each searchResults}}
         <div class="search-result-profile">
             <a href="/profile/view/{{this._id}}/posts">
-                <img style="width: 50px;" src="{{this.picture}}" alt="Profile picture for {{this.username}}">
+                <img src="{{this.picture}}" alt="Profile picture for {{this.username}}">
                 <p>{{this.username}}</p>
             </a>
         </div>
