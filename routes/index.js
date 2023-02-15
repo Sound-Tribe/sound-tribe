@@ -31,33 +31,20 @@ router.get('/home', isLoggedIn, async (req, res, next) => {
         resolve(Album.find({ tribe: follow.followeeId }).sort({"_id": -1}).limit(10).populate('tribe'));
       }));
     });
-    Promise.all(albumPromises).then(albumsResolvedPromises => {
-      const albumsPreLikes = [];
-      albumsResolvedPromises.forEach(followee => {
-        followee.forEach(album => {
-          albumsPreLikes.push(JSON.parse(JSON.stringify(album)));
-        });
-      });
-      const albumLikesPromises = [];
-      albumsPreLikes.forEach(album => {
-        albumLikesPromises.push(new Promise((resolve, reject) => {
-          resolve(computeLikes(album, user));
-        }));
-      });
-      Promise.all(albumLikesPromises).then(albums => {
-        if (albums.length === 0) {
-          res.render('home', {user, empty: 'No follows'});
-          return;
-        } else {
-          res.render('home', {user, albums});
-        }
-      }).catch(error => {
-        next(error);
-      });
-    })
-    .catch(error => {
-      next(error);
+    const albumsPreLikes = (await Promise.all(albumPromises)).flat();
+    const albumLikesPromises = [];
+    albumsPreLikes.forEach(album => {
+      albumLikesPromises.push(new Promise((resolve, reject) => {
+        resolve(computeLikes(album, user));
+      }));
     });
+    const albums = await Promise.all(albumLikesPromises);
+    if (albums.length === 0) {
+      res.render('home', {user, empty: 'No follows'});
+      return;
+    } else {
+      res.render('home', {user, albums});
+    }
   } catch (error) {
     next(error);
   } 
@@ -69,7 +56,6 @@ router.get('/home', isLoggedIn, async (req, res, next) => {
 // @access  Public & Private
 router.get('/discover', async (req, res, next) => {
   if (!req.session.currentUser) {
-    // Not logged in gets latest content from all genres
     try {
       const latestAlbums = await Album.find().sort({"_id": -1}).limit(10);
       res.render('discover', {latestAlbums});
