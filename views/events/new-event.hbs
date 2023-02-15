@@ -5,12 +5,15 @@
         <h2 class="page-name">New Event</h2>
     </div>
 </div>
+{{#if error}}
+    <p>{{error}}</p>
+{{/if}}
 <form class="new-event-form" action="/profile/calendar/new" method="post">
     <label for="date">Date of the concert</label>
-    <input type="date" name="date">
+    <input type="date" name="date" required="true">
     <label for="location">Location of the concert</label>
-    <input type="text" name="location" placeholder="Barcelona">
-    <label for="ticketsLink">Link to buy tickets for the event</label>
-    <input type="number" name="ticketsLink" placeholder="1000">
+    <input type="text" name="location" placeholder="Barcelona" required="true">
+    <label for="ticketsLink">Link to buy tickets for the event (optional)</label>
+    <input type="number" name="ticketsLink" placeholder="https://tickets.com...">
     <button type="submit">Add concert</button>
 </form>

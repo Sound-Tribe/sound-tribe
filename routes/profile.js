@@ -137,6 +137,10 @@ router.post('/calendar/new', isLoggedIn, isTribe, async (req, res, next) => {
     const user = req.session.currentUser;
     const { location, date, ticketsLink } = req.body;
     const jsDate = new Date(date);
+    if (!date || !location) {
+        res.render('events/new-event', {user, error:"Please input required fields"});
+        return;
+    }
     try {
         await Event.create({ tribeId: user._id, date: jsDate, location, ticketsLink });
         res.redirect('/profile/calendar');
@@ -168,6 +172,10 @@ router.post('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, nex
     const {eventId} = req.params;
     const { location, date, ticketsLink } = req.body;
     const jsDate = new Date(date);
+    if (!date || !location) {
+        res.redirect(`/profile/calendar/edit/${eventId}`);
+        return;
+    }
     try {
         await Event.findByIdAndUpdate(eventId, { tribeId: user._id, date: jsDate, location, ticketsLink })
         res.redirect('/profile/calendar');
