@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Album = require('../models/Album.js');
+const Like = require('../models/Like');
 const {isLoggedIn, isTribe} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
 const fileUploader = require('../config/cloudinary.config');
@@ -225,6 +226,7 @@ router.get('/delete/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
         if (user._id != album.tribe) {
             res.redirect('back');
         } else {
+            await Like.deleteMany({albumId: album._id});
             await Album.findByIdAndDelete(albumId);
             res.redirect('/profile/posts');
         }
