@@ -6,6 +6,7 @@ const fileUploader = require('../config/cloudinary.config');
 const spotifyApi = require('../utils/connectSpotify');
 const isAudioFile = require('../utils/isAudio');
 const computeLikes = require('../utils/computeLikes.js');
+const cloudinary = require('cloudinary');
 
 // @desc    Get view for new post (album) page
 // @route   GET /posts/new
@@ -185,23 +186,34 @@ router.get('/edit/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
 // @desc    Edit album
 // @route   POST /posts/edit/:albumId
 // @access  Private
-router.post('/edit/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
+router.post('/edit/:albumId', isLoggedIn, isTribe, fileUploader.single('image'), async (req, res, next) => {
     const user = req.session.currentUser;
+    const { title, description, genres } = req.body;
     const { albumId } = req.params;
-    const { image, title, description, genres } = req.body;
-    if (!image || !title || !genres ) {
+    try {
         const album = await Album.findById(albumId);
-        const checkedGenres = album.genres
-        const notCheckedGenres = interestsDB.filter((item) => !checkedGenres.includes(item));
-        res.render(`posts/edit/:${albumId}`, {user, album, checkedGenres, notCheckedGenres, error: 'Please, fill all the required fields'});
-    } else {
-        try {
+        if(req.file) {
+             image = req.file.path;
+             console.log(image)
+        } else {
+             image = cloudinary.url(album.image)
+             console.log('hello')
+        }
+        if (!image || !title || !genres ) {
+            // const album = await Album.findById(albumId);
+            const checkedGenres = album.genres
+            const notCheckedGenres = interestsDB.filter((item) => !checkedGenres.includes(item));
+            res.render(`posts/edit/:${albumId}`, {user, album, checkedGenres, notCheckedGenres, error: 'Please, fill all the required fields'});
+        } else {
+            console.log(image);
             const editedAlbum = await Album.findByIdAndUpdate(albumId, { image, title, description, genres, tribe: user._id });
-            res.redirect('/profile/posts');
-        } catch (error) {
-            next(error);  
-        }   
+            res.redirect('/profile/posts'); 
     }
+    } catch (error) {
+       next(error); 
+    }
+    
+    
 });
 
 // @desc    View details of the album
