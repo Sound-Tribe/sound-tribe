@@ -54,8 +54,14 @@ router.get('/new/:albumId/add-tracks', isLoggedIn, isTribe, async (req, res, nex
 // @access  Private
 router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, next) => {
     const {tracksForm, trackNamesForm} = req.body;
+    const user = req.session.currentUser;
+    const {albumId} = req.params;
     let tracks = [];
     let trackNames = [];
+    if (!tracksForm || !trackNamesForm) {
+        res.redirect(`/posts/new/${albumId}/add-tracks`);
+        return;
+    }
     if (typeof tracksForm === 'string') {
         tracks.push(tracksForm);
         trackNames.push(trackNamesForm);
@@ -64,8 +70,6 @@ router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, nex
         trackNames = trackNamesForm.map(name => name);
     }
     const tracksDB = [];
-    const user = req.session.currentUser;
-    const {albumId} = req.params;
     try {
         const album = await Album.findById(albumId);
         for (let trackIdx = 0; trackIdx < tracks.length; trackIdx++) {
