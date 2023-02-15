@@ -110,7 +110,6 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
             if (events.length === 0) {
                 calendar.empty = true;
             }
-            console.log(user);
             res.render('profile/profile', {user, owner:true, calendar});
             return;
         }
@@ -214,7 +213,6 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
         const userDB = await User.findById(userId);
         const userPreFollowCompute = JSON.parse(JSON.stringify(userDB));
         const user = await computeFollows(userPreFollowCompute);
-        // isFollowing = null if not following
         const isFollowing = await Follow.findOne({ followerId: viewerCookie._id, followeeId: userId });
         const postsDB = await Album.find({ tribe: userId });
         const postsPrePromise = JSON.parse(JSON.stringify(postsDB));
@@ -224,10 +222,8 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
                 resolve(computeLikes(post, viewerCookie));
             }));
         });
-        Promise.all(postPromises).then(postsResolvedPromises => {
-            const posts = postsResolvedPromises;
-            res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, posts});
-        })
+        const posts = await Promise.all(postPromises);
+        res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, posts});
     } catch (error) {
         next(error);
     }
