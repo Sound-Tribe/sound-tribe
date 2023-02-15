@@ -8,7 +8,7 @@
 </div>
 <h3 class="steps">Step 1/2</h3>
 {{#if this.error}}
-  <p style="color: red;">{{this.error}}</p>
+  <p class="error-msg">{{this.error}}</p>
 {{/if}}
 <form class="edit-profile-1" action="/profile/edit" enctype="multipart/form-data" method="POST">
   <label class="label-edit-profile" for="username">New username</label>

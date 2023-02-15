@@ -7,7 +7,7 @@
 <h3 class="steps">Step 2/2</h3>
 <p class="p-signup2">Tell us more about yourself so we can find the coolest Tribes around you</p>
 {{#if this.error}}
-  <p style="color: red;">{{this.error}}</p>
+  <p class="error-msg">{{this.error}}</p>
 {{/if}}
 <form class="signup-form-2" action="/auth/complete-profile" enctype="multipart/form-data" method="post">
   <label class="picture" for="picture">Picture</label>

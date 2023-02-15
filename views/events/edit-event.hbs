@@ -5,6 +5,9 @@
         <h2 class="page-name">New Event</h2>
     </div>
 </div>
+{{#if error}}
+    <p class="error-msg">{{error}}</p>
+{{/if}}
 <form class="new-event-form" action="/profile/calendar/edit/{{event._id}}" method="post">
     <label for="date">Date of the concert</label>
     <input type="date" name="date" value="{{event.date}}" required="true">
