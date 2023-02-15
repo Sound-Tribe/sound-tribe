@@ -48,7 +48,7 @@ const myWidget = cloudinary.createUploadWidget(
     (error, result) => {
       if (!isAudioFile(result.info.path)) {
         document.getElementById("cloudinary-error").style = 'display: block;';
-        document.getElementById("cloudinary-error").innerHTML = 'You uploaded an unsupported file type. Try again';
+        document.getElementById("cloudinary-error").innerHTML = 'You uploaded an unsupported file type.';
         document.getElementById('local-uploads-form').style = 'display: none;';
       } else if (!error && result && result.event === "success") {
         // console.log("Done! Here is the upload info: ", result.info.path);

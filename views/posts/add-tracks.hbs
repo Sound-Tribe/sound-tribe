@@ -19,7 +19,7 @@
     <input type="text" name="albumName" placeholder="The Dark Side Of The Moon">
     <button type="submit">Search</button>
 </form>
-<p id="cloudinary-error" style="display: none;">
+<p id="cloudinary-error" class="error-msg" style="display: none;">
     {{!-- Filled if error --}}
 </p>
 <form action="/posts/new/{{album._id}}/add-tracks" method="post" id="local-uploads-form">
