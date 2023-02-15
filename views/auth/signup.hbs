@@ -16,13 +16,22 @@
   <label class="password">Password</label>
   <input class="input-signup"type="password" name="password" placeholder="********" required="true"/>
 
-  <fieldset>
-    <legend>What are you?</legend>
-    <input type="radio" name="type" value="tribe">
-    <label for="tribe"><img src="/images/drum.png" alt="tribe icon"></label>
-    <input type="radio" name="type" value="fan">
-    <label for="fan"><img src="/images/fan.png" alt="fan mask icon"></label>
-  </fieldset>
+    <fieldset>
+      <legend>What are you?</legend>
+      <div class="labels-images-signup">
+      <label for="tribe">
+        <input type="radio" name="type" value="tribe">
+        <img src="/images/drum.png" alt="tribe icon">
+        <p>Tribe</p>
+      </label>
+      <label for="fan">
+        <input type="radio" name="type" value="fan">
+        <img src="/images/fan.png" alt="fan mask icon">
+        <p>Fan</p>
+      </label>
+      </div>
+    </fieldset>
+    
 
   {{#if error}}
     <p style="color: red;">{{error}}</p>
