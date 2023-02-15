@@ -441,6 +441,17 @@ nav.main-nav img {
   opacity: 0.5;
   font-family: 'Noto Sans JP', sans-serif;
 }
+
+.go-back-btn-1 {
+  margin: 10px var(--page-heading-padding);
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+  color: var(--main-black);
+  opacity: 0.9;
+  font-family: 'Noto Sans JP', sans-serif;
+}
 .album-card {
   margin: 0 var(--page-heading-padding);
   display: flex;
