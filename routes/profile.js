@@ -62,15 +62,14 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
                 resolve(computeLikes(like.albumId, user));
             }))
         });
-        Promise.all(likedPromises).then((likedResolvedPromises) => {
-            const liked = likedResolvedPromises;
-            if (liked.length === 0) {
-                res.render('profile/profile', {user, owner: true, emptyLiked: 'Emplty liked page'});
-                return;
-            } else {
-                res.render('profile/profile', {user, owner: true, liked: liked});
-            }
-        });
+        const liked = await Promise.all(likedPromises);
+        if (liked.length === 0) {
+            res.render('profile/profile', {user, owner: true, emptyLiked: 'Emplty liked page'});
+            return;
+        } else {
+            res.render('profile/profile', {user, owner: true, liked: liked});
+            return;
+        }
     } catch (error) {
         next(error);
     }
