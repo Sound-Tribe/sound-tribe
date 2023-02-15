@@ -11,7 +11,7 @@
 {{/if}}
 <h1 class="h1-add-tracks">Add tracks for {{album.title}}</h1>
 <div class="button-add-tracks">
-    <button id="upload_widget" class="cloudinary-button">Upload</button>
+    <button id="upload_widget">Upload</button>
     <button id="add-spotify-btn">Import from Spotify</button>
 </div>
 <form class="spotify-form" action="/posts/new/{{album._id}}/add-tracks/spotify" method="get" id="spotify-search-form">
@@ -22,7 +22,7 @@
 <p id="cloudinary-error" class="error-msg" style="display: none;">
     {{!-- Filled if error --}}
 </p>
-<form action="/posts/new/{{album._id}}/add-tracks" method="post" id="local-uploads-form">
+<form action="/posts/new/{{album._id}}/add-tracks" method="post" id="local-uploads-form" class="local-uploads-form">
     <div id="tracks">
     {{!-- Filled when upload --}}
     </div>
