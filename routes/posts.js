@@ -8,6 +8,21 @@ const isAudioFile = require('../utils/isAudio');
 const computeLikes = require('../utils/computeLikes.js');
 const cloudinary = require('cloudinary');
 
+// @desc    View details of the album
+// @route   GET posts/detail/:albumId
+// @access  Private
+router.get('/detail/:albumId', isLoggedIn, async (req, res, next) => {
+    const user = req.session.currentUser;
+    const { albumId } = req.params;
+    try {
+        let album = JSON.parse(JSON.stringify(await Album.findById(albumId).populate('tribe')));
+        album = await computeLikes(album, user);
+        res.render('posts/album-detail', {user, album});
+    } catch (error) {
+        next(error);
+    }
+});
+
 // @desc    Get view for new post (album) page
 // @route   GET /posts/new
 // @access  Private
@@ -146,26 +161,7 @@ router.post('/new/:albumId/add-tracks/spotify/:spotifyId', isLoggedIn, isTribe, 
     } catch (error) {
         next(error);
     }
-})
-
-// @desc    Delete album
-// @route   GET /posts/delete/:albumId
-// @access  Private
-router.get('/delete/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
-    const { albumId } = req.params;
-    const user = req.session.currentUser;
-    try {
-        const album = await Album.findById(albumId);
-        if (user._id != album.tribe) {
-            res.redirect('back');
-        } else {
-            await Album.findByIdAndDelete(albumId);
-            res.redirect('/profile/posts');
-        }
-    } catch (error) {
-        next(error);
-    }
-})
+});
 
 // @desc    Edit album
 // @route   GET /posts/edit/:albumId
@@ -185,7 +181,7 @@ router.get('/edit/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-})
+});
 
 // @desc    Edit album
 // @route   POST /posts/edit/:albumId
@@ -215,24 +211,26 @@ router.post('/edit/:albumId', isLoggedIn, isTribe, fileUploader.single('image'),
     }
     } catch (error) {
        next(error); 
-    }
-    
-    
+    } 
 });
 
-// @desc    View details of the album
-// @route   GET posts/detail/:albumId
+// @desc    Delete album
+// @route   GET /posts/delete/:albumId
 // @access  Private
-router.get('/detail/:albumId', isLoggedIn, async (req, res, next) => {
-    const user = req.session.currentUser;
+router.get('/delete/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
     const { albumId } = req.params;
+    const user = req.session.currentUser;
     try {
-        let album = JSON.parse(JSON.stringify(await Album.findById(albumId).populate('tribe')));
-        album = await computeLikes(album, user);
-        res.render('posts/album-detail', {user, album});
+        const album = await Album.findById(albumId);
+        if (user._id != album.tribe) {
+            res.redirect('back');
+        } else {
+            await Album.findByIdAndDelete(albumId);
+            res.redirect('/profile/posts');
+        }
     } catch (error) {
         next(error);
     }
-})
+});
 
 module.exports = router;
