@@ -190,14 +190,14 @@ router.post('/edit/:albumId', isLoggedIn, isTribe, fileUploader.single('image'),
     const user = req.session.currentUser;
     const { title, description, genres } = req.body;
     const { albumId } = req.params;
-    // let image = '';
     try {
         const album = await Album.findById(albumId);
         if(req.file) {
-            console.log('helooooo')
              image = req.file.path;
+             console.log(image)
         } else {
              image = cloudinary.url(album.image)
+             console.log('hello')
         }
         if (!image || !title || !genres ) {
             // const album = await Album.findById(albumId);
