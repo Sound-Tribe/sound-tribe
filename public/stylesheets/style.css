@@ -988,14 +988,6 @@ nav.main-nav img {
   font-size: 15px;
 }
 
-.newalbum-interests {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 10px;
-}
-
 /* Add tracks */
 
 .h1-add-tracks {
