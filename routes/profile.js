@@ -2,16 +2,15 @@ const router = require('express').Router();
 const Album = require('../models/Album.js');
 const User = require('../models/User.js');
 const Follow = require('../models/Follow');
+const Like = require('../models/Like');
+const Event = require('../models/Event');
+const Attend = require('../models/Attend');
 const {isLoggedIn, isTribe} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
 const computeFollows = require('../utils/computeFollows');
-const Like = require('../models/Like');
 const computeLikes = require('../utils/computeLikes');
-const Event = require('../models/Event');
-const Attend = require('../models/Attend');
 const fileUploader = require('../config/cloudinary.config');
 const cloudinary = require('cloudinary');
-
 
 // @desc    Profile Page owner. Content = Posts
 // @route   GET /profile/posts
@@ -34,15 +33,14 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
                 resolve(computeLikes(post, userCookie));
             }));
         });
-        Promise.all(postPromises).then((postsResolvedPromises) => {
-            const posts = postsResolvedPromises;
-            if (posts.length === 0) {
-                res.render('profile/profile', {user, owner: true, emptyPosts: 'No posts yet'});
-                return;
-            } else {
-                res.render('profile/profile', {user, owner: true, posts});
-            }
-        });
+        const posts = await Promise.all(postPromises);
+        if (posts.length === 0) {
+            res.render('profile/profile', {user, owner: true, emptyPosts: 'No posts yet'});
+            return;
+        } else {
+            res.render('profile/profile', {user, owner: true, posts});
+            return;
+        }
     } catch (error) {
         next(error);
     }
