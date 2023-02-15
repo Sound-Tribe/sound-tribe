@@ -1129,9 +1129,15 @@ margin-left: 10px;
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid var(--main-black);
+  gap: 10px;
   width: 60vw;
   margin: 0 auto;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+.spotify-search-result img {
+  width: 80%;
+  height: auto;
 }
 
 .spotify-search-result form button {
@@ -1139,9 +1145,10 @@ margin-left: 10px;
   color: var(--main-white);
   padding: 5px;
   font-family: 'Noto Sans JP', sans-serif;
-  font-size: 10px;
+  font-size: .8rem;
   border: none;
   margin-bottom: 5px;
+  border-radius: 5px;
 }
 
 /* Search result users */
