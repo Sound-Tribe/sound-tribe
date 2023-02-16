@@ -123,3 +123,9 @@
     {{/if}}
     {{>calendarPage calendar}}
 {{/if}}
+<script src="/scripts/vertical-scroll.js"></script>
+<script>
+    window.onload = () => {
+        window.scrollTo(0, {{scrollPosition}});
+    }
+</script>

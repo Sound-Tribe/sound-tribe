@@ -18,6 +18,7 @@ const cloudinary = require('cloudinary');
 // @access  Private
 router.get('/posts', isLoggedIn, async (req, res, next) => {
     const userCookie = req.session.currentUser;
+    const scrollPosition = parseInt(req.query.scroll) || 0;
     if(userCookie.type === 'fan') {
         res.redirect('/profile/liked');
         return;
@@ -39,7 +40,7 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
             res.render('profile/profile', {user, owner: true, emptyPosts: 'No posts yet'});
             return;
         } else {
-            res.render('profile/profile', {user, owner: true, posts});
+            res.render('profile/profile', {user, owner: true, posts, scrollPosition: scrollPosition});
             return;
         }
     } catch (error) {
@@ -52,6 +53,7 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
 // @access  Private
 router.get('/liked', isLoggedIn, async (req, res, next) => {
     const userCookie = req.session.currentUser;
+    const scrollPosition = parseInt(req.query.scroll) || 0;
     try {
         const user = await computeFollows(userCookie);
         // Retreives all liked posts from user & populates the album 
@@ -68,7 +70,7 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
             res.render('profile/profile', {user, owner: true, emptyLiked: 'Emplty liked page'});
             return;
         } else {
-            res.render('profile/profile', {user, owner: true, liked: liked});
+            res.render('profile/profile', {user, owner: true, liked: liked, scrollPosition: scrollPosition});
             return;
         }
     } catch (error) {
@@ -218,9 +220,10 @@ router.post('/edit/interests', isLoggedIn, async (req, res, next) => {
 router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
     const { userId } = req.params;
     const viewerCookie = req.session.currentUser;
+    const scrollPosition = parseInt(req.query.scroll) || 0;
     try {
         const userDB = await User.findById(userId);
-        if (userDB.type = 'fan') {
+        if (userDB.type === 'fan') {
             res.redirect(`/profile/view/${userId}/calendar`);
             return;
         }
@@ -240,7 +243,7 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
             res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, emptyPosts: 'No posts to see'});
             return;
         } else {
-            res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, posts});
+            res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, posts, scrollPosition: scrollPosition});
             return;
         }
     } catch (error) {
