@@ -14,7 +14,10 @@
   <input class="input-signup"type="email" name="email" placeholder="john@doe.com" required="true"/>
 
   <label class="password">Password</label>
-  <input class="input-signup"type="password" name="password" placeholder="********" required="true"/>
+  <div class="password-div">
+    <input type="password" name="password" placeholder="********" id="password"/>
+    <img src="/images/show.png" alt="show eye image" id="showpass">
+  </div>
 
     <fieldset>
       <legend>What are you?</legend>
@@ -40,3 +43,4 @@
   <button class="button-signup" type="submit">Create account</button>
   <a href="/auth/login">Already have an account?</a>
 </form>
+<script src="/scripts/show-pass.js"></script>
