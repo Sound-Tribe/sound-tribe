@@ -69,13 +69,20 @@
 </nav>
 
 {{#if emptyPosts}}
-    <div class="profile-empty-page">
-        <img src="/images/profile.png" alt="App Icon">
-        <h2>Looks like you haven't posted <br> any albums yet</h2>
-        <p>Go ahead and share your pasion!</p>
-        <img class="text-icon" src="/images/new-post.png" alt="Discover Icon">
-        <p>Here you'll be able to manage your posts.</p>
-    </div>
+    {{#if owner}}
+        <div class="profile-empty-page">
+            <img src="/images/profile.png" alt="App Icon">
+            <h2>Looks like you haven't posted <br> any albums yet</h2>
+            <p>Go ahead and share your pasion!</p>
+            <img class="text-icon" src="/images/new-post.png" alt="Discover Icon">
+            <p>Here you'll be able to manage your posts.</p>
+        </div>
+    {{else}}
+        <div class="profile-empty-page">
+            <img src="/images/profile.png" alt="App Icon">
+            <h2>Looks like {{user.username}} has not posted<br> any albums yet</h2>
+        </div>
+    {{/if}}
 {{/if}}
 {{#if posts}}
     {{>postsPage posts}}

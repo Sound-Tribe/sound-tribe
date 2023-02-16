@@ -232,7 +232,13 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
             }));
         });
         const posts = await Promise.all(postPromises);
-        res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, posts});
+        if (posts.length === 0) {
+            res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, emptyPosts: 'No posts to see'});
+            return;
+        } else {
+            res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, posts});
+            return;
+        }
     } catch (error) {
         next(error);
     }
