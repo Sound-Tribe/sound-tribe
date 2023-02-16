@@ -431,6 +431,11 @@ nav.main-nav img {
   font-size: 1.3rem;
   margin: 0 var(--page-heading-padding);
 }
+.detail-profile-link {
+  text-decoration: none;
+  color: var(--main-black);
+  margin-bottom: 10px;
+}
 .go-back-btn {
   margin: 10px var(--page-heading-padding);
   background: none;
@@ -454,6 +459,7 @@ nav.main-nav img {
 }
 .album-card {
   margin: 0 var(--page-heading-padding);
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;

@@ -58,7 +58,7 @@ router.get('/home', isLoggedIn, async (req, res, next) => {
 router.get('/discover', async (req, res, next) => {
   if (!req.session.currentUser) {
     try {
-      const latestAlbums = await Album.find().sort({"_id": -1}).limit(10);
+      const latestAlbums = await Album.find().sort({"_id": -1}).limit(10).populate('tribe');
       res.render('discover', {latestAlbums});
     } catch (error) {
       next(error);

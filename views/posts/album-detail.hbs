@@ -5,7 +5,7 @@
     </div>
 </div>
 <button class="go-back-btn" onclick="history.back()"><< Go Back</button>
-<h2 class="album-detail-name">{{album.title}} - {{album.tribe.username}}</h2>
+<a class="detail-profile-link" href="/profile/view/{{album.tribe._id}}/posts"><h2 class="album-detail-name">{{album.title}} - {{album.tribe.username}}</h2></a> 
 <div class="album-card">
     <img src="{{album.image}}" alt="Cover album image">
     <div class="post-likes detail-likes">
