@@ -6,7 +6,7 @@
     </div>
 </div>
 {{#each albums}}
-    <div class="post">
+    <div class="post" id="post{{this._id}}">
         <a class="post-profile-info" href="/profile/view/{{this.tribe._id}}/posts">
             <img class="post-profile-picture" src="{{this.tribe.picture}}" alt="Profile picture">
             <p class="post-tribe-name">{{this.tribe.username}}</p>
@@ -17,7 +17,8 @@
         </a>
         <div class="post-likes">
             <form action="/like/edit/{{this._id}}" method="post">
-                <button type="submit">
+                <input type="hidden" id="{{this._id}}" class="scrollPosition" name="scrollPosition" value="">
+                <button onclick="assignVerticalValue()" type="submit">
                     {{#if this.isLiked}}
                         <img class="post-like-icon" src="/images/liked.png" alt="liked post icon">
                     {{else}}
@@ -39,3 +40,10 @@
         <p>Here you will find their greatest hits.</p>
     </div>
 {{/if}}
+
+<script src="/scripts/vertical-scroll.js"></script>
+<script>
+    window.onload = () => {
+        window.scrollTo(0, {{scrollPosition}});
+    }
+</script>

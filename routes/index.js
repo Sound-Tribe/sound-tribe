@@ -23,6 +23,7 @@ router.get('/', (req, res, next) => {
 // @access  Private
 router.get('/home', isLoggedIn, async (req, res, next) => {
   const user = req.session.currentUser;
+  const scrollPosition = parseInt(req.query.scroll) || 0;
   try {
     const follows = await Follow.find({ followerId: user._id })
     const albumPromises = [];
@@ -43,7 +44,7 @@ router.get('/home', isLoggedIn, async (req, res, next) => {
       res.render('home', {user, empty: 'No follows'});
       return;
     } else {
-      res.render('home', {user, albums});
+      res.render('home', {user, albums, scrollPosition: scrollPosition});
     }
   } catch (error) {
     next(error);
