@@ -220,6 +220,10 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
     const viewerCookie = req.session.currentUser;
     try {
         const userDB = await User.findById(userId);
+        if (userDB.type = 'fan') {
+            res.redirect(`/profile/view/${userId}/calendar`);
+            return;
+        }
         const userPreFollowCompute = JSON.parse(JSON.stringify(userDB));
         const user = await computeFollows(userPreFollowCompute);
         const isFollowing = await Follow.findOne({ followerId: viewerCookie._id, followeeId: userId });

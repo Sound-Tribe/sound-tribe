@@ -63,8 +63,8 @@
         <a class="{{#if user.isTribe}}nav-border-left{{/if}} nav-border-right" href="/profile/liked">Liked</a>
         <a class="nav-border-left" href="/profile/calendar">Calendar</a>
     {{else}}
-        <a class="nav-border-right" href="/profile/view/{{user._id}}/posts">Posts</a>
-        <a class="nav-border-left" href="/profile/view/{{user._id}}/calendar">Calendar</a>
+        {{#if user.isTribe}}<a class="nav-border-right" href="/profile/view/{{user._id}}/posts">Posts</a>{{/if}}
+        <a class="nav-border-left" {{#unless user.isTribe}} style="border-left: none;" {{/unless}} href="/profile/view/{{user._id}}/calendar">Calendar</a>
     {{/if}}
 </nav>
 
@@ -109,10 +109,17 @@
         {{/if}}
     {{/if}}
     {{#if calendar.empty}}
-        <div class="profile-empty-page">
-        <img src="/images/profile.png" alt="App Icon">
-        <h2>No events sheduled</h2>
-    </div>
+        {{#if user.istribe}}
+            <div class="profile-empty-page">
+                <img src="/images/profile.png" alt="App Icon">
+                <h2>No events sheduled</h2>
+            </div>
+        {{else}}
+            <div class="profile-empty-page">
+                <img src="/images/profile.png" alt="App Icon">
+                <h2>{{user.username}} has no sheduled events</h2>
+            </div>
+        {{/if}}
     {{/if}}
     {{>calendarPage calendar}}
 {{/if}}
