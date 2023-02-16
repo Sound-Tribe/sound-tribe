@@ -7,9 +7,3 @@ function assignVerticalValue () {
         input.value = scrollPosition;
     });
 }
-
-// function scroll () {
-//     window.onload = () => {
-//         window.scrollTo(0, {{scrollPosition}});
-//     }
-// }
