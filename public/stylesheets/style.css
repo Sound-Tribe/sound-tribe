@@ -307,7 +307,8 @@ nav.main-nav img {
 }
 .profile-btn {
   height: 35px;
-  width: calc(var(--profile-picture-height) + 5px);
+  /* width: calc(var(--profile-picture-height) + 10px); */
+  width: 120px;
   text-decoration: none;
   font-family: 'Noto Sans JP', sans-serif;
   border: none;
