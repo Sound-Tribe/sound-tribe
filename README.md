@@ -92,12 +92,124 @@ const userSchema = new Schema(
     hashedPassword: {
       type: String,
       required: [true, 'Password is required.']
-    }
+    },
+    type: {
+      type: String,
+      enum: ['tribe', 'fan'],
+      required: [true, 'You must choose between Band or Fan.']
+    },
+    interests: {
+      type: [String],
+      required: [true, 'Interests are required.']
+    },
+    picture: {
+      type: String,
+      default: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fdiscoverafricanart.com%2Fwp-content%2Fuploads%2F2017%2F07%2FDAA-Houzz-profile.jpg&f=1&nofb=1&ipt=219a451070beec9677f6682221d5f467ed36dd8c119b74e1a27cd945347e6999&ipo=images'
+    },
+    city: String,
+    country: String,
+    spotifyLink: String,
+    instagramLink: String
   },
   {
     timestamps: true
   }
 );
+
+const albumSchema = new Schema ({
+    title: {
+        type: String,
+        required: [true, 'An album needs to have a title']
+    },
+    image: {
+        type: String,
+    },
+    description: {
+        type: String,
+        default: 'No description provided'
+    },
+    genres: {
+        type: [String],
+        required: [true, 'An album needs to have one genre at least']
+    },
+    tribe: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    tracks: {
+        type: [{
+            trackUrl: {
+                type: String
+            },
+            trackName : {
+                type: String,
+                default: 'No name'
+            },
+            trackNumber: {
+                type: Number,
+                min: 1
+            }
+        }]
+    }
+}, {
+    timestamps: true
+});
+
+const likeSchema = new Schema({
+    albumId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Album'
+    },
+    likeUserId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
+}, {
+    timestamps: true
+});
+
+const followSchema = new Schema({
+    followerId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    followeeId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
+}, {
+    timestamps: true
+});
+
+const eventSchema = new Schema({
+    tribeId:{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    date: {
+        type: Date,
+        required: [true, 'A date is required']
+
+    },
+    location: {
+        type: String,
+        required: [true, 'A location is required']
+    },
+    ticketsLink : {
+        type: String
+    }
+});
+
+const attendSchema = new Schema({
+    eventId : {
+        type: Schema.Types.ObjectId,
+        ref: 'Event'
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
+});
 ```
 
 ---
@@ -155,10 +267,10 @@ const userSchema = new Schema(
 
 ## Useful links
 
-- [Github Repo]()
-- [Trello kanban]()
-- [Deployed version]()
-- [Presentation slides](https://www.slides.com)
+- [Github Repo](https://github.com/Sound-Tribe/sound-tribe)
+- [Trello kanban](https://trello.com/b/ZQtJWWhq/soundtribe)
+- [Deployed version](https://soundtribe.fly.dev/)
+- [Presentation slides](https://my.visme.co/view/w433ngy6-soundtribe-slides#s1)
 
 
 
