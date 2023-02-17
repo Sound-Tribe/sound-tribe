@@ -6,7 +6,7 @@
     </div>
 </div>
 {{#if error}}
-    <p>{{error}}</p>
+    <p class="error-msg">{{error}}</p>
 {{/if}}
 <form class="newalbum-form" action="/posts/edit/{{album._id}}" enctype="multipart/form-data" method="post">
     <label class="image-newalbum" for="image">Album's image</label>
@@ -17,14 +17,18 @@
     <input class="description-newalbum-input" {{#if album.description}} value ="{{album.description}}"{{/if}} type="text" name="description" placeholder="Created during the pandemic, this is our manifest as a tribe...">
     <fieldset required="true">
         <legend>Choose the genres that represent this album:</legend>
-        <div class="newalbum-interests">
+        <div class="interest-group">
          {{#each checkedGenres}}
-            <input type="checkbox" id="{{this}}" name="genres" value="{{this}}" checked>
-            <label for="{{this}}">{{this}}</label><br>
+            <label for="{{this}}">
+                <input type="checkbox" id="{{this}}" name="genres" value="{{this}}" checked/>
+                <p>{{this}}</p>
+             </label>
         {{/each}}
         {{#each notCheckedGenres}}
-            <input type="checkbox" id="{{this}}" name="genres" value="{{this}}">
-            <label for="{{this}}">{{this}}</label><br>
+            <label for="{{this}}">
+                <input type="checkbox" id="{{this}}" name="genres" value="{{this}}" />
+                <p>{{this}}</p>
+             </label>
         {{/each}}
         </div>
   </fieldset>

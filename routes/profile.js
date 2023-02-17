@@ -2,22 +2,23 @@ const router = require('express').Router();
 const Album = require('../models/Album.js');
 const User = require('../models/User.js');
 const Follow = require('../models/Follow');
+const Like = require('../models/Like');
+const Event = require('../models/Event');
+const Attend = require('../models/Attend');
 const {isLoggedIn, isTribe} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
 const computeFollows = require('../utils/computeFollows');
-const Like = require('../models/Like');
 const computeLikes = require('../utils/computeLikes');
-const Event = require('../models/Event');
-const Attend = require('../models/Attend');
+const computeEventOwner = require('../utils/computeEventOwner.js');
 const fileUploader = require('../config/cloudinary.config');
 const cloudinary = require('cloudinary');
-
 
 // @desc    Profile Page owner. Content = Posts
 // @route   GET /profile/posts
 // @access  Private
 router.get('/posts', isLoggedIn, async (req, res, next) => {
     const userCookie = req.session.currentUser;
+    const scrollPosition = parseInt(req.query.scroll) || 0;
     if(userCookie.type === 'fan') {
         res.redirect('/profile/liked');
         return;
@@ -34,15 +35,14 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
                 resolve(computeLikes(post, userCookie));
             }));
         });
-        Promise.all(postPromises).then((postsResolvedPromises) => {
-            const posts = postsResolvedPromises;
-            if (posts.length === 0) {
-                res.render('profile/profile', {user, owner: true, emptyPosts: 'No posts yet'});
-                return;
-            } else {
-                res.render('profile/profile', {user, owner: true, posts});
-            }
-        });
+        const posts = await Promise.all(postPromises);
+        if (posts.length === 0) {
+            res.render('profile/profile', {user, owner: true, emptyPosts: 'No posts yet'});
+            return;
+        } else {
+            res.render('profile/profile', {user, owner: true, posts, scrollPosition: scrollPosition});
+            return;
+        }
     } catch (error) {
         next(error);
     }
@@ -53,6 +53,7 @@ router.get('/posts', isLoggedIn, async (req, res, next) => {
 // @access  Private
 router.get('/liked', isLoggedIn, async (req, res, next) => {
     const userCookie = req.session.currentUser;
+    const scrollPosition = parseInt(req.query.scroll) || 0;
     try {
         const user = await computeFollows(userCookie);
         // Retreives all liked posts from user & populates the album 
@@ -64,15 +65,14 @@ router.get('/liked', isLoggedIn, async (req, res, next) => {
                 resolve(computeLikes(like.albumId, user));
             }))
         });
-        Promise.all(likedPromises).then((likedResolvedPromises) => {
-            const liked = likedResolvedPromises;
-            if (liked.length === 0) {
-                res.render('profile/profile', {user, owner: true, emptyLiked: 'Emplty liked page'});
-                return;
-            } else {
-                res.render('profile/profile', {user, owner: true, liked: liked});
-            }
-        });
+        const liked = await Promise.all(likedPromises);
+        if (liked.length === 0) {
+            res.render('profile/profile', {user, owner: true, emptyLiked: 'Emplty liked page'});
+            return;
+        } else {
+            res.render('profile/profile', {user, owner: true, liked: liked, scrollPosition: scrollPosition});
+            return;
+        }
     } catch (error) {
         next(error);
     }
@@ -101,107 +101,29 @@ router.get('/calendar', isLoggedIn, async (req, res, next) => {
             res.render('profile/profile', {user, owner:true, calendar});
             return;
         } else {
-            const events = JSON.parse(JSON.stringify(await Attend.find({ userId: user._id }).populate('eventId')));
+            const eventsPreOwner = JSON.parse(JSON.stringify(await Attend.find({ userId: user._id }).populate('eventId')));
+            const eventOwnerPromises = [];
+            eventsPreOwner.forEach(event => {
+                eventOwnerPromises.push(new Promise((resolve, reject) => {
+                    resolve(computeEventOwner(event));
+                }));
+            });
+            const events = await Promise.all(eventOwnerPromises);
             const calendar = {};
             calendar.events = [];
             events.forEach(event => {
                 event.eventId.canAttend = true;
                 event.eventId.isAttending = true;
                 event.eventId.date = new Date(event.eventId.date).toISOString().substring(0, 10);
+                event.eventId.tribe = event.tribe;
                 calendar.events.push(event.eventId);
             });
             if (events.length === 0) {
                 calendar.empty = true;
             }
-            console.log(user);
             res.render('profile/profile', {user, owner:true, calendar});
             return;
         }
-    } catch (error) {
-        next(error);
-    }
-});
-
-// @desc    Create new event view
-// @route   GET /profile/calendar/new
-// @access  Private
-router.get('/calendar/new', isLoggedIn, isTribe, (req, res, next) => {
-    const user = req.session.currentUser;
-    res.render('events/new-event', {user});
-});
-
-// @desc    Create new event post
-// @route   POST /profile/calendar/new
-// @access  Private
-router.post('/calendar/new', isLoggedIn, isTribe, async (req, res, next) => {
-    const user = req.session.currentUser;
-    const { location, date, ticketsLink } = req.body;
-    const jsDate = new Date(date);
-    const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
-    if (ticketsLink && !regexURL.test(ticketsLink)) {
-        res.render('events/new-event', {user, error:"Please enter a valid link"});
-        return;
-    }
-    if (!date || !location) {
-        res.render('events/new-event', {user, error:"Please input required fields"});
-        return;
-    }
-    try {
-        await Event.create({ tribeId: user._id, date: jsDate, location, ticketsLink });
-        res.redirect('/profile/calendar');
-    } catch (error) {
-        next(error);
-    }
-});
-
-// @desc    Edit event view
-// @route   GET /profile/calendar/edit/:eventId
-// @access  Private
-router.get('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, next) => {
-    const user = req.session.currentUser;
-    const {eventId} = req.params;
-    try {
-        const event = JSON.parse(JSON.stringify(await Event.findById(eventId)));
-        event.date = new Date(event.date).toISOString().substring(0, 10);
-        res.render('events/edit-event', {user, event});
-    } catch (error) {
-        next(error);
-    }
-});
-
-// @desc    Edit event post
-// @route   POST /profile/calendar/edit/:eventId
-// @access  Private
-router.post('/calendar/edit/:eventId', isLoggedIn, isTribe, async (req, res, next) => {
-    const user = req.session.currentUser;
-    const {eventId} = req.params;
-    const { location, date, ticketsLink } = req.body;
-    const jsDate = new Date(date);
-    const regexURL = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/;
-    if (ticketsLink && !regexURL.test(ticketsLink)) {
-        res.redirect(`/profile/calendar/edit/${eventId}`); 
-        return;
-    }
-    if (!date || !location) {
-        res.redirect(`/profile/calendar/edit/${eventId}`);
-        return;
-    }
-    try {
-        await Event.findByIdAndUpdate(eventId, { tribeId: user._id, date: jsDate, location, ticketsLink })
-        res.redirect('/profile/calendar');
-    } catch (error) {
-        next(error);
-    }
-});
-
-// @desc    Delete event
-// @route   GET /profile/calendar/delete/:eventId
-// @access  Private
-router.get('/calendar/delete/:eventId', isLoggedIn, isTribe, async (req, res, next) => {
-    const {eventId} = req.params;
-    try {
-        await Event.findByIdAndDelete(eventId);
-        res.redirect('/profile/calendar');
     } catch (error) {
         next(error);
     }
@@ -298,11 +220,15 @@ router.post('/edit/interests', isLoggedIn, async (req, res, next) => {
 router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
     const { userId } = req.params;
     const viewerCookie = req.session.currentUser;
+    const scrollPosition = parseInt(req.query.scroll) || 0;
     try {
         const userDB = await User.findById(userId);
+        if (userDB.type === 'fan') {
+            res.redirect(`/profile/view/${userId}/calendar`);
+            return;
+        }
         const userPreFollowCompute = JSON.parse(JSON.stringify(userDB));
         const user = await computeFollows(userPreFollowCompute);
-        // isFollowing = null if not following
         const isFollowing = await Follow.findOne({ followerId: viewerCookie._id, followeeId: userId });
         const postsDB = await Album.find({ tribe: userId });
         const postsPrePromise = JSON.parse(JSON.stringify(postsDB));
@@ -312,10 +238,14 @@ router.get('/view/:userId/posts', isLoggedIn, async (req, res, next) => {
                 resolve(computeLikes(post, viewerCookie));
             }));
         });
-        Promise.all(postPromises).then(postsResolvedPromises => {
-            const posts = postsResolvedPromises;
-            res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, posts});
-        })
+        const posts = await Promise.all(postPromises);
+        if (posts.length === 0) {
+            res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, emptyPosts: 'No posts to see'});
+            return;
+        } else {
+            res.render('profile/profile', {user, viewer: viewerCookie, isFollowing, posts, scrollPosition: scrollPosition});
+            return;
+        }
     } catch (error) {
         next(error);
     }
@@ -406,9 +336,17 @@ router.get('/delete-profile', isLoggedIn, async (req, res, next) => {
         albums.forEach(album => {
             deleteLikesPromises.push(new Promise((resolve, reject) => {
                 resolve(Like.deleteMany({ albumId: album._id }));
-            }))
+            }));
         });
+        const events = await Event.find({ tribeId: userId });
+        const deleteAttendPromises = [];
+        events.forEach(event => {
+            deleteAttendPromises.push(new Promise((resolve, reject) => {
+                resolve(Attend.deleteMany({ eventId: event._id }));
+            }));
+        })
         await Promise.all(deleteLikesPromises);
+        await Promise.all(deleteAttendPromises)
         await Album.deleteMany({ tribe: userId });
         await Follow.deleteMany({ followeeId: userId });
         await Follow.deleteMany({ followerId: userId });

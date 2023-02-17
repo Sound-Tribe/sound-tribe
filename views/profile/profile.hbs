@@ -63,19 +63,26 @@
         <a class="{{#if user.isTribe}}nav-border-left{{/if}} nav-border-right" href="/profile/liked">Liked</a>
         <a class="nav-border-left" href="/profile/calendar">Calendar</a>
     {{else}}
-        <a class="nav-border-right" href="/profile/view/{{user._id}}/posts">Posts</a>
-        <a class="nav-border-left" href="/profile/view/{{user._id}}/calendar">Calendar</a>
+        {{#if user.isTribe}}<a class="nav-border-right" href="/profile/view/{{user._id}}/posts">Posts</a>{{/if}}
+        <a class="nav-border-left" {{#unless user.isTribe}} style="border-left: none;" {{/unless}} href="/profile/view/{{user._id}}/calendar">Calendar</a>
     {{/if}}
 </nav>
 
 {{#if emptyPosts}}
-    <div class="profile-empty-page">
-        <img src="/images/profile.png" alt="App Icon">
-        <h2>Looks like you haven't posted <br> any albums yet</h2>
-        <p>Go ahead and share your pasion!</p>
-        <img class="text-icon" src="/images/new-post.png" alt="Discover Icon">
-        <p>Here you'll be able to manage your posts.</p>
-    </div>
+    {{#if owner}}
+        <div class="profile-empty-page">
+            <img src="/images/profile.png" alt="App Icon">
+            <h2>Looks like you haven't posted <br> any albums yet</h2>
+            <p>Go ahead and share your pasion!</p>
+            <img class="text-icon" src="/images/new-post.png" alt="Discover Icon">
+            <p>Here you'll be able to manage your posts.</p>
+        </div>
+    {{else}}
+        <div class="profile-empty-page">
+            <img src="/images/profile.png" alt="App Icon">
+            <h2>Looks like {{user.username}} has not posted<br> any albums yet</h2>
+        </div>
+    {{/if}}
 {{/if}}
 {{#if posts}}
     {{>postsPage posts}}
@@ -83,7 +90,7 @@
 {{#if emptyLiked}}
     <div class="profile-empty-page">
         <img src="/images/profile.png" alt="App Icon">
-        <h2>Looks like you haven't found interesting albums yet</h2>
+        <h2>Looks like you haven't found any interesting albums yet</h2>
         <p>Head to your discover page</p>
         <img class="text-icon" src="/images/discover.png" alt="Discover Icon">
         <p>and show some love for the Tribes.</p>
@@ -97,15 +104,28 @@
     {{#if owner}}
         {{#if user.isTribe}}
             <div class="add-event">
-            <a href="/profile/calendar/new">Add event</a>
+            <a href="/events/new">Add event</a>
             </div>
         {{/if}}
     {{/if}}
     {{#if calendar.empty}}
-        <div class="profile-empty-page">
-        <img src="/images/profile.png" alt="App Icon">
-        <h2>No events sheduled</h2>
-    </div>
+        {{#if user.istribe}}
+            <div class="profile-empty-page">
+                <img src="/images/profile.png" alt="App Icon">
+                <h2>No events sheduled</h2>
+            </div>
+        {{else}}
+            <div class="profile-empty-page">
+                <img src="/images/profile.png" alt="App Icon">
+                <h2>{{user.username}} has no sheduled events</h2>
+            </div>
+        {{/if}}
     {{/if}}
     {{>calendarPage calendar}}
 {{/if}}
+<script src="/scripts/vertical-scroll.js"></script>
+<script>
+    window.onload = () => {
+        window.scrollTo(0, {{scrollPosition}});
+    }
+</script>

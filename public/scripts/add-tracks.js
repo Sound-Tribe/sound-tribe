@@ -48,18 +48,18 @@ const myWidget = cloudinary.createUploadWidget(
     (error, result) => {
       if (!isAudioFile(result.info.path)) {
         document.getElementById("cloudinary-error").style = 'display: block;';
-        document.getElementById("cloudinary-error").innerHTML = 'You uploaded an unsupported file type. Try again';
+        document.getElementById("cloudinary-error").innerHTML = 'You uploaded an unsupported file type.';
         document.getElementById('local-uploads-form').style = 'display: none;';
       } else if (!error && result && result.event === "success") {
         // console.log("Done! Here is the upload info: ", result.info.path);
         document.getElementById("cloudinary-error").style = 'display: none;';
-        document.getElementById('local-uploads-form').style = 'display: block;';
+        document.getElementById('local-uploads-form').style = 'display: flex;';
         document
           .getElementById("tracks")
-          .innerHTML += `<input style="display: none;" type="text" name="tracksForm" value="${result.info.secure_url}">
+          .innerHTML += `<div class="track-card"><input style="display: none;" type="text" name="tracksForm" value="${result.info.secure_url}">
                           <label for="trackNamesForm">Track name:</label>
-                          <input type="text" name="trackNamesForm" value="${result.info.original_filename}">
-                          <audio controls src="${result.info.secure_url}"></audio>`;
+                          <input type="text" name="trackNamesForm" value="${result.info.original_filename}" required="true">
+                          <audio controls src="${result.info.secure_url}"></audio></div>`;
       } else {
         document.getElementById("cloudinary-error").style = 'display: block;';
         document.getElementById("cloudinary-error").innerHTML = 'Something went wrong. Try again';
@@ -70,7 +70,7 @@ const myWidget = cloudinary.createUploadWidget(
   document.getElementById("upload_widget").addEventListener(
     "click",
     function () {
-      document.getElementById('local-uploads-form').style = 'display: block;';
+      document.getElementById('local-uploads-form').style = 'display: flex;';
       document.getElementById('spotify-search-form').style = 'display: none;';
       myWidget.open();
     },
@@ -81,5 +81,5 @@ const myWidget = cloudinary.createUploadWidget(
   document.getElementById('spotify-search-form').style = 'display: none;';
   document.getElementById('add-spotify-btn').addEventListener("click", function () {
     document.getElementById('local-uploads-form').style = 'display: none;';
-    document.getElementById('spotify-search-form').style = 'display: block;';
+    document.getElementById('spotify-search-form').style = 'display: flex;';
   })

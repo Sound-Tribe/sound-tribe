@@ -4,8 +4,8 @@
         <img class="page-icon" src="/images/drum.png" alt="Drum icon">
     </div>
 </div>
-<h2 class="album-detail-name">{{album.title}} - {{album.tribe.username}}</h2>
 <button class="go-back-btn" onclick="history.back()"><< Go Back</button>
+<a class="detail-profile-link" href="/profile/view/{{album.tribe._id}}/posts"><h2 class="album-detail-name">{{album.title}} - {{album.tribe.username}}</h2></a> 
 <div class="album-card">
     <img src="{{album.image}}" alt="Cover album image">
     <div class="post-likes detail-likes">

@@ -11,9 +11,7 @@ body {
   font-family: 'Noto Sans JP', sans-serif;
   background-color: var(--main-white);
 }
-img {
-  width: 100px;
-}
+
 audio::-webkit-media-controls-play-button,
 audio::-webkit-media-controls-pause-button {
     display: flex !important;
@@ -34,7 +32,6 @@ audio::-webkit-media-controls-panel {
   color: var(--main-black);
 } 
 
-
 :root {
   --main-red: #AF3800;
   --main-white: #FBFCFF;
@@ -44,6 +41,9 @@ audio::-webkit-media-controls-panel {
   --main-light-green: #7FB685;
   --page-heading-padding: 20px;
   --profile-picture-height: 14vh;
+}
+input::placeholder {
+  color: rgba(58, 79, 65, 0.5);
 }
 /* Layout */
 .wave-separator {
@@ -107,6 +107,12 @@ nav.main-nav img {
 }
 .page-heading .page-name {
   font-size: 1.5rem;
+}
+
+.error-msg {
+  color: var(--main-red);
+  margin: 10px 0;
+  margin-left: var(--page-heading-padding);
 }
 
 /* Home Page */
@@ -248,8 +254,8 @@ nav.main-nav img {
 }
 
 .profile-info .profile-picture {
-  height: 100%;
-  width: 34%;
+  height: var(--profile-picture-height);
+  width: var(--profile-picture-height);
   border-radius: 50%;
   object-fit: cover;
 }
@@ -301,7 +307,7 @@ nav.main-nav img {
 }
 .profile-btn {
   height: 35px;
-  width: var(--profile-picture-height);
+  width: calc(var(--profile-picture-height) + 5px);
   text-decoration: none;
   font-family: 'Noto Sans JP', sans-serif;
   border: none;
@@ -425,6 +431,11 @@ nav.main-nav img {
   font-size: 1.3rem;
   margin: 0 var(--page-heading-padding);
 }
+.detail-profile-link {
+  text-decoration: none;
+  color: var(--main-black);
+  margin-bottom: 10px;
+}
 .go-back-btn {
   margin: 10px var(--page-heading-padding);
   background: none;
@@ -435,8 +446,20 @@ nav.main-nav img {
   opacity: 0.5;
   font-family: 'Noto Sans JP', sans-serif;
 }
+
+.go-back-btn-1 {
+  margin: 10px var(--page-heading-padding);
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+  color: var(--main-black);
+  opacity: 0.9;
+  font-family: 'Noto Sans JP', sans-serif;
+}
 .album-card {
   margin: 0 var(--page-heading-padding);
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -475,7 +498,7 @@ nav.main-nav img {
   flex-direction: column;
   gap: 5px;
 }
-.detail-track-container .track-card {
+.track-card {
   width: 100%;
   display: flex;
   align-items: center;
@@ -484,7 +507,7 @@ nav.main-nav img {
   padding: 0 10px;
   padding-top: 5px;
 }
-.detail-track-container .track-card audio {
+.track-card audio {
   flex-shrink: 4;
   width: 20%;
   background-color: transparent;
@@ -533,20 +556,47 @@ nav.main-nav img {
   margin-left: 10px;
 }
 
-.signup-form fieldset label img {
-  width: 15vw;
-  margin-left: 35px;
+[type=radio] {
+  position: absolute;
+  opacity: 0;
+}
+
+[type=radio] + img {
   cursor: pointer;
 }
 
+[type=radio]:checked + img {
+  outline: 1px solid var(--main-light-green);
+  border-radius: 50%;
+}
 
-.signup-form button {
+.signup-form img {
+  width: 60px;
+
+}
+
+.signup-form fieldset label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.labels-images-signup {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+}
+
+
+.button-signup {
   background-color: var(--main-dark-green);
   color: var(--main-white);
   padding: 10px;
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 15px;
   border: none;
+  border-radius: 5px;
   margin-top: 15px;
 }
 
@@ -559,6 +609,67 @@ nav.main-nav img {
 }
 
 /* Assing interests sign up */
+
+[type=checkbox] {
+  position: absolute;
+  opacity: 0;
+}
+@keyframes bg {
+  0% {
+      background-size:    0 3px,
+                          3px 0,
+                          0 3px,
+                          3px 0;
+  }
+  25% {
+      background-size:    100% 3px,
+                          3px 0,
+                          0 3px,
+                          3px 0;
+  }
+  50% {
+      background-size:    100% 3px,
+                          3px 100%,
+                          0 3px,
+                          3px 0;
+  }
+  75% {
+      background-size:    100% 3px,
+                          3px 100%,
+                          100% 3px,
+                          3px 0;
+  }
+  100% {
+      background-size:    100% 3px,
+                          3px 100%,
+                          100% 3px,
+                          3px 100%;
+  }
+}
+[type=checkbox] + p {
+
+  animation-play-state: paused;
+  padding: 10px;
+}
+[type=checkbox]:checked + p {
+  background-repeat: no-repeat;
+    background-image:   linear-gradient(to right, var(--main-light-green) 100%, var(--main-light-green) 100%),
+                        linear-gradient(to bottom, var(--main-light-green) 100%, var(--main-light-green) 100%),
+                        linear-gradient(to right, var(--main-light-green) 100%, var(--main-light-green) 100%),
+                        linear-gradient(to bottom, var(--main-light-green) 100%, var(--main-light-green) 100%);
+    background-size:    100% 3px,
+                        3px 100%,
+                        100% 3px,
+                        3px 100%;
+    background-position:    0 0,
+                            100% 0,
+                            100% 100%,
+                            0 100%;
+    animation: bg 0.5s cubic-bezier(0.19, 1, 0.22, 1) 1;
+  border-radius: 3px;
+  animation-play-state: running;
+  padding: 10px
+}
 
 .signup-interests {
   display: flex;
@@ -577,6 +688,8 @@ nav.main-nav img {
   font-size: 15px;
 }
 
+
+
 .interests-input {
   background-color: var(--main-dark-green);
   color: var(--main-white);
@@ -584,6 +697,7 @@ nav.main-nav img {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 15px;
   border: none;
+  border-radius: 5px;
   width: 20vw;
   margin-top: 20px;
   margin-bottom: 10px;
@@ -597,22 +711,21 @@ nav.main-nav img {
 }
 
 .steps {
-  margin-left: 10px;
+  margin-left: var(--page-heading-padding);
   margin-top: 30px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .p-signup2 {
-  font-size: 10px;
-  width: 60vw;
-  margin-left: 10px;
+  font-size: 1rem;
+  margin: 0 var(--page-heading-padding);
 }
 
 .signup-form-2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 .picture {
@@ -680,6 +793,7 @@ nav.main-nav img {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 15px;
   border: none;
+  border-radius: 5px;
 }
 
 /* log in */
@@ -725,6 +839,7 @@ nav.main-nav img {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 15px;
   border: none;
+  border-radius: 5px;
   margin-top: 10px;
 }
 
@@ -788,6 +903,7 @@ nav.main-nav img {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 15px;
   border: none;
+  border-radius: 5px;
   margin-top: 10px;
 }
 
@@ -811,10 +927,15 @@ nav.main-nav img {
 
 .interest-group {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: 12px;
   justify-content: center;
   margin-top: 10px;
+  gap: 20px;
+}
+
+.interest-group label p {
+  padding: 10px;
 }
 
 /* New album */
@@ -822,7 +943,7 @@ nav.main-nav img {
 .newalbum-title {
   font-size: 18px;
   margin-left: 10px;
-  margin-top: -25px;
+  margin-top: 25px;
   margin-bottom: 10px;
 }
 
@@ -874,6 +995,7 @@ nav.main-nav img {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 15px;
   border: none;
+  border-radius: 5px;
   margin-top: 10px;
 }
 
@@ -888,19 +1010,11 @@ nav.main-nav img {
   font-size: 15px;
 }
 
-.newalbum-interests {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 10px;
-}
-
 /* Add tracks */
 
 .h1-add-tracks {
   font-size: 18px;
-  margin-left: 10px;
+  margin-left: var(--page-heading-padding);
   margin-top: -15px;
   margin-bottom: 10px;
 }
@@ -919,25 +1033,61 @@ nav.main-nav img {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 15px;
   border: none;
+  border-radius: 5px;
   margin-top: 10px;
 }
 
-#upload_widget {
-  border-radius: 0px;
+.local-uploads-form {
+  margin: var(--page-heading-padding);
+  display: flex;
+  flex-direction: column;
+  width: calc(100%-2*var(--page-heading-padding));
+}
+.local-uploads-form button {
+  background-color: var(--main-dark-green);
+  color: var(--main-white);
+  padding: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  align-self: center;
+  width: 50%;
+}
+#tracks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.track-card input {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgba(58, 79, 65, 0.3);
 }
 
 .spotify-form {
-  margin-left: 20px;
-  margin-top: 15px;
+  margin: var(--page-heading-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-
+.spotify-form input {
+  height: 30px;
+  /* border: none; */
+  padding: 5px;
+}
 .spotify-form button {
+  width: 50%;
+  align-self: center;
   background-color: var(--main-dark-green);
   color: var(--main-white);
-  padding: 5px;
+  padding: 10px;
   font-family: 'Noto Sans JP', sans-serif;
-  font-size: 10px;
+  font-size: 15px;
   border: none;
+  border-radius: 5px;
   margin-top: 10px;
 }
 
@@ -945,7 +1095,7 @@ nav.main-nav img {
 
 .add-event {
 margin-top: 30px;
-margin-left: 10px;
+margin-left: var(--page-heading-padding);
 }
 
 .add-event a {
@@ -955,6 +1105,7 @@ margin-left: 10px;
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 15px;
   border: none;
+  border-radius: 5px;
   margin-bottom: 10px;
   text-decoration: none;
 }
@@ -967,7 +1118,7 @@ margin-left: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 160px;
+  margin-top: 100px;
 }
 
 .new-event-form label {
@@ -1042,6 +1193,8 @@ margin-left: 10px;
 }
 
 .event-buttons {
+  margin-top: 15px;
+  margin-bottom: 5px;
   margin-left: 125px;
 }
 
@@ -1062,9 +1215,15 @@ margin-left: 10px;
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid var(--main-black);
+  gap: 10px;
   width: 60vw;
   margin: 0 auto;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+.spotify-search-result img {
+  width: 80%;
+  height: auto;
 }
 
 .spotify-search-result form button {
@@ -1072,9 +1231,10 @@ margin-left: 10px;
   color: var(--main-white);
   padding: 5px;
   font-family: 'Noto Sans JP', sans-serif;
-  font-size: 10px;
+  font-size: .8rem;
   border: none;
   margin-bottom: 5px;
+  border-radius: 5px;
 }
 
 /* Search result users */
@@ -1138,6 +1298,9 @@ margin-left: 10px;
   gap: 10px;
   flex-direction: column;
   align-items: center;
+}
+.landing-content img {
+  height: 100px;
 }
 .landing-fan {
   margin-bottom: 50px;

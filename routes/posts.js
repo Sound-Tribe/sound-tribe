@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Album = require('../models/Album.js');
+const Like = require('../models/Like');
 const {isLoggedIn, isTribe} = require('../middlewares/index');
 const interestsDB = require('../utils/interests');
 const fileUploader = require('../config/cloudinary.config');
@@ -7,6 +8,21 @@ const spotifyApi = require('../utils/connectSpotify');
 const isAudioFile = require('../utils/isAudio');
 const computeLikes = require('../utils/computeLikes.js');
 const cloudinary = require('cloudinary');
+
+// @desc    View details of the album
+// @route   GET posts/detail/:albumId
+// @access  Private
+router.get('/detail/:albumId', isLoggedIn, async (req, res, next) => {
+    const user = req.session.currentUser;
+    const { albumId } = req.params;
+    try {
+        let album = JSON.parse(JSON.stringify(await Album.findById(albumId).populate('tribe')));
+        album = await computeLikes(album, user);
+        res.render('posts/album-detail', {user, album});
+    } catch (error) {
+        next(error);
+    }
+});
 
 // @desc    Get view for new post (album) page
 // @route   GET /posts/new
@@ -54,19 +70,23 @@ router.get('/new/:albumId/add-tracks', isLoggedIn, isTribe, async (req, res, nex
 // @access  Private
 router.post('/new/:albumId/add-tracks',isLoggedIn, isTribe, async (req, res, next) => {
     const {tracksForm, trackNamesForm} = req.body;
-    let tracks = [];
-    let trackNames = [];
-    if (typeof tracksForm === 'string') {
-        tracks.push(tracksForm);
-        trackNames.push(trackNamesForm);
-    } else {
-        tracks = tracksForm.map(track => track);
-        trackNames = trackNamesForm.map(name => name);
-    }
-    const tracksDB = [];
     const user = req.session.currentUser;
     const {albumId} = req.params;
+    let tracks = [];
+    let trackNames = [];
+    const tracksDB = [];
     try {
+        if (!tracksForm || !trackNamesForm) {
+            res.redirect(`/posts/new/${albumId}/add-tracks`);
+            return;
+        }
+        if (typeof tracksForm === 'string') {
+            tracks.push(tracksForm);
+            trackNames.push(trackNamesForm);
+        } else {
+            tracks = tracksForm.map(track => track);
+            trackNames = trackNamesForm.map(name => name);
+        }
         const album = await Album.findById(albumId);
         for (let trackIdx = 0; trackIdx < tracks.length; trackIdx++) {
             if (trackNames[trackIdx].length === 0 || tracks[trackIdx].length === 0) {
@@ -137,31 +157,11 @@ router.post('/new/:albumId/add-tracks/spotify/:spotifyId', isLoggedIn, isTribe, 
             return {trackUrl: preview_url, trackName: name, trackNumber: idx + 1};
         });
         const newAlbum = await Album.findByIdAndUpdate(albumId, {tracks}, {new: true});
-        console.log(newAlbum);
         res.redirect('/profile/posts');
     } catch (error) {
         next(error);
     }
-})
-
-// @desc    Delete album
-// @route   GET /posts/delete/:albumId
-// @access  Private
-router.get('/delete/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
-    const { albumId } = req.params;
-    const user = req.session.currentUser;
-    try {
-        const album = await Album.findById(albumId);
-        if (user._id != album.tribe) {
-            res.redirect('back');
-        } else {
-            await Album.findByIdAndDelete(albumId);
-            res.redirect('/profile/posts');
-        }
-    } catch (error) {
-        next(error);
-    }
-})
+});
 
 // @desc    Edit album
 // @route   GET /posts/edit/:albumId
@@ -181,7 +181,7 @@ router.get('/edit/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-})
+});
 
 // @desc    Edit album
 // @route   POST /posts/edit/:albumId
@@ -194,10 +194,8 @@ router.post('/edit/:albumId', isLoggedIn, isTribe, fileUploader.single('image'),
         const album = await Album.findById(albumId);
         if(req.file) {
              image = req.file.path;
-             console.log(image)
         } else {
              image = cloudinary.url(album.image)
-             console.log('hello')
         }
         if (!image || !title || !genres ) {
             // const album = await Album.findById(albumId);
@@ -205,30 +203,32 @@ router.post('/edit/:albumId', isLoggedIn, isTribe, fileUploader.single('image'),
             const notCheckedGenres = interestsDB.filter((item) => !checkedGenres.includes(item));
             res.render(`posts/edit/:${albumId}`, {user, album, checkedGenres, notCheckedGenres, error: 'Please, fill all the required fields'});
         } else {
-            console.log(image);
             const editedAlbum = await Album.findByIdAndUpdate(albumId, { image, title, description, genres, tribe: user._id });
             res.redirect('/profile/posts'); 
     }
     } catch (error) {
        next(error); 
-    }
-    
-    
+    } 
 });
 
-// @desc    View details of the album
-// @route   GET posts/detail/:albumId
+// @desc    Delete album
+// @route   GET /posts/delete/:albumId
 // @access  Private
-router.get('/detail/:albumId', isLoggedIn, async (req, res, next) => {
-    const user = req.session.currentUser;
+router.get('/delete/:albumId', isLoggedIn, isTribe, async (req, res, next) => {
     const { albumId } = req.params;
+    const user = req.session.currentUser;
     try {
-        let album = JSON.parse(JSON.stringify(await Album.findById(albumId).populate('tribe')));
-        album = await computeLikes(album, user);
-        res.render('posts/album-detail', {user, album});
+        const album = await Album.findById(albumId);
+        if (user._id != album.tribe) {
+            res.redirect('back');
+        } else {
+            await Like.deleteMany({albumId: album._id});
+            await Album.findByIdAndDelete(albumId);
+            res.redirect('/profile/posts');
+        }
     } catch (error) {
         next(error);
     }
-})
+});
 
 module.exports = router;

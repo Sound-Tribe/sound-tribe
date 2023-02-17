@@ -9,19 +9,23 @@
 <h3 class="steps">Step 2/2</h3>
 <div>
 {{#if this.error}}
-  <p style="color: red;">{{this.error}}</p>
+  <p class="error-msg">{{this.error}}</p>
 {{/if}}
 <form class="form-edit-interests"action="/profile/edit/interests" method="post">
 <fieldset>
     <legend>What are you into?</legend>
     <div class="interest-group">
     {{#each interests}}
-        <input type="checkbox" id="{{this}}" name="genres" value="{{this}}" checked>
-        <label for="{{this}}">{{this}}</label><br>
+      <label for="{{this}}">
+        <input type="checkbox" id="{{this}}" name="genres" value="{{this}}" checked/>
+        <p>{{this}}</p>
+      </label>
     {{/each}}
     {{#each notCheckedInterests}}
-        <input type="checkbox" id="{{this}}" name="genres" value="{{this}}">
-        <label for="{{this}}">{{this}}</label><br>
+      <label for="{{this}}">
+        <input type="checkbox" id="{{this}}" name="genres" value="{{this}}"/>
+        <p>{{this}}</p>
+      </label>
     {{/each}}
   </div>
   </fieldset>

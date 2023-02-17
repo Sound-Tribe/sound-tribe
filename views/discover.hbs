@@ -10,7 +10,7 @@
     <button type="submit"><img src="/images/compass.png" alt="Compass icon"></button>
 </form>
 {{#if error}}
-    <p>{{error}}</p>
+    <p class="error-msg">{{error}}</p>
 {{/if}}
 {{#if latestAlbums}}
     {{#each latestAlbums}}
@@ -23,18 +23,6 @@
                 <h5 class="post-album-title">{{this.title}}</h5>
                 <img class="post-album-img" src="{{this.image}}" alt="{{this.title}} cover image">
             </a>
-            <div class="post-likes">
-                <form action="/like/edit/{{this._id}}" method="post">
-                    <button type="submit">
-                        {{#if this.isLiked}}
-                            <img class="post-like-icon" src="/images/liked.png" alt="liked post icon">
-                        {{else}}
-                            <img class="post-like-icon" src="/images/like.png" alt="unliked post icon">
-                        {{/if}}
-                    </button>
-                </form>
-                <p class="post-num-likes">{{this.numOfLikes}}</p>
-            </div>  
         </div>
     {{/each}}
 {{/if}}
