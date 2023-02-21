@@ -93,7 +93,7 @@ nav.main-nav img {
   z-index: 1;
 }
 .page-heading .app-name {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-align: center;
 }
 .page-heading-name {
@@ -106,7 +106,7 @@ nav.main-nav img {
   width: auto;
 }
 .page-heading .page-name {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .error-msg {
@@ -943,7 +943,7 @@ nav.main-nav img {
 
 .newalbum-title {
   font-size: 18px;
-  margin-left: 10px;
+  margin-left: var(--page-heading-padding);
   margin-top: 25px;
   margin-bottom: 10px;
 }
