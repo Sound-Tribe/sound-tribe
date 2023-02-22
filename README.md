@@ -1,6 +1,6 @@
 # SoundTribe
 <p align="center">
-<img src="public/images/logo.png">
+<img width="100%" src="public/images/logo.png">
 </p>
 
 ## Description
