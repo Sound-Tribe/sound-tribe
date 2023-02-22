@@ -1,5 +1,7 @@
 # SoundTribe
 
+[<img src="public/images/logo.png">]()
+
 ## Description
 
 This is a project developed by Marc Bertran Suárez and Gerard Solanes Hernández as the project for the second module at Ironhack. The purpose of the application is to connect music bands with new fans and adventurous listeners. 
